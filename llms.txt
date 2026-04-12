@@ -1,0 +1,27 @@
+# CardioPro Suisse — llms.txt
+# https://www.cardiopro.ch
+
+## À propos
+
+CardioPro Suisse est spécialiste de la vente et location de défibrillateurs automatiques externes (DAE/AED) en Suisse.
+Site bilingue FR/DE. Livraison sous 48h. Formation incluse.
+
+## Contact
+- Téléphone : +41 22 518 09 36
+- Email : contact@cardiopro.ch
+- Adresse : Rue du Rhône 14, 1204 Genève, Suisse
+
+## Pages
+- /fr/ — Version française (lang="fr-CH")
+- /de/ — Version allemande (lang="de-CH")
+
+## Législation suisse
+- OLT3 art. 36 (Ordonnance 3 relative à la Loi sur le travail)
+- Recommandations SUVA (Caisse nationale suisse d'assurance en cas d'accidents)
+- Fondation Suisse de Cardiologie / Schweizerische Herzstiftung
+- Aucun registre national obligatoire — defikarte.ch volontaire
+- Numéro d'urgence : 144
+
+## Tarifs (CHF, TVA 8,1%)
+- Location : à partir de CHF 45.–/mois HT
+- Achat : à partir de CHF 1 090.– HT
