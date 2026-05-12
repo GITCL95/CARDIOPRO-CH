@@ -1,0 +1,10 @@
+src/
+out/
+.next/
+node_modules/
+next.config.ts
+next-env.d.ts
+tsconfig.json
+postcss.config.mjs
+package.json
+package-lock.json
