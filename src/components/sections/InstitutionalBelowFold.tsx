@@ -417,7 +417,7 @@ function ContactSection({ t }: BelowFoldProps) {
 
         <Card>
           <CardContent className="p-6 sm:p-8">
-            <form action="https://formspree.io/f/xgorwrwe" method="POST" className="grid gap-5">
+            <form action="https://formspree.io/f/meendqow" method="POST" className="grid gap-5">
               <input type="hidden" name="_language" value={t.lang} />
               <input type="hidden" name="_subject" value={t.formSubject} />
               <div className="grid gap-5 sm:grid-cols-2">
