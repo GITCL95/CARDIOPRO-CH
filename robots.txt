@@ -3,5 +3,5 @@ Allow: /fr/
 Allow: /de/
 Disallow: /
 
-# La page racine est noindex mais les sous-pages sont indexables
+# La page racine est noindex (sélecteur de langue) mais les sous-pages sont indexables
 Sitemap: https://www.cardiopro.ch/sitemap.xml

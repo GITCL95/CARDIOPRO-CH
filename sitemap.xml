@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
   <url>
     <loc>https://www.cardiopro.ch/fr/</loc>
-    <lastmod>2026-04-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://www.cardiopro.ch/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://www.cardiopro.ch/de/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.cardiopro.ch/"/>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr-ch" href="https://www.cardiopro.ch/fr/" />
-    <xhtml:link rel="alternate" hreflang="de-ch" href="https://www.cardiopro.ch/de/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.cardiopro.ch/" />
   </url>
-
   <url>
     <loc>https://www.cardiopro.ch/de/</loc>
-    <lastmod>2026-04-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://www.cardiopro.ch/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://www.cardiopro.ch/de/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.cardiopro.ch/"/>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr-ch" href="https://www.cardiopro.ch/fr/" />
-    <xhtml:link rel="alternate" hreflang="de-ch" href="https://www.cardiopro.ch/de/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.cardiopro.ch/" />
   </url>
-
 </urlset>

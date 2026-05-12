@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-body: var(--font-dm-sans), sans-serif;
+
+  --color-background: oklch(1 0 0);
+  --color-muted: oklch(0.979 0.006 265);
+  --color-foreground: oklch(0.205 0.018 260);
+  --color-body: oklch(0.44 0.034 260);
+  --color-navy: oklch(0.19 0.07 263);
+  --color-medical: oklch(0.36 0.13 260);
+  --color-heart: oklch(0.61 0.2 25);
+  --color-success: oklch(0.72 0.16 160);
+  --color-border: oklch(0.91 0.012 260);
+  --color-card: oklch(1 0 0);
+
+  --shadow-card: 0 8px 24px oklch(0.2 0.025 260 / 0.08);
+  --shadow-soft: 0 16px 40px oklch(0.2 0.025 260 / 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: #ffffff;
+  color: #1a1d23;
+  font-family: var(--font-dm-sans), sans-serif;
+}
+
+::selection {
+  background: rgb(230 57 70 / 18%);
+  color: #021647;
+}
+
+:focus-visible {
+  outline: 2px solid #0e3a82;
+  outline-offset: 3px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes spotlight {
+  0% {
+    transform: translateX(-20%) translateY(-10%);
+  }
+  100% {
+    transform: translateX(12%) translateY(8%);
+  }
+}
+
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid #dbe3ee;
+  background: #ffffff;
+  color: #0e3a82;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.institutional-link {
+  color: #0e3a82;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
