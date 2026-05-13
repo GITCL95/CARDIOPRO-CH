@@ -1,18 +1,9 @@
-# Autoriser SiteAuditBot de Semrush à accéder à l'intégralité du site
-User-agent: SiteAuditBot
-Allow: /
+# Tous les robots sont autorisés à crawler l'intégralité du site.
+# La page racine "/" est un sélecteur de langue : son indexation est empêchée
+# via la balise <meta name="robots" content="noindex, follow"> dans index.html.
+# Les sous-pages /fr/ et /de/ sont indexables normalement.
 
-# Autoriser SemrushBot (toutes catégories) à accéder à l'intégralité du site
-User-agent: SemrushBot
-Allow: /
-
-User-agent: SemrushBot-SA
-Allow: /
-
-# Règle générique : la racine est un sélecteur de langue, on autorise /fr/ et /de/
 User-agent: *
-Allow: /fr/
-Allow: /de/
-Disallow: /
+Allow: /
 
 Sitemap: https://www.cardiopro.ch/sitemap.xml
