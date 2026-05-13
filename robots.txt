@@ -1,7 +1,6 @@
 # Tous les robots sont autorisés à crawler l'intégralité du site.
-# La page racine "/" est un sélecteur de langue : son indexation est empêchée
-# via la balise <meta name="robots" content="noindex, follow"> dans index.html.
-# Les sous-pages /fr/ et /de/ sont indexables normalement.
+# La page racine "/" est un sélecteur de langue indexable.
+# Les balises hreflang dans index.html signalent les versions /fr/ et /de/.
 
 User-agent: *
 Allow: /
