@@ -9,11 +9,24 @@ import {
   useState,
 } from "react"
 import { CheckCircle, X } from "lucide-react"
-import type { PricingContent, PricingProduct } from "@/lib/pricing"
+import type { Locale } from "@/lib/translations"
 
 const FORMSPREE_URL = "https://formspree.io/f/meendqow"
 
 type SubmitState = "idle" | "submitting" | "sent" | "error"
+
+/** Champs formulaire partagés entre pages prix et location. */
+export interface QuoteFormContent {
+  lang: Locale
+  canonical: string
+  formSubtitle: string
+  formName: string
+  formPhone: string
+  formEmail: string
+  formSubmit: string
+  formLegal: string
+  formSubject: string
+}
 
 interface QuoteModalContextValue {
   open: (productName: string, options?: { type?: string }) => void
@@ -24,7 +37,7 @@ const QuoteModalContext = createContext<QuoteModalContextValue | null>(null)
 const inputClass =
   "w-full rounded-lg border border-gray-200 bg-[#F8F9FC] px-3.5 py-2.5 text-sm text-[#1A1D23] transition-all focus:border-[#021647]/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#021647]/10"
 
-function modalCopy(c: PricingContent) {
+function modalCopy(c: QuoteFormContent) {
   if (c.lang === "fr") {
     return {
       titleWithProduct: "Demande de devis personnalisé",
@@ -71,7 +84,7 @@ export function QuoteModalProvider({
   c,
 }: {
   children: React.ReactNode
-  c: PricingContent
+  c: QuoteFormContent
 }) {
   const [open, setOpen] = useState(false)
   const [productName, setProductName] = useState("")
@@ -324,15 +337,42 @@ export function DevisButton({
   className,
   children,
 }: {
-  product: PricingProduct
+  product: { model: string; type: string }
   className?: string
   children?: React.ReactNode
+}) {
+  return (
+    <QuoteButton
+      productName={product.model}
+      productType={product.type}
+      className={className}
+    >
+      {children}
+    </QuoteButton>
+  )
+}
+
+export function QuoteButton({
+  productName,
+  productType,
+  className,
+  children,
+  onOpen,
+}: {
+  productName: string
+  productType?: string
+  className?: string
+  children?: React.ReactNode
+  onOpen?: () => void
 }) {
   const ctx = useContext(QuoteModalContext)
   return (
     <button
       type="button"
-      onClick={() => ctx?.open(product.model, { type: product.type })}
+      onClick={() => {
+        ctx?.open(productName, { type: productType })
+        onOpen?.()
+      }}
       className={className}
     >
       {children}

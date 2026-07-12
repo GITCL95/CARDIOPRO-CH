@@ -37,6 +37,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Marquee } from "@/components/premium/marquee"
 import { ShimmerButton } from "@/components/premium/shimmer-button"
+import { QuoteButton, QuoteModalProvider } from "@/components/shared/QuoteModal"
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -84,37 +85,32 @@ function SectionTitle({
 export default function RentalPage({ t, c }: RentalPageProps) {
   const [selected, setSelected] = useState("")
 
-  const handleSelect = (name: string) => {
-    setSelected(name)
-    if (typeof document !== "undefined") {
-      document.getElementById("devis")?.scrollIntoView({ behavior: "smooth", block: "start" })
-    }
-  }
-
   const long = c.formulas.filter((f) => f.months >= 24)
   const medium = c.formulas.filter((f) => f.months >= 6 && f.months < 24)
   const short = c.formulas.filter((f) => f.months < 6)
 
   return (
-    <div className="min-h-screen bg-white text-[#1A1D23]">
-      <Navbar t={t} />
-      <main id="main-content">
-        <Hero c={c} />
-        <WhyRent c={c} selected={selected} setSelected={setSelected} />
-        <DistributorBanner c={c} />
-        <FormulaGroup c={c} title={c.longTitle} intro={c.longIntro} formulas={long} onSelect={handleSelect} />
-        <FormulaGroup c={c} title={c.mediumTitle} intro={c.mediumIntro} formulas={medium} subtle onSelect={handleSelect} />
-        <FormulaGroup c={c} title={c.shortTitle} intro={c.shortIntro} formulas={short} onSelect={handleSelect} />
-        <Specialist c={c} />
-        <FormulasTable c={c} />
-        <CompareTable c={c} />
-        <ChooseSection c={c} />
-        <References c={c} />
-        <FaqBlock c={c} />
-        <FinalCta c={c} />
-      </main>
-      <Footer t={t} />
-    </div>
+    <QuoteModalProvider c={c}>
+      <div className="min-h-screen bg-white text-[#1A1D23]">
+        <Navbar t={t} />
+        <main id="main-content">
+          <Hero c={c} />
+          <WhyRent c={c} selected={selected} setSelected={setSelected} />
+          <DistributorBanner c={c} />
+          <FormulaGroup c={c} title={c.longTitle} intro={c.longIntro} formulas={long} onSelect={setSelected} />
+          <FormulaGroup c={c} title={c.mediumTitle} intro={c.mediumIntro} formulas={medium} subtle onSelect={setSelected} />
+          <FormulaGroup c={c} title={c.shortTitle} intro={c.shortIntro} formulas={short} onSelect={setSelected} />
+          <Specialist c={c} />
+          <FormulasTable c={c} />
+          <CompareTable c={c} />
+          <ChooseSection c={c} />
+          <References c={c} />
+          <FaqBlock c={c} />
+          <FinalCta c={c} />
+        </main>
+        <Footer t={t} />
+      </div>
+    </QuoteModalProvider>
   )
 }
 
@@ -377,14 +373,14 @@ function FormulaCard({
       </ul>
 
       <div className="mt-auto pt-6">
-        <Button
-          type="button"
-          data-select-value={formula.id}
-          className="w-full"
-          onClick={() => onSelect(`${formula.name} — ${formatPrice(formula.price)}${c.perMonth}`)}
+        <QuoteButton
+          productName={`${formula.name} — ${formatPrice(formula.price)}${c.perMonth}`}
+          productType="location"
+          onOpen={() => onSelect(`${formula.name} — ${formatPrice(formula.price)}${c.perMonth}`)}
+          className="inline-flex h-10 w-full items-center justify-center rounded-md bg-[#E63946] px-4 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#E63946]/90"
         >
           {c.selectCta}
-        </Button>
+        </QuoteButton>
       </div>
     </article>
   )
@@ -668,10 +664,10 @@ function FinalCta({ c }: { c: RentalContent }) {
         <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/85">{c.ctaText}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <ShimmerButton asChild size="lg">
-            <a href="#devis">
+            <QuoteButton productName="" className="inline-flex items-center gap-2">
               {c.ctaButton}
               <ArrowRight size={18} />
-            </a>
+            </QuoteButton>
           </ShimmerButton>
           <Button asChild variant="secondary" size="lg">
             <a href={`tel:${c.ctaPhone.replace(/\s/g, "")}`}>
