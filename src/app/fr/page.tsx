@@ -86,14 +86,7 @@ export default function FrPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:text-white focus:font-semibold"
-        style={{ background: "oklch(0.62 0.22 25)" }}
-      >
-        {t.skipLink}
-      </a>
-      <InstitutionalSite t={t} />
+<InstitutionalSite t={t} />
     </>
   )
 }

@@ -21,7 +21,6 @@ export interface Translations {
   hours: string
   hoursLabel: string
   quoteOnline: string
-  skipLink: string
   logoAriaLabel: string
   menuOpenAriaLabel: string
   navAbout: string
@@ -225,7 +224,6 @@ const fr: Translations = {
   hours: "Lun–Ven 9h00–18h00",
   hoursLabel: "Horaires d'ouverture",
   quoteOnline: "Devis en ligne",
-  skipLink: "Aller au contenu principal",
   logoAriaLabel: "CardioPro Suisse — Accueil",
   menuOpenAriaLabel: "Ouvrir le menu",
   navAbout: "À propos",
@@ -447,7 +445,6 @@ const de: Translations = {
   hours: "Mo–Fr 9:00–18:00",
   hoursLabel: "Öffnungszeiten",
   quoteOnline: "Angebot online",
-  skipLink: "Zum Hauptinhalt springen",
   logoAriaLabel: "CardioPro Schweiz — Startseite",
   menuOpenAriaLabel: "Menü öffnen",
   navAbout: "Über uns",
