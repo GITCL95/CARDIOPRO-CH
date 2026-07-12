@@ -25,6 +25,9 @@ export interface PricingProduct {
   ip: string
   weight: string
   features: string[]
+  image: string
+  electrodesLabel: string
+  batteryLabel: string
 }
 
 export interface FaqItem {
@@ -65,19 +68,20 @@ export interface PricingContent {
 
   // Hero
   heroBadge: string
-  heroTitle: string
+  heroTitleLine1: string
+  heroTitleHighlight: string
   heroSub: string
-
-  // Intro + form
+  heroTrust: string[]
   introTitle: string
-  introBody: string
+
+  // Form (hero)
   formTitle: string
   formSubtitle: string
   formName: string
-  formCompany: string
   formPhone: string
   formEmail: string
-  formMessage: string
+  formModel: string
+  formModelAdvice: string
   formSubmit: string
   formLegal: string
   formSubject: string
@@ -143,10 +147,15 @@ export interface PricingContent {
   faq: FaqItem[]
 
   // Final CTA
-  ctaTitle: string
+  ctaEyebrow: string
+  ctaTitleLine1: string
+  ctaTitleLine2: string
   ctaText: string
   ctaButton: string
   ctaPhone: string
+  ctaTrust: string[]
+
+  comparisonFootnote: string
 }
 
 /* -------------------------------------------------------------------------- */
@@ -161,8 +170,8 @@ const productsFr: PricingProduct[] = [
     type: "DAE",
     typeLabel: "DAE automatique",
     tagline: "Le moins cher",
-    price: 990, // TODO CHF
-    cost4y: 1080, // TODO CHF
+    price: 990,
+    cost4y: 1080,
     warranty: 4,
     ip: "IP55",
     weight: "1,8 kg",
@@ -171,6 +180,9 @@ const productsFr: PricingProduct[] = [
       "Temps de charge < 7 sec",
       "Électrodes universelles adulte/enfant",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/CARDIO_REX_IAD.webp",
+    electrodesLabel: "90 €",
+    batteryLabel: "150 €",
   },
   {
     id: "heartsine-360p",
@@ -178,9 +190,9 @@ const productsFr: PricingProduct[] = [
     brand: "HeartSine",
     type: "DAE",
     typeLabel: "DAE automatique",
-    tagline: "Garantie 10 ans · 100 % auto",
-    price: 990, // TODO CHF
-    cost4y: 1170, // TODO CHF
+    tagline: "Garantie 10 ans",
+    price: 990,
+    cost4y: 1170,
     warranty: 10,
     ip: "IP56",
     weight: "1,1 kg",
@@ -189,6 +201,9 @@ const productsFr: PricingProduct[] = [
       "PadPak électrodes + batterie intégré",
       "Idéal pour personnel non formé",
     ],
+    image: "https://cardiopro.fr/images/defibrillateur-automatique-Heartsine-360P.webp",
+    electrodesLabel: "180 €",
+    batteryLabel: "inclus",
   },
   {
     id: "heartsine-350p",
@@ -196,9 +211,9 @@ const productsFr: PricingProduct[] = [
     brand: "HeartSine",
     type: "DSA",
     typeLabel: "DSA semi-automatique",
-    tagline: "Le plus léger : 1,1 kg",
-    price: 1090, // TODO CHF
-    cost4y: 1270, // TODO CHF
+    tagline: "Le plus léger",
+    price: 1090,
+    cost4y: 1270,
     warranty: 8,
     ip: "IP56",
     weight: "1,1 kg",
@@ -207,6 +222,9 @@ const productsFr: PricingProduct[] = [
       "Guidage vocal étape par étape",
       "Coût de possession le plus bas",
     ],
+    image: "https://cardiopro.fr/images/defibrillateur-semi-automatique-Heartsine-350P.webp",
+    electrodesLabel: "180 €",
+    batteryLabel: "inclus",
   },
   {
     id: "heartsine-500p",
@@ -214,9 +232,9 @@ const productsFr: PricingProduct[] = [
     brand: "HeartSine",
     type: "DAE",
     typeLabel: "DAE avec CPR Advisor",
-    tagline: "Feedback massage temps réel",
-    price: 1490, // TODO CHF
-    cost4y: 1670, // TODO CHF
+    tagline: "Recommandé ERP",
+    price: 1490,
+    cost4y: 1670,
     warranty: 8,
     ip: "IP56",
     weight: "1,1 kg",
@@ -225,6 +243,9 @@ const productsFr: PricingProduct[] = [
       "Mesure l'efficacité des compressions",
       "Recommandé entreprises & lieux publics",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/500P.webp",
+    electrodesLabel: "180 €",
+    batteryLabel: "inclus",
   },
   {
     id: "mediana-a16",
@@ -232,9 +253,9 @@ const productsFr: PricingProduct[] = [
     brand: "Mediana",
     type: "DAE",
     typeLabel: "DAE/DSA commutable",
-    tagline: "Mode auto ou semi au choix",
-    price: 1290, // TODO CHF
-    cost4y: 1180, // TODO CHF
+    tagline: "Meilleur rapport Q/P",
+    price: 1290,
+    cost4y: 1180,
     warranty: 10,
     ip: "IP55",
     weight: "2,0 kg",
@@ -243,16 +264,19 @@ const productsFr: PricingProduct[] = [
       "Écran LCD couleur",
       "Excellent rapport qualité/prix",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/MEDIANA_A_16.webp",
+    electrodesLabel: "85 €",
+    batteryLabel: "170 €",
   },
   {
     id: "fred-pa-1",
-    model: "Schiller FRED PA-1",
+    model: "FRED PA-1",
     brand: "Schiller",
     type: "DAE",
     typeLabel: "DAE automatique",
-    tagline: "Batterie 6 ans sans changement",
-    price: 1290, // TODO CHF
-    cost4y: 1230, // TODO CHF
+    tagline: "Batterie 6 ans",
+    price: 1290,
+    cost4y: 1230,
     warranty: 10,
     ip: "IP55",
     weight: "—",
@@ -261,6 +285,9 @@ const productsFr: PricingProduct[] = [
       "Robuste et fiable",
       "Électrodes longue durée (30 mois)",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/FRED_P1.webp",
+    electrodesLabel: "130 €",
+    batteryLabel: "0 €*",
   },
   {
     id: "reanibex-100",
@@ -268,9 +295,9 @@ const productsFr: PricingProduct[] = [
     brand: "Bexen",
     type: "DAE",
     typeLabel: "DAE connecté",
-    tagline: "Connecté WiFi · Compact",
-    price: 1190, // TODO CHF
-    cost4y: 1207, // TODO CHF
+    tagline: "WiFi connecté",
+    price: 1190,
+    cost4y: 1207,
     warranty: 7,
     ip: "IP55",
     weight: "1,95 kg",
@@ -279,6 +306,9 @@ const productsFr: PricingProduct[] = [
       "Design compact",
       "Connecté WiFi / Sigfox",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/REANIBEX.webp",
+    electrodesLabel: "92 €",
+    batteryLabel: "100 €",
   },
   {
     id: "zoll-aed-plus",
@@ -286,9 +316,9 @@ const productsFr: PricingProduct[] = [
     brand: "ZOLL",
     type: "DSA",
     typeLabel: "DSA avec Real CPR Help",
-    tagline: "Aide au massage intégrée",
-    price: 1590, // TODO CHF
-    cost4y: 1590, // TODO CHF
+    tagline: "Aide massage intégrée",
+    price: 1590,
+    cost4y: 1590,
     warranty: 7,
     ip: "IP55",
     weight: "2,3 kg",
@@ -297,6 +327,9 @@ const productsFr: PricingProduct[] = [
       "Couvercle = aide au massage",
       "Robuste, usage intensif",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/AED_PLUS.webp",
+    electrodesLabel: "210 €",
+    batteryLabel: "170 €",
   },
   {
     id: "zoll-aed-3",
@@ -304,9 +337,9 @@ const productsFr: PricingProduct[] = [
     brand: "ZOLL",
     type: "DAE",
     typeLabel: "DAE écran LCD",
-    tagline: "Écran LCD + vidéo de guidage",
-    price: 2095, // TODO CHF
-    cost4y: 2305, // TODO CHF
+    tagline: "Premium",
+    price: 2095,
+    cost4y: 2305,
     warranty: 8,
     ip: "IP55",
     weight: "2,5 kg",
@@ -315,6 +348,9 @@ const productsFr: PricingProduct[] = [
       "Real CPR Help (feedback massage)",
       "WiFi connecté pour la maintenance",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/ZOLL_3.webp",
+    electrodesLabel: "210 €",
+    batteryLabel: "170 €",
   },
 ]
 
@@ -325,36 +361,40 @@ const fr: PricingContent = {
   langAltHref: "/de/defibrillator-kaufen/",
 
   metaTitle:
-    "Prix défibrillateur Suisse 2026 : dès 990 € | CardioPro", // TODO CHF (dès [PRIX_CHF] CHF)
+    "Prix défibrillateur Suisse 2026 : 990 € à 2 095 € hors TVA | CardioPro",
   metaDescription:
-    "Combien coûte un défibrillateur en Suisse ? Comparez 9 DAE pro (HeartSine, Zoll, Mediana). Achat dès 990 € hors TVA, coût total 4 ans calculé. Devis 48h.", // TODO CHF
+    "Combien coûte un défibrillateur en Suisse ? De 990 € à 2 095 € hors TVA. Comparez 9 DAE pro (HeartSine, Zoll, Mediana). Coût total 4 ans calculé. Devis gratuit 48h.",
   canonical: "https://www.cardiopro.ch/fr/defibrillateur-prix/",
-  ogTitle: "Prix défibrillateur en Suisse : comparatif de 9 DAE | CardioPro",
+  ogTitle: "Prix défibrillateur Suisse 2026 : 990 € à 2 095 € hors TVA | CardioPro",
   ogDescription:
-    "Comparatif transparent de 9 défibrillateurs professionnels : prix, garantie et coût total sur 4 ans. Devis gratuit sous 24h en Suisse.",
+    "Combien coûte un défibrillateur en Suisse ? Comparez 9 DAE pro. Coût total 4 ans calculé. Devis gratuit sous 24h.",
 
   breadcrumbHome: "Accueil",
-  breadcrumbCurrent: "Prix défibrillateur en Suisse : comparatif 9 DAE",
+  breadcrumbCurrent: "Prix défibrillateur",
   breadcrumbCurrentShort: "Prix défibrillateur",
 
-  heroBadge: "Comparatif transparent · Suisse",
-  heroTitle: "Prix défibrillateur en Suisse : comparatif 9 DAE",
+  heroBadge: "Comparatif 2026 · Suisse",
+  heroTitleLine1: "Prix défibrillateur : comparatif de",
+  heroTitleHighlight: "990 € à 2 095 € hors TVA",
   heroSub:
-    "Prix d'achat, garantie et coût total sur 4 ans : comparez en toute transparence 9 défibrillateurs professionnels sélectionnés par CardioPro pour la Suisse.",
-
+    "Comparer uniquement les prix d'achat est une erreur : sur 4 ans, le coût réel oscille entre 1 080 € et 2 305 € une fois les consommables comptés. Fort de plus de 8 ans d'expérience et +20 000 installations, CardioPro a sélectionné 9 DAE professionnels pour la Suisse — comparatif transparent, sans engagement.",
+  heroTrust: [
+    "+20 000 clients",
+    "Certifié CE & FDA",
+    "Livraison 48h",
+    "Garantie jusqu'à 10 ans",
+  ],
   introTitle: "Quel est le prix d'un défibrillateur en 2026 ?",
-  introBody:
-    "Le prix d'un défibrillateur varie de 990 € à 2 095 € hors TVA selon le modèle. Mais comparer uniquement les prix d'achat serait une erreur : sur 4 ans, le coût réel oscille entre 1 080 € et 2 305 € une fois les consommables comptés. Fort de plus de 8 ans d'expérience et de plus de 20 000 installations, CardioPro a sélectionné 9 DAE professionnels disponibles en Suisse. Garanties, prix, coût total sur 4 ans : voici notre comparatif transparent.", // TODO CHF
-  formTitle: "Demander un devis gratuit",
-  formSubtitle: "Réponse sous 24h ouvrées · Sans engagement",
+
+  formTitle: "Devis gratuit sous 24h",
+  formSubtitle: "Sans engagement · Réponse garantie",
   formName: "Nom",
-  formCompany: "Entreprise",
   formPhone: "Téléphone",
   formEmail: "Email",
-  formMessage: "Message",
-  formSubmit: "Envoyer ma demande",
-  formLegal:
-    "En soumettant ce formulaire, vous acceptez d'être contacté par CardioPro Suisse. Aucun démarchage — nous respectons votre vie privée.",
+  formModel: "Modèle souhaité",
+  formModelAdvice: "Je souhaite un conseil",
+  formSubmit: "Obtenir mon devis gratuit",
+  formLegal: "Réponse sous 24h · Sans engagement",
   formSubject: "Devis CardioPro Suisse — Prix défibrillateur (FR)",
 
   distributorTitle: "Distributeur agréé de défibrillateurs en Suisse",
@@ -369,7 +409,7 @@ const fr: PricingContent = {
 
   gridTitle: "Nos 9 défibrillateurs et leurs prix",
   gridSubtitle:
-    "Filtrez par budget, type (DAE/DSA), garantie ou marque, puis triez selon vos priorités.",
+    "De 990 € à 2 095 € hors TVA · Livraison offerte · Garantie 4 à 10 ans · Certifiés CE & FDA",
   filterTitle: "Filtrer",
   filterBudget: "Budget hors TVA",
   filterType: "Type",
@@ -537,11 +577,21 @@ const fr: PricingContent = {
     },
   ],
 
-  ctaTitle: "Recevez votre comparatif et votre devis sous 24h",
+  ctaEyebrow: "Devis gratuit",
+  ctaTitleLine1: "Ensemble, faisons battre",
+  ctaTitleLine2: "les cœurs plus longtemps.",
   ctaText:
-    "Notre équipe vous conseille sur le défibrillateur adapté à votre budget et à votre établissement, partout en Suisse romande et alémanique.",
+    "Plus de 20 000 entreprises, communes et établissements nous font confiance en Suisse. Rejoignez-les et sécurisez votre établissement dès aujourd'hui.",
   ctaButton: "Demander un devis gratuit",
   ctaPhone: "+41 22 518 09 36",
+  ctaTrust: [
+    "Communes & collectivités",
+    "Entreprises & ERP",
+    "Distributeur agréé CE & FDA",
+  ],
+
+  comparisonFootnote:
+    "* FRED PA-1 : batterie 6 ans = pas de remplacement sur 4 ans · Livraison offerte sur tous les modèles",
 }
 
 /* -------------------------------------------------------------------------- */
@@ -556,8 +606,8 @@ const productsDe: PricingProduct[] = [
     type: "DAE",
     typeLabel: "Vollautomatischer AED",
     tagline: "Der günstigste",
-    price: 990, // TODO CHF
-    cost4y: 1080, // TODO CHF
+    price: 990,
+    cost4y: 1080,
     warranty: 4,
     ip: "IP55",
     weight: "1,8 kg",
@@ -566,6 +616,9 @@ const productsDe: PricingProduct[] = [
       "Ladezeit < 7 Sek.",
       "Universalelektroden Erwachsene/Kind",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/CARDIO_REX_IAD.webp",
+    electrodesLabel: "90 €",
+    batteryLabel: "150 €",
   },
   {
     id: "heartsine-360p",
@@ -573,9 +626,9 @@ const productsDe: PricingProduct[] = [
     brand: "HeartSine",
     type: "DAE",
     typeLabel: "Vollautomatischer AED",
-    tagline: "10 Jahre Garantie · 100 % auto",
-    price: 990, // TODO CHF
-    cost4y: 1170, // TODO CHF
+    tagline: "10 Jahre Garantie",
+    price: 990,
+    cost4y: 1170,
     warranty: 10,
     ip: "IP56",
     weight: "1,1 kg",
@@ -584,6 +637,9 @@ const productsDe: PricingProduct[] = [
       "PadPak Elektroden + Batterie integriert",
       "Ideal für ungeschultes Personal",
     ],
+    image: "https://cardiopro.fr/images/defibrillateur-automatique-Heartsine-360P.webp",
+    electrodesLabel: "180 €",
+    batteryLabel: "inkl.",
   },
   {
     id: "heartsine-350p",
@@ -591,9 +647,9 @@ const productsDe: PricingProduct[] = [
     brand: "HeartSine",
     type: "DSA",
     typeLabel: "Halbautomatischer AED",
-    tagline: "Der leichteste: 1,1 kg",
-    price: 1090, // TODO CHF
-    cost4y: 1270, // TODO CHF
+    tagline: "Der leichteste",
+    price: 1090,
+    cost4y: 1270,
     warranty: 8,
     ip: "IP56",
     weight: "1,1 kg",
@@ -602,6 +658,9 @@ const productsDe: PricingProduct[] = [
       "Schritt-für-Schritt-Sprachführung",
       "Niedrigste Gesamtbetriebskosten",
     ],
+    image: "https://cardiopro.fr/images/defibrillateur-semi-automatique-Heartsine-350P.webp",
+    electrodesLabel: "180 €",
+    batteryLabel: "inkl.",
   },
   {
     id: "heartsine-500p",
@@ -609,9 +668,9 @@ const productsDe: PricingProduct[] = [
     brand: "HeartSine",
     type: "DAE",
     typeLabel: "AED mit CPR Advisor",
-    tagline: "Reanimations-Feedback in Echtzeit",
-    price: 1490, // TODO CHF
-    cost4y: 1670, // TODO CHF
+    tagline: "Empfohlen für ERP",
+    price: 1490,
+    cost4y: 1670,
     warranty: 8,
     ip: "IP56",
     weight: "1,1 kg",
@@ -620,6 +679,9 @@ const productsDe: PricingProduct[] = [
       "Misst die Effektivität der Kompressionen",
       "Empfohlen für Unternehmen & Publikum",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/500P.webp",
+    electrodesLabel: "180 €",
+    batteryLabel: "inkl.",
   },
   {
     id: "mediana-a16",
@@ -627,9 +689,9 @@ const productsDe: PricingProduct[] = [
     brand: "Mediana",
     type: "DAE",
     typeLabel: "Umschaltbar AED/halbautomatisch",
-    tagline: "Auto- oder Halbmodus wählbar",
-    price: 1290, // TODO CHF
-    cost4y: 1180, // TODO CHF
+    tagline: "Bestes Preis-Leistungs-Verhältnis",
+    price: 1290,
+    cost4y: 1180,
     warranty: 10,
     ip: "IP55",
     weight: "2,0 kg",
@@ -638,16 +700,19 @@ const productsDe: PricingProduct[] = [
       "LCD-Farbdisplay",
       "Hervorragendes Preis-Leistungs-Verhältnis",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/MEDIANA_A_16.webp",
+    electrodesLabel: "85 €",
+    batteryLabel: "170 €",
   },
   {
     id: "fred-pa-1",
-    model: "Schiller FRED PA-1",
+    model: "FRED PA-1",
     brand: "Schiller",
     type: "DAE",
     typeLabel: "Vollautomatischer AED",
-    tagline: "Batterie 6 Jahre ohne Wechsel",
-    price: 1290, // TODO CHF
-    cost4y: 1230, // TODO CHF
+    tagline: "Batterie 6 Jahre",
+    price: 1290,
+    cost4y: 1230,
     warranty: 10,
     ip: "IP55",
     weight: "—",
@@ -656,6 +721,9 @@ const productsDe: PricingProduct[] = [
       "Robust und zuverlässig",
       "Langlebige Elektroden (30 Monate)",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/FRED_P1.webp",
+    electrodesLabel: "130 €",
+    batteryLabel: "0 €*",
   },
   {
     id: "reanibex-100",
@@ -663,9 +731,9 @@ const productsDe: PricingProduct[] = [
     brand: "Bexen",
     type: "DAE",
     typeLabel: "Vernetzter AED",
-    tagline: "WiFi-vernetzt · Kompakt",
-    price: 1190, // TODO CHF
-    cost4y: 1207, // TODO CHF
+    tagline: "WiFi-vernetzt",
+    price: 1190,
+    cost4y: 1207,
     warranty: 7,
     ip: "IP55",
     weight: "1,95 kg",
@@ -674,6 +742,9 @@ const productsDe: PricingProduct[] = [
       "Kompaktes Design",
       "WiFi / Sigfox vernetzt",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/REANIBEX.webp",
+    electrodesLabel: "92 €",
+    batteryLabel: "100 €",
   },
   {
     id: "zoll-aed-plus",
@@ -682,8 +753,8 @@ const productsDe: PricingProduct[] = [
     type: "DSA",
     typeLabel: "Halbautomatisch mit Real CPR Help",
     tagline: "Integrierte Reanimationshilfe",
-    price: 1590, // TODO CHF
-    cost4y: 1590, // TODO CHF
+    price: 1590,
+    cost4y: 1590,
     warranty: 7,
     ip: "IP55",
     weight: "2,3 kg",
@@ -692,6 +763,9 @@ const productsDe: PricingProduct[] = [
       "Deckel = Reanimationshilfe",
       "Robust, intensive Nutzung",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/AED_PLUS.webp",
+    electrodesLabel: "210 €",
+    batteryLabel: "170 €",
   },
   {
     id: "zoll-aed-3",
@@ -699,9 +773,9 @@ const productsDe: PricingProduct[] = [
     brand: "ZOLL",
     type: "DAE",
     typeLabel: "AED mit LCD-Display",
-    tagline: "LCD-Display + Videoführung",
-    price: 2095, // TODO CHF
-    cost4y: 2305, // TODO CHF
+    tagline: "Premium",
+    price: 2095,
+    cost4y: 2305,
     warranty: 8,
     ip: "IP55",
     weight: "2,5 kg",
@@ -710,6 +784,9 @@ const productsDe: PricingProduct[] = [
       "Real CPR Help (Massage-Feedback)",
       "WiFi-vernetzt für die Wartung",
     ],
+    image: "https://cardiopro.fr/images/defibrillateurs/ZOLL_3.webp",
+    electrodesLabel: "210 €",
+    batteryLabel: "170 €",
   },
 ]
 
@@ -720,37 +797,41 @@ const de: PricingContent = {
   langAltHref: "/fr/defibrillateur-prix/",
 
   metaTitle:
-    "Defibrillator kaufen Schweiz 2026: ab 990 € | CardioPro", // TODO CHF (ab [PRIX_CHF] CHF)
+    "Defibrillator kaufen Schweiz 2026: 990 € bis 2 095 € exkl. MwSt. | CardioPro",
   metaDescription:
-    "Was kostet ein Defibrillator in der Schweiz? Vergleichen Sie 9 Profi-AED (HeartSine, Zoll, Mediana). Kauf ab 990 € exkl. MwSt., Gesamtkosten 4 Jahre berechnet. Angebot in 48h.", // TODO CHF
+    "Was kostet ein Defibrillator in der Schweiz? Von 990 € bis 2 095 € exkl. MwSt. Vergleichen Sie 9 Profi-AED (HeartSine, Zoll, Mediana). Gesamtkosten 4 Jahre berechnet. Angebot in 48h.",
   canonical: "https://www.cardiopro.ch/de/defibrillator-kaufen/",
-  ogTitle: "Defibrillator kaufen in der Schweiz: 9 AED im Vergleich | CardioPro",
+  ogTitle: "Defibrillator kaufen Schweiz 2026: 990 € bis 2 095 € exkl. MwSt. | CardioPro",
   ogDescription:
-    "Transparenter Vergleich von 9 professionellen Defibrillatoren: Preis, Garantie und Gesamtkosten über 4 Jahre. Kostenloses Angebot innerhalb von 24h.",
+    "Was kostet ein Defibrillator in der Schweiz? Vergleichen Sie 9 Profi-AED. Gesamtkosten 4 Jahre berechnet. Kostenloses Angebot innerhalb von 24h.",
 
   breadcrumbHome: "Startseite",
-  breadcrumbCurrent: "Defibrillator kaufen in der Schweiz: 9 AED im Vergleich",
+  breadcrumbCurrent: "Defibrillator kaufen",
   breadcrumbCurrentShort: "Defibrillator kaufen",
 
-  heroBadge: "Transparenter Vergleich · Schweiz",
-  heroTitle: "Defibrillator kaufen in der Schweiz: 9 AED im Vergleich",
+  heroBadge: "Vergleich 2026 · Schweiz",
+  heroTitleLine1: "Defibrillator kaufen: Vergleich von",
+  heroTitleHighlight: "990 € bis 2 095 € exkl. MwSt.",
   heroSub:
-    "Kaufpreis, Garantie und Gesamtkosten über 4 Jahre: Vergleichen Sie transparent 9 professionelle Defibrillatoren, die CardioPro für die Schweiz ausgewählt hat.",
-
+    "Nur die Kaufpreise zu vergleichen wäre ein Fehler: Über 4 Jahre liegen die realen Kosten zwischen 1 080 € und 2 305 € inklusive Verbrauchsmaterial. Mit über 8 Jahren Erfahrung und +20 000 Installationen hat CardioPro 9 professionelle AED für die Schweiz ausgewählt — transparenter Vergleich, unverbindlich.",
+  heroTrust: [
+    "+20 000 Kunden",
+    "CE & FDA zertifiziert",
+    "Lieferung 48h",
+    "Garantie bis 10 Jahre",
+  ],
   introTitle: "Was kostet ein Defibrillator im Jahr 2026?",
-  introBody:
-    "Der Preis eines Defibrillators liegt je nach Modell zwischen 990 € und 2 095 € exkl. MwSt. Nur die Kaufpreise zu vergleichen wäre jedoch ein Fehler: Über 4 Jahre liegen die realen Kosten inklusive Verbrauchsmaterial zwischen 1 080 € und 2 305 €. Mit über 8 Jahren Erfahrung und mehr als 20 000 Installationen hat CardioPro 9 professionelle AED ausgewählt, die in der Schweiz erhältlich sind. Garantie, Preis, Gesamtkosten über 4 Jahre: Hier ist unser transparenter Vergleich.", // TODO CHF
-  formTitle: "Kostenloses Angebot anfordern",
-  formSubtitle: "Antwort innerhalb von 24h · Unverbindlich",
+
+  formTitle: "Kostenloses Angebot innerhalb 24h",
+  formSubtitle: "Unverbindlich · Antwort garantiert",
   formName: "Name",
-  formCompany: "Unternehmen",
   formPhone: "Telefon",
   formEmail: "E-Mail",
-  formMessage: "Nachricht",
-  formSubmit: "Anfrage senden",
-  formLegal:
-    "Mit dem Absenden dieses Formulars erklären Sie sich damit einverstanden, von CardioPro Schweiz kontaktiert zu werden. Kein Direktmarketing — wir respektieren Ihre Privatsphäre.",
-  formSubject: "Angebot CardioPro Schweiz — Defibrillator Preis (DE)",
+  formModel: "Gewünschtes Modell",
+  formModelAdvice: "Ich wünsche eine Beratung",
+  formSubmit: "Kostenloses Angebot erhalten",
+  formLegal: "Antwort innerhalb 24h · Unverbindlich",
+  formSubject: "Angebot CardioPro Schweiz — Defibrillator-Preis (DE)",
 
   distributorTitle: "Autorisierter Defibrillator-Händler in der Schweiz",
   distributors: [
@@ -764,7 +845,7 @@ const de: PricingContent = {
 
   gridTitle: "Unsere 9 Defibrillatoren und ihre Preise",
   gridSubtitle:
-    "Filtern Sie nach Budget, Typ (AED/halbautomatisch), Garantie oder Marke und sortieren Sie nach Ihren Prioritäten.",
+    "Von 990 € bis 2 095 € exkl. MwSt. · Kostenlose Lieferung · Garantie 4 bis 10 Jahre · CE & FDA zertifiziert",
   filterTitle: "Filtern",
   filterBudget: "Budget exkl. MwSt.",
   filterType: "Typ",
@@ -932,11 +1013,21 @@ const de: PricingContent = {
     },
   ],
 
-  ctaTitle: "Erhalten Sie Ihren Vergleich und Ihr Angebot innerhalb von 24h",
+  ctaEyebrow: "Kostenloses Angebot",
+  ctaTitleLine1: "Gemeinsam lassen wir",
+  ctaTitleLine2: "Herzen länger schlagen.",
   ctaText:
-    "Unser Team berät Sie zum passenden Defibrillator für Ihr Budget und Ihre Einrichtung — in der gesamten Deutsch- und Westschweiz.",
+    "Über 20 000 Unternehmen, Gemeinden und Einrichtungen in der Schweiz vertrauen uns. Sichern Sie Ihre Einrichtung noch heute ab.",
   ctaButton: "Kostenloses Angebot anfordern",
   ctaPhone: "+41 22 518 09 36",
+  ctaTrust: [
+    "Gemeinden & Verwaltungen",
+    "Unternehmen & ERP",
+    "Autorisierter Händler CE & FDA",
+  ],
+
+  comparisonFootnote:
+    "* FRED PA-1: Batterie 6 Jahre = kein Austausch über 4 Jahre · Kostenlose Lieferung für alle Modelle",
 }
 
 export const pricingContent: Record<Locale, PricingContent> = { fr, de }
