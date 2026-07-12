@@ -18,10 +18,10 @@ import {
 } from "lucide-react"
 import type { Translations } from "@/lib/translations"
 import {
-  currencySymbol,
   type RentalContent,
   type RentalFormula,
 } from "@/lib/rental"
+import { formatChfPrice } from "@/lib/pricing"
 import { Navbar } from "@/components/sections/InstitutionalSite"
 import { Footer } from "@/components/sections/InstitutionalBelowFold"
 import {
@@ -54,7 +54,7 @@ interface RentalPageProps {
 }
 
 function formatPrice(value: number) {
-  return `${value.toLocaleString("fr-CH").replace(/\u00a0/g, " ")} ${currencySymbol}`
+  return formatChfPrice(value)
 }
 
 function SectionTitle({

@@ -14,7 +14,7 @@ import {
 } from "lucide-react"
 import type { Translations } from "@/lib/translations"
 import {
-  currencySymbol,
+  formatChfPrice,
   type PricingContent,
   type PricingProduct,
 } from "@/lib/pricing"
@@ -27,6 +27,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { cn } from "@/lib/utils"
+import { DevisButton, QuoteModalProvider } from "@/components/shared/QuoteModal"
 
 const DISTRIBUTOR_LOGOS = [
   { alt: "HeartSine", src: "https://cardiopro.fr/images/distrubuteur_agree/heartsine.webp" },
@@ -37,7 +38,7 @@ const DISTRIBUTOR_LOGOS = [
   { alt: "Philips", src: "https://cardiopro.fr/images/distrubuteur_agree/PHILIPS.webp" },
 ]
 
-type BudgetFilter = "all" | "lt1100" | "1100-1400" | "1400-1700" | "gt1700"
+type BudgetFilter = "all" | "lt1200" | "1200-1500" | "1500-1800" | "gt1800"
 type TypeFilter = "all" | "DAE" | "DSA"
 
 interface PricingPageProps {
@@ -46,12 +47,12 @@ interface PricingPageProps {
 }
 
 function formatPrice(value: number) {
-  return `${value.toLocaleString("fr-CH").replace(/\u00a0/g, " ")} ${currencySymbol}`
+  return formatChfPrice(value)
 }
 
 function SectionEyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-[#E63946]">
+    <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-[#E63946]">
       {children}
     </p>
   )
@@ -71,7 +72,7 @@ function FilterPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all duration-150",
+        "rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-all duration-150",
         active
           ? "border-[#021647] bg-[#021647] text-white shadow-sm"
           : "border-gray-200 bg-white text-[#4A5568] hover:border-[#021647]/20 hover:text-[#021647]",
@@ -84,21 +85,23 @@ function FilterPill({
 
 export default function PricingPage({ t, c }: PricingPageProps) {
   return (
-    <div className="min-h-screen bg-white text-[#1A1D23]">
-      <Navbar t={t} />
-      <main id="main-content">
-        <Hero c={c} />
-        <DistributorBanner c={c} />
-        <ProductGrid c={c} />
-        <ComparisonTable c={c} />
-        <WhyBuy c={c} />
-        <ChooseSection c={c} />
-        <References c={c} />
-        <FaqBlock c={c} />
-        <FinalCta c={c} />
-      </main>
-      <Footer t={t} />
-    </div>
+    <QuoteModalProvider c={c}>
+      <div className="min-h-screen bg-white text-[#1A1D23]">
+        <Navbar t={t} />
+        <main id="main-content">
+          <Hero c={c} />
+          <DistributorBanner c={c} />
+          <ProductGrid c={c} />
+          <ComparisonTable c={c} />
+          <WhyBuy c={c} />
+          <ChooseSection c={c} />
+          <References c={c} />
+          <FaqBlock c={c} />
+          <FinalCta c={c} />
+        </main>
+        <Footer t={t} />
+      </div>
+    </QuoteModalProvider>
   )
 }
 
@@ -127,7 +130,7 @@ function Hero({ c }: { c: PricingContent }) {
               {c.heroBadge}
             </span>
 
-            <h1 className="font-display text-4xl font-semibold leading-[0.95] tracking-[-0.04em] sm:text-5xl">
+            <h1 className="font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
               {c.heroTitleLine1}
               <br />
               <span className="text-[#E63946]">{c.heroTitleHighlight}</span>
@@ -290,18 +293,18 @@ function ProductGrid({ c }: { c: PricingContent }) {
     if (c.lang === "fr") {
       return {
         all: "Tous budgets",
-        lt1100: "< 1 100 €",
-        "1100-1400": "1 100 – 1 400 €",
-        "1400-1700": "1 400 – 1 700 €",
-        gt1700: "> 1 700 €",
+        lt1200: "< CHF 1 200.–",
+        "1200-1500": "CHF 1 200 – 1 500",
+        "1500-1800": "CHF 1 500 – 1 800",
+        gt1800: "> CHF 1 800",
       }
     }
     return {
       all: "Alle Budgets",
-      lt1100: "< 1 100 €",
-      "1100-1400": "1 100 – 1 400 €",
-      "1400-1700": "1 400 – 1 700 €",
-      gt1700: "> 1 700 €",
+      lt1200: "< CHF 1 200.–",
+      "1200-1500": "CHF 1 200 – 1 500",
+      "1500-1800": "CHF 1 500 – 1 800",
+      gt1800: "> CHF 1 800",
     }
   }, [c.lang])
 
@@ -309,10 +312,10 @@ function ProductGrid({ c }: { c: PricingContent }) {
     return c.products.filter((p) => {
       if (type !== "all" && p.type !== type) return false
       if (brand !== "all" && p.brand !== brand) return false
-      if (budget === "lt1100" && p.price >= 1100) return false
-      if (budget === "1100-1400" && (p.price < 1100 || p.price > 1400)) return false
-      if (budget === "1400-1700" && (p.price < 1400 || p.price > 1700)) return false
-      if (budget === "gt1700" && p.price <= 1700) return false
+      if (budget === "lt1200" && p.price >= 1200) return false
+      if (budget === "1200-1500" && (p.price < 1200 || p.price > 1500)) return false
+      if (budget === "1500-1800" && (p.price < 1500 || p.price > 1800)) return false
+      if (budget === "gt1800" && p.price <= 1800) return false
       return true
     })
   }, [c.products, type, brand, budget])
@@ -324,7 +327,7 @@ function ProductGrid({ c }: { c: PricingContent }) {
           <SectionEyebrow>{c.lang === "fr" ? "Nos produits" : "Unsere Produkte"}</SectionEyebrow>
           <h2
             id="grid-title"
-            className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1A1D23] sm:text-4xl"
+            className="font-display text-3xl font-bold leading-snug text-[#1A1D23] sm:text-4xl"
           >
             {c.gridTitle}
           </h2>
@@ -446,14 +449,14 @@ function ProductCard({ product, c }: { product: PricingProduct; c: PricingConten
           <span className="mb-0.5 text-sm text-[#4A5568]">{c.priceVat}</span>
         </div>
 
-        <p className="border-b border-gray-200 pb-3 text-xs text-[#4A5568]">
+        <p className="border-b border-gray-200 pb-3 text-sm text-[#4A5568]">
           {c.lang === "fr" ? "Garantie" : "Garantie"} {product.warranty}{" "}
           {c.lang === "fr" ? "ans" : "Jahre"} · {product.ip} · {product.weight}
         </p>
 
         <ul className="flex-1 space-y-2">
           {product.features.map((feature) => (
-            <li key={feature} className="flex items-start gap-2 text-xs text-[#4A5568]">
+            <li key={feature} className="flex items-start gap-2 text-sm leading-relaxed text-[#4A5568]">
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#E63946]" />
               {feature}
             </li>
@@ -461,12 +464,12 @@ function ProductCard({ product, c }: { product: PricingProduct; c: PricingConten
         </ul>
 
         <div className="flex flex-col gap-2 pt-2">
-          <a
-            href={`/${c.lang}/#contact`}
-            className="w-full rounded-full bg-[#E63946] py-2.5 text-center text-xs font-bold text-white transition-all duration-200 hover:bg-[#E63946]/90"
+          <DevisButton
+            product={product}
+            className="w-full rounded-full bg-[#E63946] py-2.5 text-center text-sm font-bold text-white transition-all duration-200 hover:bg-[#E63946]/90"
           >
             {c.cardCta}
-          </a>
+          </DevisButton>
           <p className="text-center text-xs text-[#4A5568]">
             {c.cardCost4y} :{" "}
             <strong className="text-[#021647]">{formatPrice(product.cost4y)}</strong> {c.priceVat}
@@ -507,7 +510,7 @@ function ComparisonTable({ c }: { c: PricingContent }) {
           </SectionEyebrow>
           <h2
             id="comparison-title"
-            className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1A1D23] sm:text-4xl"
+            className="font-display text-3xl font-bold leading-snug text-[#1A1D23] sm:text-4xl"
           >
             {c.comparisonTitle}
           </h2>
@@ -572,7 +575,7 @@ function WhyBuy({ c }: { c: PricingContent }) {
           <SectionEyebrow>{c.lang === "fr" ? "Pourquoi CardioPro" : "Warum CardioPro"}</SectionEyebrow>
           <h2
             id="why-title"
-            className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1A1D23] sm:text-4xl"
+            className="font-display text-3xl font-bold leading-snug text-[#1A1D23] sm:text-4xl"
           >
             {c.whyTitle}
           </h2>
@@ -592,7 +595,7 @@ function WhyBuy({ c }: { c: PricingContent }) {
                   <h3 className="mb-2 font-display text-base font-semibold text-[#1A1D23]">
                     {block.title}
                   </h3>
-                  <p className="text-xs leading-relaxed text-[#4A5568]">{block.text}</p>
+                  <p className="text-sm leading-relaxed text-[#4A5568]">{block.text}</p>
                 </div>
               </div>
             )
@@ -611,7 +614,7 @@ function ChooseSection({ c }: { c: PricingContent }) {
           <SectionEyebrow>{c.lang === "fr" ? "Guide d'achat" : "Kaufratgeber"}</SectionEyebrow>
           <h2
             id="choose-title"
-            className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1A1D23] sm:text-4xl"
+            className="font-display text-3xl font-bold leading-snug text-[#1A1D23] sm:text-4xl"
           >
             {c.chooseTitle}
           </h2>
@@ -664,7 +667,7 @@ function FaqBlock({ c }: { c: PricingContent }) {
           <SectionEyebrow>FAQ</SectionEyebrow>
           <h2
             id="faq-title"
-            className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1A1D23] sm:text-4xl"
+            className="font-display text-3xl font-bold leading-snug text-[#1A1D23] sm:text-4xl"
           >
             {c.faqTitle}
           </h2>
@@ -672,7 +675,7 @@ function FaqBlock({ c }: { c: PricingContent }) {
         <Accordion type="single" collapsible className="rounded-lg border border-gray-200 px-2">
           {c.faq.map((item, index) => (
             <AccordionItem key={item.q} value={`faq-${index}`} className="border-gray-200 last:border-0">
-              <AccordionTrigger className="px-4 py-5 text-left font-display text-base font-medium tracking-tight text-[#1A1D23] hover:no-underline">
+              <AccordionTrigger className="px-4 py-5 text-left text-base font-semibold leading-snug text-[#1A1D23] hover:no-underline">
                 {item.q}
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-5 text-sm leading-relaxed text-[#4A5568]">
@@ -693,7 +696,7 @@ function FinalCta({ c }: { c: PricingContent }) {
         <SectionEyebrow>{c.ctaEyebrow}</SectionEyebrow>
         <h2
           id="cta-title"
-          className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.02em] sm:text-4xl"
+          className="font-display text-3xl font-bold leading-snug sm:text-4xl"
         >
           {c.ctaTitleLine1}
           <br className="hidden sm:block" /> {c.ctaTitleLine2}

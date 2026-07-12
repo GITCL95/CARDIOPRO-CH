@@ -1,6 +1,11 @@
 import type { Metadata } from "next"
 import { translations } from "@/lib/translations"
 import InstitutionalSite from "@/components/sections/InstitutionalSite"
+import {
+  buildFaqSchema,
+  buildOrganizationSchema,
+  ORGANIZATION_ID,
+} from "@/lib/schema"
 
 const t = translations.fr
 
@@ -34,53 +39,38 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": ["Organization", "MedicalBusiness"],
-      "@id": "https://www.cardiopro.ch/#organization",
-      name: "CardioPro Suisse",
-      url: "https://www.cardiopro.ch",
+      ...buildOrganizationSchema("fr"),
       slogan: "Spécialiste du défibrillateur en Suisse",
-      foundingDate: "2026",
-      contactPoint: {
-        "@type": "ContactPoint",
-        telephone: "+41225180936",
-        contactType: "customer service",
-        email: "contact@cardiopro.ch",
-        areaServed: "CH",
-        availableLanguage: ["French", "German"],
-      },
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "Rue du Rhône 14",
-        addressLocality: "Genève",
-        postalCode: "1204",
-        addressCountry: "CH",
-      },
-      telephone: "+41225180936",
-      openingHours: "Mo-Fr 09:00-18:00",
     },
     {
-      "@type": "FAQPage",
-      "@id": "https://www.cardiopro.ch/fr/#faq",
+      "@type": "WebPage",
+      "@id": "https://www.cardiopro.ch/fr/#webpage",
+      url: "https://www.cardiopro.ch/fr/",
+      name: t.metaTitle,
+      description: t.metaDescription,
       inLanguage: "fr-CH",
-      mainEntity: [
-        { "@type": "Question", name: t.faq1Q, acceptedAnswer: { "@type": "Answer", text: t.faq1A } },
-        { "@type": "Question", name: t.faq2Q, acceptedAnswer: { "@type": "Answer", text: t.faq2A } },
-        { "@type": "Question", name: t.faq3Q, acceptedAnswer: { "@type": "Answer", text: t.faq3A } },
-        { "@type": "Question", name: t.faq4Q, acceptedAnswer: { "@type": "Answer", text: t.faq4A } },
-        { "@type": "Question", name: t.faq5Q, acceptedAnswer: { "@type": "Answer", text: t.faq5A } },
-      ],
+      isPartOf: { "@id": ORGANIZATION_ID },
+      mainEntity: { "@id": "https://www.cardiopro.ch/fr/#service" },
     },
+    buildFaqSchema("https://www.cardiopro.ch/fr/", "fr", [
+      { q: t.faq1Q, a: t.faq1A },
+      { q: t.faq2Q, a: t.faq2A },
+      { q: t.faq3Q, a: t.faq3A },
+      { q: t.faq4Q, a: t.faq4A },
+      { q: t.faq5Q, a: t.faq5A },
+    ]),
     {
       "@type": "Service",
+      "@id": "https://www.cardiopro.ch/fr/#service",
       name: "Défibrillateur en Suisse : vente, location et formation",
-      provider: { "@id": "https://www.cardiopro.ch/#organization" },
+      provider: { "@id": ORGANIZATION_ID },
       areaServed: { "@type": "Country", name: "Switzerland" },
       offers: {
         "@type": "AggregateOffer",
         lowPrice: "45",
-        highPrice: "1390",
+        highPrice: "2290",
         priceCurrency: "CHF",
-        offerCount: "4",
+        offerCount: "13",
       },
     },
   ],

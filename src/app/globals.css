@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: var(--font-playfair), Georgia, serif;
-  --font-body: var(--font-dm-sans), sans-serif;
+  --font-display: var(--font-inter), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
 
   --color-background: oklch(1 0 0);
   --color-muted: oklch(0.979 0.006 265);
@@ -34,7 +34,10 @@ body {
   overflow-x: hidden;
   background: #ffffff;
   color: #1a1d23;
-  font-family: var(--font-dm-sans), sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 ::selection {

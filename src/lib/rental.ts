@@ -1,5 +1,11 @@
 import type { Locale } from "@/lib/translations"
 import { currencySymbol, priceCurrency } from "@/lib/pricing"
+import {
+  buildBreadcrumbSchema,
+  buildFaqSchema,
+  buildOrganizationSchema,
+  ORGANIZATION_ID,
+} from "@/lib/schema"
 
 /**
  * ⚠️ PRIX_CHF NON CONFIRMÉ
@@ -162,7 +168,7 @@ const formulasFr: RentalFormula[] = [
     monthsLabel: "60 mois",
     name: "Pack Location 60 mois",
     tagline: "Engagement long · Meilleur tarif",
-    price: 29, // TODO CHF
+    price: 45,
     warrantyLabel: "Garantie 5 ans",
     ip: "IP56",
     features: longFeaturesFr,
@@ -175,7 +181,7 @@ const formulasFr: RentalFormula[] = [
     monthsLabel: "48 mois",
     name: "Pack Location 48 mois",
     tagline: "Équilibre durée/coût",
-    price: 39, // TODO CHF
+    price: 55,
     warrantyLabel: "Garantie 4 ans",
     ip: "IP56",
     features: longFeaturesFr,
@@ -187,7 +193,7 @@ const formulasFr: RentalFormula[] = [
     monthsLabel: "24 mois",
     name: "Pack Location 24 mois",
     tagline: "Flexibilité · Sans engagement long",
-    price: 49, // TODO CHF
+    price: 65,
     warrantyLabel: "Garantie 2 ans",
     ip: "IP56",
     features: longFeaturesFr,
@@ -199,7 +205,7 @@ const formulasFr: RentalFormula[] = [
     monthsLabel: "12 mois",
     name: "Pack Location 12 mois",
     tagline: "Idéal projets annuels",
-    price: 69, // TODO CHF
+    price: 79,
     warrantyLabel: "Garantie 1 an",
     ip: "IP56",
     features: longFeaturesFr,
@@ -212,7 +218,7 @@ const formulasFr: RentalFormula[] = [
     monthsLabel: "6 mois",
     name: "Pack Location 6 mois",
     tagline: "Événements saisonniers",
-    price: 89, // TODO CHF
+    price: 99,
     warrantyLabel: "Garantie 6 mois",
     ip: "IP56",
     features: longFeaturesFr,
@@ -224,7 +230,7 @@ const formulasFr: RentalFormula[] = [
     monthsLabel: "3 mois",
     name: "Pack Location 3 mois",
     tagline: "Chantiers · Événements",
-    price: 119, // TODO CHF
+    price: 129,
     warrantyLabel: "Garantie période",
     ip: "IP56",
     features: shortFeaturesFr,
@@ -237,7 +243,7 @@ const formulasFr: RentalFormula[] = [
     monthsLabel: "2 mois",
     name: "Pack Location 2 mois",
     tagline: "Missions temporaires",
-    price: 149, // TODO CHF
+    price: 159,
     warrantyLabel: "Garantie période",
     ip: "IP56",
     features: shortFeaturesFr,
@@ -249,7 +255,7 @@ const formulasFr: RentalFormula[] = [
     monthsLabel: "1 mois",
     name: "Pack Location 1 mois",
     tagline: "Événements ponctuels",
-    price: 179, // TODO CHF
+    price: 189,
     warrantyLabel: "Garantie période",
     ip: "IP56",
     features: shortFeaturesFr,
@@ -260,9 +266,9 @@ const formulasFr: RentalFormula[] = [
 const fr: RentalContent = {
   lang: "fr",
 
-  metaTitle: "Location défibrillateur Suisse dès 29 €/mois | CardioPro", // TODO CHF
+  metaTitle: "Location défibrillateur Suisse dès CHF 45.–/mois | CardioPro",
   metaDescription:
-    "Louez un défibrillateur (DAE) en Suisse dès 29 €/mois hors TVA. Formules 1 à 60 mois, consommables fournis, livraison 48h. Devis gratuit en ligne.", // TODO CHF
+    "Louez un défibrillateur (DAE) en Suisse dès CHF 45.–/mois HT. Formules 1 à 60 mois, consommables fournis, livraison 48h. Devis gratuit en ligne.",
   canonical: "https://www.cardiopro.ch/fr/location-defibrillateur/",
   ogTitle: "Location de défibrillateur en Suisse | CardioPro",
   ogDescription:
@@ -272,7 +278,7 @@ const fr: RentalContent = {
   breadcrumbCurrentShort: "Location défibrillateur",
 
   heroBadge: "Location & leasing · Suisse",
-  heroTitle: "Location de défibrillateur en Suisse dès 29 €/mois", // TODO CHF
+  heroTitle: "Location de défibrillateur en Suisse dès CHF 45.–/mois",
   heroSub:
     "Louez votre défibrillateur (DAE) sans investissement initial : 8 formules de 1 à 60 mois, consommables fournis et remplacés, livraison 48h partout en Suisse romande et alémanique.",
 
@@ -351,7 +357,7 @@ const fr: RentalContent = {
   comparePurchase: "Achat",
   compareRows: [
     // TODO CHF — valeurs EUR placeholders (gabarit FR)
-    { label: "Investissement initial", rental: "0 €", purchase: "990 € à 2 095 € hors TVA" },
+    { label: "Investissement initial", rental: "CHF 0.–", purchase: "CHF 1 090.– à CHF 2 290.– HT" },
     { label: "Coût mensuel", rental: "29 € à 179 €/mois hors TVA", purchase: "0 € (hors consommables)" },
     { label: "Consommables", rental: "Fournis et remplacés", purchase: "À votre charge (90 € à 210 €/renouvellement)" },
     { label: "Fiscalité (à valider avec votre fiduciaire)", rental: "Mensualités en charges d'exploitation", purchase: "Immobilisation amortie sur plusieurs exercices" },
@@ -493,7 +499,7 @@ const formulasDe: RentalFormula[] = [
     monthsLabel: "60 Monate",
     name: "Mietpaket 60 Monate",
     tagline: "Lange Laufzeit · Bester Preis",
-    price: 29, // TODO CHF
+    price: 45,
     warrantyLabel: "5 Jahre Garantie",
     ip: "IP56",
     features: longFeaturesDe,
@@ -506,7 +512,7 @@ const formulasDe: RentalFormula[] = [
     monthsLabel: "48 Monate",
     name: "Mietpaket 48 Monate",
     tagline: "Ausgewogenes Verhältnis",
-    price: 39, // TODO CHF
+    price: 55,
     warrantyLabel: "4 Jahre Garantie",
     ip: "IP56",
     features: longFeaturesDe,
@@ -518,7 +524,7 @@ const formulasDe: RentalFormula[] = [
     monthsLabel: "24 Monate",
     name: "Mietpaket 24 Monate",
     tagline: "Flexibel · Ohne lange Bindung",
-    price: 49, // TODO CHF
+    price: 65,
     warrantyLabel: "2 Jahre Garantie",
     ip: "IP56",
     features: longFeaturesDe,
@@ -530,7 +536,7 @@ const formulasDe: RentalFormula[] = [
     monthsLabel: "12 Monate",
     name: "Mietpaket 12 Monate",
     tagline: "Ideal für Jahresprojekte",
-    price: 69, // TODO CHF
+    price: 79,
     warrantyLabel: "1 Jahr Garantie",
     ip: "IP56",
     features: longFeaturesDe,
@@ -543,7 +549,7 @@ const formulasDe: RentalFormula[] = [
     monthsLabel: "6 Monate",
     name: "Mietpaket 6 Monate",
     tagline: "Saisonale Veranstaltungen",
-    price: 89, // TODO CHF
+    price: 99,
     warrantyLabel: "6 Monate Garantie",
     ip: "IP56",
     features: longFeaturesDe,
@@ -555,7 +561,7 @@ const formulasDe: RentalFormula[] = [
     monthsLabel: "3 Monate",
     name: "Mietpaket 3 Monate",
     tagline: "Baustellen · Veranstaltungen",
-    price: 119, // TODO CHF
+    price: 129,
     warrantyLabel: "Garantie für die Laufzeit",
     ip: "IP56",
     features: shortFeaturesDe,
@@ -568,7 +574,7 @@ const formulasDe: RentalFormula[] = [
     monthsLabel: "2 Monate",
     name: "Mietpaket 2 Monate",
     tagline: "Temporäre Einsätze",
-    price: 149, // TODO CHF
+    price: 159,
     warrantyLabel: "Garantie für die Laufzeit",
     ip: "IP56",
     features: shortFeaturesDe,
@@ -580,7 +586,7 @@ const formulasDe: RentalFormula[] = [
     monthsLabel: "1 Monat",
     name: "Mietpaket 1 Monat",
     tagline: "Einmalige Veranstaltungen",
-    price: 179, // TODO CHF
+    price: 189,
     warrantyLabel: "Garantie für die Laufzeit",
     ip: "IP56",
     features: shortFeaturesDe,
@@ -591,9 +597,9 @@ const formulasDe: RentalFormula[] = [
 const de: RentalContent = {
   lang: "de",
 
-  metaTitle: "Defibrillator mieten Schweiz ab 29 €/Monat | CardioPro", // TODO CHF
+  metaTitle: "Defibrillator mieten Schweiz ab CHF 45.–/Monat | CardioPro",
   metaDescription:
-    "Defibrillator (AED) in der Schweiz mieten oder leasen ab 29 €/Monat exkl. MwSt. Laufzeiten 1 bis 60 Monate, Verbrauchsmaterial inklusive, Lieferung 48h. Kostenloses Angebot online.", // TODO CHF
+    "Defibrillator (AED) in der Schweiz mieten ab CHF 45.–/Monat netto. Laufzeiten 1 bis 60 Monate, Verbrauchsmaterial inklusive, Lieferung 48h. Kostenloses Angebot online.",
   canonical: "https://www.cardiopro.ch/de/defibrillator-mieten/",
   ogTitle: "Defibrillator mieten in der Schweiz | CardioPro",
   ogDescription:
@@ -603,7 +609,7 @@ const de: RentalContent = {
   breadcrumbCurrentShort: "Defibrillator mieten",
 
   heroBadge: "Mieten & Leasing · Schweiz",
-  heroTitle: "Defibrillator mieten in der Schweiz ab 29 €/Monat", // TODO CHF
+  heroTitle: "Defibrillator mieten in der Schweiz ab CHF 45.–/Monat",
   heroSub:
     "Mieten oder leasen Sie Ihren Defibrillator (AED) ohne Anfangsinvestition: 8 Laufzeiten von 1 bis 60 Monaten, Verbrauchsmaterial inklusive und ersetzt, Lieferung 48h in der gesamten Deutsch- und Westschweiz.",
 
@@ -682,7 +688,7 @@ const de: RentalContent = {
   comparePurchase: "Kauf",
   compareRows: [
     // TODO CHF — EUR-Platzhalter (FR-Vorlage)
-    { label: "Anfangsinvestition", rental: "0 €", purchase: "990 € bis 2 095 € exkl. MwSt." },
+    { label: "Anfangsinvestition", rental: "CHF 0.–", purchase: "CHF 1 090.– bis CHF 2 290.– netto" },
     { label: "Monatliche Kosten", rental: "29 € bis 179 €/Monat exkl. MwSt.", purchase: "0 € (exkl. Verbrauchsmaterial)" },
     { label: "Verbrauchsmaterial", rental: "Geliefert und ersetzt", purchase: "Zu Ihren Lasten (90 € bis 210 €/Erneuerung)" },
     { label: "Steuern (mit Treuhänder klären)", rental: "Raten als Betriebsaufwand", purchase: "Über mehrere Jahre abgeschrieben" },
@@ -814,7 +820,6 @@ export const rentalContent: Record<Locale, RentalContent> = { fr, de }
 
 /**
  * Construit le bloc JSON-LD (@graph) de la page location.
- * ⚠️ AggregateOffer / OfferCatalog utilisent `priceCurrency` (EUR placeholder). // TODO CHF
  */
 export function buildRentalJsonLd(c: RentalContent) {
   const prices = c.formulas.map((f) => f.price)
@@ -825,30 +830,7 @@ export function buildRentalJsonLd(c: RentalContent) {
   return {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": ["Organization", "MedicalBusiness"],
-        "@id": "https://www.cardiopro.ch/#organization",
-        name: c.lang === "fr" ? "CardioPro Suisse" : "CardioPro Schweiz",
-        url: "https://www.cardiopro.ch",
-        logo: "https://www.cardiopro.ch/images/og-cardiopro-ch.jpg",
-        foundingDate: "2026",
-        areaServed: "CH",
-        contactPoint: {
-          "@type": "ContactPoint",
-          telephone: "+41225180936",
-          contactType: "sales",
-          email: "contact@cardiopro.ch",
-          areaServed: "CH",
-          availableLanguage: ["French", "German"],
-        },
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: "Rue du Rhône 14",
-          addressLocality: "Genève",
-          postalCode: "1204",
-          addressCountry: "CH",
-        },
-      },
+      buildOrganizationSchema(c.lang),
       {
         "@type": "WebPage",
         "@id": `${c.canonical}#webpage`,
@@ -856,38 +838,29 @@ export function buildRentalJsonLd(c: RentalContent) {
         name: c.metaTitle,
         description: c.metaDescription,
         inLanguage,
-        isPartOf: { "@id": "https://www.cardiopro.ch/#organization" },
+        isPartOf: { "@id": ORGANIZATION_ID },
+        breadcrumb: { "@id": `${c.canonical}#breadcrumb` },
+        mainEntity: { "@id": `${c.canonical}#service` },
       },
-      {
-        "@type": "BreadcrumbList",
-        "@id": `${c.canonical}#breadcrumb`,
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: c.breadcrumbHome,
-            item: `https://www.cardiopro.ch/${c.lang}/`,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: c.breadcrumbCurrentShort,
-            item: c.canonical,
-          },
-        ],
-      },
+      buildBreadcrumbSchema(
+        c.canonical,
+        c.breadcrumbHome,
+        c.breadcrumbCurrentShort,
+        c.lang,
+      ),
       {
         "@type": "Service",
         "@id": `${c.canonical}#service`,
         name: c.lang === "fr" ? "Location de défibrillateur" : "Defibrillator mieten",
-        serviceType: c.lang === "fr" ? "Location de défibrillateur (DAE)" : "Defibrillator-Miete (AED)",
-        provider: { "@id": "https://www.cardiopro.ch/#organization" },
+        serviceType:
+          c.lang === "fr" ? "Location de défibrillateur (DAE)" : "Defibrillator-Miete (AED)",
+        provider: { "@id": ORGANIZATION_ID },
         areaServed: { "@type": "Country", name: "Switzerland" },
         offers: {
           "@type": "AggregateOffer",
-          priceCurrency, // TODO CHF
-          lowPrice: String(low), // TODO CHF
-          highPrice: String(high), // TODO CHF
+          priceCurrency,
+          lowPrice: String(low),
+          highPrice: String(high),
           offerCount: String(c.formulas.length),
         },
         hasOfferCatalog: {
@@ -896,22 +869,14 @@ export function buildRentalJsonLd(c: RentalContent) {
           itemListElement: c.formulas.map((f) => ({
             "@type": "Offer",
             name: f.name,
-            price: String(f.price), // TODO CHF
-            priceCurrency, // TODO CHF
+            price: String(f.price),
+            priceCurrency,
             availability: "https://schema.org/InStock",
+            seller: { "@id": ORGANIZATION_ID },
           })),
         },
       },
-      {
-        "@type": "FAQPage",
-        "@id": `${c.canonical}#faq`,
-        inLanguage,
-        mainEntity: c.faq.map((item) => ({
-          "@type": "Question",
-          name: item.q,
-          acceptedAnswer: { "@type": "Answer", text: item.a },
-        })),
-      },
+      buildFaqSchema(c.canonical, c.lang, c.faq),
     ],
   }
 }

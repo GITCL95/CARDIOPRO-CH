@@ -310,7 +310,7 @@ export default function ContactSection({ t }: ContactSectionProps) {
           background: oklch(0.20 0.016 260);
           color: oklch(0.95 0 0);
           font-size: 0.875rem;
-          font-family: var(--font-dm-sans), sans-serif;
+          font-family: var(--font-inter), system-ui, sans-serif;
           transition: border-color 0.2s, box-shadow 0.2s;
           outline: none;
         }
