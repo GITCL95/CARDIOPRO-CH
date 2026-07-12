@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
-    "vercel-build": "next build && node scripts/publish-static.js",
+    "build": "next build && node scripts/publish-static.js",
+    "vercel-build": "npm run build",
     "start": "next start",
     "lint": "next lint"
   },
