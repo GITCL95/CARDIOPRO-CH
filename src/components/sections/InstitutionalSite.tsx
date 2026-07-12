@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { motion } from "motion/react"
 import {
   ArrowRight,
+  ChevronDown,
   Clock,
   HeartPulse,
   Mail,
@@ -46,14 +47,24 @@ export default function InstitutionalSite({ t }: InstitutionalSiteProps) {
   )
 }
 
+type NavItem =
+  | { type: "link"; href: string; label: string }
+  | { type: "dropdown"; label: string; items: { href: string; label: string }[] }
+
 export function Navbar({ t }: InstitutionalSiteProps) {
   const [scrolled, setScrolled] = useState(false)
-  const links = [
-    { href: `/${t.lang}/#entreprise`, label: t.navEnterprise },
-    { href: t.pricingHref, label: t.navPrices },
-    { href: t.rentalHref, label: t.navRental },
-    { href: `/${t.lang}/#blog`, label: t.navSolutions },
-    { href: `/${t.lang}/#contact`, label: t.navContact },
+  const navItems: NavItem[] = [
+    { type: "link", href: `/${t.lang}/#entreprise`, label: t.navEnterprise },
+    {
+      type: "dropdown",
+      label: t.navOffers,
+      items: [
+        { href: t.pricingHref, label: t.navPrices },
+        { href: t.rentalHref, label: t.navRental },
+      ],
+    },
+    { type: "link", href: `/${t.lang}/#blog`, label: t.navSolutions },
+    { type: "link", href: `/${t.lang}/#contact`, label: t.navContact },
   ]
 
   useEffect(() => {
@@ -111,15 +122,39 @@ export function Navbar({ t }: InstitutionalSiteProps) {
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigation principale">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="rounded-full px-4 py-2 text-sm font-semibold text-[#4A5568] transition-colors hover:bg-[#F8F9FC] hover:text-[#0E3A82]"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navItems.map((item) =>
+            item.type === "link" ? (
+              <a
+                key={item.href}
+                href={item.href}
+                className="rounded-full px-4 py-2 text-sm font-semibold text-[#4A5568] transition-colors hover:bg-[#F8F9FC] hover:text-[#0E3A82]"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <div key={item.label} className="group relative">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold text-[#4A5568] transition-colors hover:bg-[#F8F9FC] hover:text-[#0E3A82]"
+                  aria-haspopup="true"
+                >
+                  {item.label}
+                  <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />
+                </button>
+                <div className="invisible absolute left-0 top-full z-50 min-w-[180px] rounded-xl border border-gray-200 bg-white py-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100">
+                  {item.items.map((sub) => (
+                    <Link
+                      key={sub.href}
+                      href={sub.href}
+                      className="block px-4 py-2 text-sm font-semibold text-[#4A5568] transition-colors hover:bg-[#F8F9FC] hover:text-[#0E3A82]"
+                    >
+                      {sub.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )
+          )}
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
@@ -146,13 +181,31 @@ export function Navbar({ t }: InstitutionalSiteProps) {
               <span className="font-display text-xl font-bold text-[#021647]">CardioPro</span>
             </div>
             <nav className="flex flex-col gap-2">
-              {links.map((link) => (
-                <SheetClose asChild key={link.href}>
-                  <a className="rounded-xl px-4 py-3 font-semibold text-[#1A1D23] hover:bg-[#F8F9FC]" href={link.href}>
-                    {link.label}
-                  </a>
-                </SheetClose>
-              ))}
+              {navItems.map((item) =>
+                item.type === "link" ? (
+                  <SheetClose asChild key={item.href}>
+                    <a className="rounded-xl px-4 py-3 font-semibold text-[#1A1D23] hover:bg-[#F8F9FC]" href={item.href}>
+                      {item.label}
+                    </a>
+                  </SheetClose>
+                ) : (
+                  <div key={item.label} className="space-y-1">
+                    <p className="px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#4A5568]">
+                      {item.label}
+                    </p>
+                    {item.items.map((sub) => (
+                      <SheetClose asChild key={sub.href}>
+                        <Link
+                          className="block rounded-xl px-6 py-3 font-semibold text-[#1A1D23] hover:bg-[#F8F9FC]"
+                          href={sub.href}
+                        >
+                          {sub.label}
+                        </Link>
+                      </SheetClose>
+                    ))}
+                  </div>
+                )
+              )}
             </nav>
             <div className="mt-8 flex gap-2">
               <Link className="rounded-full bg-[#F8F9FC] px-4 py-2 font-semibold text-[#0E3A82]" href={`/${t.lang}/`}>
