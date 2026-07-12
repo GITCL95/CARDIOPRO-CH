@@ -1,27 +1,21 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
-import { motion } from "motion/react"
+import Image from "next/image"
 import {
   ArrowRight,
-  BadgeCheck,
-  Calendar,
+  Banknote,
   Check,
-  ChevronRight,
-  CreditCard,
-  Phone,
-  ShieldCheck,
-  Truck,
-  Users,
-  Wrench,
+  Clock,
+  RefreshCw,
+  SquareCheckBig,
 } from "lucide-react"
 import type { Translations } from "@/lib/translations"
 import {
+  formatChfPrice,
   type RentalContent,
   type RentalFormula,
 } from "@/lib/rental"
-import { formatChfPrice } from "@/lib/pricing"
 import { Navbar } from "@/components/sections/InstitutionalSite"
 import { Footer } from "@/components/sections/InstitutionalBelowFold"
 import {
@@ -30,64 +24,41 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Marquee } from "@/components/premium/marquee"
-import { ShimmerButton } from "@/components/premium/shimmer-button"
+import { cn } from "@/lib/utils"
 import { QuoteButton, QuoteModalProvider } from "@/components/shared/QuoteModal"
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
-}
-
-const stagger = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.06, delayChildren: 0.04 } },
-}
 
 interface RentalPageProps {
   t: Translations
   c: RentalContent
 }
 
+function SectionEyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#E63946]">
+      {children}
+    </p>
+  )
+}
+
 function formatPrice(value: number) {
   return formatChfPrice(value)
 }
 
-function SectionTitle({
-  children,
-  invert = false,
-  id,
-}: {
-  children: React.ReactNode
-  invert?: boolean
-  id?: string
-}) {
-  return (
-    <div className="flex items-center gap-3">
-      <span className="h-8 w-1 shrink-0 rounded-full bg-[#E63946]" aria-hidden="true" />
-      <h2
-        id={id}
-        className={`font-display text-3xl font-bold leading-tight sm:text-4xl ${
-          invert ? "text-white" : "text-[#1A1D23]"
-        }`}
-      >
-        {children}
-      </h2>
-    </div>
-  )
+function formatTotal(c: RentalContent, formula: RentalFormula) {
+  if (formula.months === 1) {
+    return c.lang === "fr"
+      ? `${c.totalPrefix} ${formatPrice(formula.totalCost)} HT pour 1 mois`
+      : `${c.totalPrefix} ${formatPrice(formula.totalCost)} netto für 1 Monat`
+  }
+  return c.lang === "fr"
+    ? `${c.totalPrefix} ${formatPrice(formula.totalCost)} HT sur ${formula.months} mois`
+    : `${c.totalPrefix} ${formatPrice(formula.totalCost)} netto über ${formula.months} Monate`
 }
 
 export default function RentalPage({ t, c }: RentalPageProps) {
-  const [selected, setSelected] = useState("")
-
-  const long = c.formulas.filter((f) => f.months >= 24)
-  const medium = c.formulas.filter((f) => f.months >= 6 && f.months < 24)
-  const short = c.formulas.filter((f) => f.months < 6)
+  const long = c.formulas.filter((f) => f.group === "long")
+  const medium = c.formulas.filter((f) => f.group === "medium")
+  const short = c.formulas.filter((f) => f.group === "short")
 
   return (
     <QuoteModalProvider c={c}>
@@ -95,16 +66,16 @@ export default function RentalPage({ t, c }: RentalPageProps) {
         <Navbar t={t} />
         <main id="main-content">
           <Hero c={c} />
-          <WhyRent c={c} selected={selected} setSelected={setSelected} />
           <DistributorBanner c={c} />
-          <FormulaGroup c={c} title={c.longTitle} intro={c.longIntro} formulas={long} onSelect={setSelected} />
-          <FormulaGroup c={c} title={c.mediumTitle} intro={c.mediumIntro} formulas={medium} subtle onSelect={setSelected} />
-          <FormulaGroup c={c} title={c.shortTitle} intro={c.shortIntro} formulas={short} onSelect={setSelected} />
-          <Specialist c={c} />
-          <FormulasTable c={c} />
+          <WhyRent c={c} />
+          <FormulasHeader c={c} />
+          <FormulaSection c={c} eyebrow={c.longEyebrow} title={c.longTitle} intro={c.longIntro} formulas={long} />
+          <FormulaSection c={c} eyebrow={c.mediumEyebrow} title={c.mediumTitle} intro={c.mediumIntro} formulas={medium} subtle />
+          <FormulaSection c={c} eyebrow={c.shortEyebrow} title={c.shortTitle} intro={c.shortIntro} formulas={short} />
           <CompareTable c={c} />
+          <FormulasTable c={c} />
           <ChooseSection c={c} />
-          <References c={c} />
+          <StatsClients c={c} />
           <FaqBlock c={c} />
           <FinalCta c={c} />
         </main>
@@ -116,268 +87,312 @@ export default function RentalPage({ t, c }: RentalPageProps) {
 
 function Hero({ c }: { c: RentalContent }) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#021647] to-[#0E3A82] text-white pt-24 pb-16 md:pt-32 md:pb-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <nav aria-label="Fil d'Ariane" className="mb-6 text-sm text-white/60">
-          <ol className="flex flex-wrap items-center gap-1.5">
-            <li>
-              <Link href={`/${c.lang}/`} className="hover:text-white">
+    <section className="relative overflow-hidden bg-[#021647] pt-24 pb-16 text-white md:pt-32 md:pb-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-5">
+          <div className="lg:col-span-3">
+            <nav
+              aria-label={c.lang === "fr" ? "Fil d'Ariane" : "Brotkrumen"}
+              className="mb-8 flex flex-wrap items-center gap-2 text-sm text-white/60"
+            >
+              <Link href={`/${c.lang}/`} className="transition-colors hover:text-white">
                 {c.breadcrumbHome}
               </Link>
-            </li>
-            <li aria-hidden="true">
-              <ChevronRight size={14} className="opacity-60" />
-            </li>
-            <li aria-current="page" className="font-semibold text-white/80">
-              {c.breadcrumbCurrentShort}
-            </li>
-          </ol>
-        </nav>
+              <span aria-hidden="true">/</span>
+              <Link
+                href={c.lang === "fr" ? "/fr/location-defibrillateur/" : "/de/defibrillator-mieten/"}
+                className="transition-colors hover:text-white"
+              >
+                {c.breadcrumbParent}
+              </Link>
+              <span aria-hidden="true">/</span>
+              <span className="text-white">{c.breadcrumbCurrentShort}</span>
+            </nav>
 
-        <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-3xl">
-          <motion.div variants={fadeUp}>
-            <Badge className="border-white/20 bg-white/10 text-white">
-              <ShieldCheck size={14} />
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#E63946]/10 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#E63946]">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#E63946]" />
               {c.heroBadge}
-            </Badge>
-          </motion.div>
-          <motion.h1
-            variants={fadeUp}
-            className="mt-6 font-display text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl"
-          >
-            {c.heroTitle}
-          </motion.h1>
-          <motion.p variants={fadeUp} className="mt-6 text-lg leading-8 text-white/85">
-            {c.heroSub}
-          </motion.p>
-        </motion.div>
+            </span>
+
+            <h1 className="font-display text-4xl font-bold leading-[0.95] tracking-tight sm:text-5xl">
+              {c.heroTitle}
+            </h1>
+
+            <p className="hero-intro mt-6 max-w-xl text-lg leading-relaxed text-white/75">
+              {c.heroSub}
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              {c.heroPills.map((pill) => (
+                <span
+                  key={pill}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-sm"
+                >
+                  <Check className="h-3.5 w-3.5 text-[#E63946]" aria-hidden="true" />
+                  {pill}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-8 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#E63946] font-display text-sm font-bold">
+                CP
+              </div>
+              <p className="text-sm text-white/75">
+                <strong className="text-white">{c.heroAuthor.split(" — ")[0]}</strong>
+                {c.heroAuthor.includes(" — ") ? ` — ${c.heroAuthor.split(" — ")[1]}` : ""}
+              </p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-2">
+            <HeroQuoteForm c={c} />
+          </div>
+        </div>
       </div>
     </section>
   )
 }
 
-function QuoteForm({
-  c,
-  selected,
-  setSelected,
-}: {
-  c: RentalContent
-  selected: string
-  setSelected: (v: string) => void
-}) {
+function HeroQuoteForm({ c }: { c: RentalContent }) {
   return (
-    <Card className="border-gray-200 shadow-[0_8px_30px_rgba(2,22,71,0.12)]">
-      <CardContent className="p-6 sm:p-8">
-        <h2 className="font-display text-2xl font-bold text-[#1A1D23]">{c.formTitle}</h2>
-        <p className="mt-2 text-sm text-[#4A5568]">{c.formSubtitle}</p>
-        <form action="https://formspree.io/f/meendqow" method="POST" className="mt-6 grid gap-4">
-          <input type="hidden" name="_language" value={c.lang} />
-          <input type="hidden" name="_subject" value={c.formSubject} />
-          <input type="hidden" name="page" value={c.canonical} />
-          <div className="grid gap-2">
-            <label htmlFor="r-formula" className="text-sm font-semibold text-[#1A1D23]">
-              {c.formSelected}
-            </label>
-            <Input
-              id="r-formula"
-              name="formule"
-              value={selected}
-              onChange={(e) => setSelected(e.target.value)}
-              placeholder={c.formSelected}
-            />
-          </div>
-          <div className="grid gap-2">
-            <label htmlFor="r-name" className="text-sm font-semibold text-[#1A1D23]">
-              {c.formName} *
-            </label>
-            <Input id="r-name" name="nom" required autoComplete="name" />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="grid gap-2">
-              <label htmlFor="r-company" className="text-sm font-semibold text-[#1A1D23]">
-                {c.formCompany}
-              </label>
-              <Input id="r-company" name="entreprise" autoComplete="organization" />
-            </div>
-            <div className="grid gap-2">
-              <label htmlFor="r-phone" className="text-sm font-semibold text-[#1A1D23]">
-                {c.formPhone} *
-              </label>
-              <Input id="r-phone" name="telephone" type="tel" required autoComplete="tel" />
-            </div>
-          </div>
-          <div className="grid gap-2">
-            <label htmlFor="r-email" className="text-sm font-semibold text-[#1A1D23]">
-              {c.formEmail} *
-            </label>
-            <Input id="r-email" name="email" type="email" required autoComplete="email" />
-          </div>
-          <div className="grid gap-2">
-            <label htmlFor="r-message" className="text-sm font-semibold text-[#1A1D23]">
-              {c.formMessage}
-            </label>
-            <Textarea id="r-message" name="message" rows={3} />
-          </div>
-          <ShimmerButton type="submit" size="lg" className="w-full">
-            {c.formSubmit}
-            <ArrowRight size={18} />
-          </ShimmerButton>
-          <p className="text-center text-xs leading-6 text-[#4A5568]">{c.formLegal}</p>
-        </form>
-      </CardContent>
-    </Card>
-  )
-}
+    <div className="rounded-lg border border-white/[0.12] bg-white/[0.07] p-6 shadow-2xl backdrop-blur-xl sm:p-8">
+      <p className="font-display text-xl font-semibold text-white">{c.formTitle}</p>
+      <p className="mt-1 text-sm text-white/60">{c.formSubtitle}</p>
+      <form
+        action="https://formspree.io/f/meendqow"
+        method="POST"
+        className="mt-6 flex flex-col gap-3"
+      >
+        <input type="hidden" name="_language" value={c.lang} />
+        <input type="hidden" name="_subject" value={c.formSubject} />
+        <input type="hidden" name="page" value={c.canonical} />
+        <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" />
 
-function WhyRent({
-  c,
-  selected,
-  setSelected,
-}: {
-  c: RentalContent
-  selected: string
-  setSelected: (v: string) => void
-}) {
-  return (
-    <section id="devis" className="bg-white py-20" aria-labelledby="why-title">
-      <div className="mx-auto grid max-w-7xl items-start gap-12 px-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
-          <SectionTitle id="why-title">{c.whyTitle}</SectionTitle>
-          <div className="mt-6 space-y-4 text-lg leading-8 text-[#4A5568]">
-            {c.whyParagraphs.map((p) => (
-              <p key={p.slice(0, 24)}>{p}</p>
-            ))}
-          </div>
-        </motion.div>
+        <input
+          required
+          type="text"
+          name="nom"
+          autoComplete="name"
+          placeholder={c.formName}
+          className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 transition-all focus:border-[#E63946] focus:outline-none focus:ring-1 focus:ring-[#E63946]"
+        />
+        <input
+          required
+          type="text"
+          name="entreprise"
+          autoComplete="organization"
+          placeholder={c.formCompanyPlaceholder}
+          className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 transition-all focus:border-[#E63946] focus:outline-none focus:ring-1 focus:ring-[#E63946]"
+        />
+        <input
+          required
+          type="tel"
+          name="telephone"
+          autoComplete="tel"
+          placeholder="+41 22 518 09 36"
+          className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 transition-all focus:border-[#E63946] focus:outline-none focus:ring-1 focus:ring-[#E63946]"
+        />
+        <input
+          required
+          type="email"
+          name="email"
+          autoComplete="email"
+          placeholder={c.lang === "fr" ? "jean@entreprise.ch" : "max@firma.ch"}
+          className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 transition-all focus:border-[#E63946] focus:outline-none focus:ring-1 focus:ring-[#E63946]"
+        />
 
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
-          <QuoteForm c={c} selected={selected} setSelected={setSelected} />
-        </motion.div>
-      </div>
-    </section>
+        <button
+          type="submit"
+          className="mt-1 flex w-full items-center justify-center gap-2 rounded-full bg-[#E63946] py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#E63946]/90 hover:shadow-xl hover:shadow-[#E63946]/25 active:scale-[0.98]"
+        >
+          {c.formSubmit}
+          <ArrowRight className="h-3.5 w-3.5" />
+        </button>
+        <p className="text-center text-xs text-white/40">{c.formLegal}</p>
+      </form>
+    </div>
   )
 }
 
 function DistributorBanner({ c }: { c: RentalContent }) {
   return (
-    <section className="border-y border-gray-200 bg-[#F8F9FC] py-10" aria-label={c.distributorTitle}>
-      <div className="mx-auto max-w-7xl px-6">
-        <p className="mb-6 text-center text-sm font-semibold uppercase tracking-[0.14em] text-[#4A5568]">
+    <section className="border-b border-gray-200 bg-[#F8F9FC] py-8" aria-label={c.distributorTitle}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <p className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-[#4A5568]">
           {c.distributorTitle}
         </p>
-        <Marquee>
-          {c.distributors.map((brand) => (
+        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+          {c.distributors.map((logo) => (
             <div
-              key={brand}
-              className="rounded-full border border-gray-200 bg-white px-7 py-2.5 font-display text-lg font-bold text-[#021647]"
+              key={logo.alt}
+              className="relative h-8 w-24 opacity-50 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 sm:h-10 sm:w-28"
             >
-              {brand}
+              <Image src={logo.src} alt={logo.alt} fill className="object-contain" unoptimized />
             </div>
           ))}
-        </Marquee>
+        </div>
       </div>
     </section>
   )
 }
 
-function FormulaGroup({
+function WhyRent({ c }: { c: RentalContent }) {
+  const icons = [Banknote, RefreshCw, SquareCheckBig, Clock]
+  return (
+    <section className="bg-white py-16 lg:py-24" aria-labelledby="why-title">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl">
+          <SectionEyebrow>{c.whyEyebrow}</SectionEyebrow>
+          <h2 id="why-title" className="font-display text-3xl font-semibold leading-tight tracking-tight text-[#1A1D23] sm:text-4xl">
+            {c.whyTitle}
+          </h2>
+          <div className="mt-5 space-y-4 text-base leading-relaxed text-[#4A5568]">
+            {c.whyParagraphs.map((p) => (
+              <p key={p.slice(0, 30)} dangerouslySetInnerHTML={{ __html: p }} />
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {c.whyBenefits.map((benefit, i) => {
+            const Icon = icons[i] ?? Banknote
+            return (
+              <div
+                key={benefit.title}
+                className="group rounded-lg border border-gray-200 bg-[#F8F9FC] p-6 transition-all duration-300 hover:border-[#E63946]/20 hover:bg-white hover:shadow-lg"
+              >
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#E63946]/10 text-[#E63946]">
+                  <Icon className="h-6 w-6" aria-hidden="true" />
+                </div>
+                <p className="font-display text-xl font-semibold tracking-tight text-[#1A1D23]">
+                  {benefit.title}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-[#4A5568]">{benefit.text}</p>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function FormulasHeader({ c }: { c: RentalContent }) {
+  return (
+    <section className="bg-[#F8F9FC] pt-16 lg:pt-24">
+      <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+        <SectionEyebrow>{c.formulasEyebrow}</SectionEyebrow>
+        <h2 className="font-display text-3xl font-semibold leading-tight tracking-tight text-[#1A1D23] sm:text-4xl">
+          {c.formulasTitle}
+        </h2>
+      </div>
+    </section>
+  )
+}
+
+function FormulaSection({
   c,
+  eyebrow,
   title,
   intro,
   formulas,
   subtle = false,
-  onSelect,
 }: {
   c: RentalContent
+  eyebrow: string
   title: string
   intro: string
   formulas: RentalFormula[]
   subtle?: boolean
-  onSelect: (name: string) => void
 }) {
-  return (
-    <section className={subtle ? "bg-[#F8F9FC] py-20" : "bg-white py-20"} aria-label={title}>
-      <div className="mx-auto max-w-7xl px-6">
-        <SectionTitle>{title}</SectionTitle>
-        <p className="mt-4 max-w-3xl text-base leading-8 text-[#4A5568]">{intro}</p>
+  const cols =
+    formulas.length === 2
+      ? "md:grid-cols-2 max-w-3xl mx-auto"
+      : "md:grid-cols-3"
 
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {formulas.map((f) => (
-            <motion.div key={f.id} variants={fadeUp}>
-              <FormulaCard c={c} formula={f} onSelect={onSelect} />
-            </motion.div>
+  return (
+    <section className={cn("py-16 lg:py-24", subtle ? "bg-white" : "bg-[#F8F9FC]")}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl">
+          <SectionEyebrow>{eyebrow}</SectionEyebrow>
+          <h3 className="font-display text-3xl font-semibold leading-tight tracking-tight text-[#1A1D23] sm:text-4xl">
+            {title}
+          </h3>
+          <p
+            className="mt-5 text-base leading-relaxed text-[#4A5568]"
+            dangerouslySetInnerHTML={{ __html: intro }}
+          />
+        </div>
+
+        <div className={cn("mt-10 grid gap-6", cols)}>
+          {formulas.map((formula) => (
+            <FormulaCard key={formula.id} c={c} formula={formula} />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )
 }
 
-function FormulaCard({
-  c,
-  formula,
-  onSelect,
-}: {
-  c: RentalContent
-  formula: RentalFormula
-  onSelect: (name: string) => void
-}) {
+function FormulaCard({ c, formula }: { c: RentalContent; formula: RentalFormula }) {
+  const prefix = c.lang === "fr" ? "Location défibrillateur" : "Defibrillator-Miete"
+  const productLabel = `${prefix} ${formula.monthsLabelUpper} — ${formatPrice(formula.price)}${c.perMonth} ${c.priceVat} (${formatTotal(c, formula)})`
+
   return (
     <article
       data-formula={formula.id}
-      data-months={formula.months}
-      data-price={formula.price}
-      className={`flex h-full flex-col rounded-2xl bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md ${
-        formula.recommended ? "border-2 border-[#E63946]" : "border border-gray-200"
-      }`}
+      className={cn(
+        "relative overflow-hidden rounded-lg bg-white transition-all duration-300 hover:shadow-lg",
+        formula.recommended
+          ? "border-2 border-[#E63946] ring-2 ring-[#E63946]/20"
+          : "border border-gray-200",
+      )}
     >
-      <div className="flex items-center justify-between gap-3">
-        <span className="rounded-full bg-[#F8F9FC] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#0E3A82]">
-          {formula.monthsLabel}
+      {formula.recommended ? (
+        <span className="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-lg bg-[#E63946] px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
+          {c.popularBadge}
         </span>
-        {formula.recommended ? (
-          <span className="rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#E63946]">
-            {c.recommendedBadge}
-          </span>
-        ) : null}
+      ) : null}
+
+      <div className={cn("border-b border-gray-200 p-6 pb-4", formula.recommended && "pt-7")}>
+        <p className="text-sm font-bold uppercase tracking-wider text-[#021647]">
+          {formula.monthsLabelUpper}
+        </p>
+        <p className="mt-1 text-xs text-[#4A5568]">{formula.tagline}</p>
       </div>
 
-      <h3 className="mt-4 font-display text-xl font-bold leading-tight text-[#1A1D23]">{formula.name}</h3>
-      <p className="mt-1 text-sm text-[#4A5568]">{formula.tagline}</p>
-
-      <div className="mt-5 flex items-end gap-2">
-        <span className="font-display text-4xl font-bold text-[#0E3A82]">{formatPrice(formula.price)}</span>
-        <span className="pb-1 text-sm font-semibold text-[#4A5568]">{c.perMonth}</span>
-      </div>
-      <p className="mt-1 text-xs text-[#4A5568]">{c.priceVat}</p>
-
-      <ul className="mt-5 space-y-2.5">
-        <li className="flex items-start gap-2.5 text-sm text-[#4A5568]">
-          <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#10B981]" />
-          <span>
-            {formula.warrantyLabel} · {formula.ip}
+      <div className="p-6 pt-4">
+        <div className="flex items-baseline gap-1">
+          <span className="font-display text-5xl font-bold text-[#021647]">
+            {formula.price.toLocaleString("fr-CH")}
           </span>
-        </li>
+          <span className="text-sm text-[#4A5568]">
+            CHF{c.perMonth} {c.priceVat}
+          </span>
+        </div>
+        <p className="mt-1 text-xs text-[#4A5568]">{formatTotal(c, formula)}</p>
+      </div>
+
+      <ul className="space-y-3 px-6 pb-6">
         {formula.features.map((feature) => (
-          <li key={feature} className="flex items-start gap-2.5 text-sm text-[#4A5568]">
-            <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#10B981]" />
+          <li key={feature} className="flex items-center gap-3 text-sm text-[#4A5568]">
+            <Check className="h-5 w-5 shrink-0 text-emerald-500" aria-hidden="true" />
             <span>{feature}</span>
           </li>
         ))}
       </ul>
 
-      <div className="mt-auto pt-6">
+      <div className="px-6 pb-6">
         <QuoteButton
-          productName={`${formula.name} — ${formatPrice(formula.price)}${c.perMonth}`}
+          productName={productLabel}
           productType="location"
-          onOpen={() => onSelect(`${formula.name} — ${formatPrice(formula.price)}${c.perMonth}`)}
-          className="inline-flex h-10 w-full items-center justify-center rounded-md bg-[#E63946] px-4 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#E63946]/90"
+          className={cn(
+            "block w-full rounded-full py-3 text-center text-sm font-semibold transition-all",
+            formula.recommended
+              ? "bg-[#E63946] text-white hover:bg-[#E63946]/90 hover:shadow-lg hover:shadow-[#E63946]/30"
+              : "border border-[#1A1D23]/20 bg-transparent text-[#1A1D23] hover:bg-[#021647] hover:text-white",
+          )}
         >
           {c.selectCta}
         </QuoteButton>
@@ -386,38 +401,76 @@ function FormulaCard({
   )
 }
 
-function Specialist({ c }: { c: RentalContent }) {
-  const icons = [Truck, CreditCard]
+function CompareTable({ c }: { c: RentalContent }) {
   return (
-    <section className="bg-white py-20" aria-labelledby="specialist-title">
-      <div className="mx-auto max-w-7xl px-6">
-        <SectionTitle id="specialist-title">{c.specialistTitle}</SectionTitle>
-        <div className="mt-6 grid gap-12 lg:grid-cols-2">
-          <div className="space-y-4 text-lg leading-8 text-[#4A5568]">
-            {c.specialistBody.map((p) => (
-              <p key={p.slice(0, 24)}>{p}</p>
-            ))}
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2">
-            {c.specialist.map((block, i) => {
-              const Icon = icons[i] ?? Truck
-              return (
-                <Card key={block.title} className="h-full">
-                  <CardContent className="p-6">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-[#0E3A82]">
-                      <Icon size={22} />
-                    </div>
-                    <h3 className="font-display text-lg font-bold text-[#1A1D23]">{block.title}</h3>
-                    <p
-                      className="mt-2 text-sm leading-7 text-[#4A5568]"
-                      dangerouslySetInnerHTML={{ __html: block.text }}
-                    />
-                  </CardContent>
-                </Card>
-              )
-            })}
-          </div>
+    <section className="bg-white py-16 lg:py-24" aria-labelledby="compare-title">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl">
+          <SectionEyebrow>{c.compareEyebrow}</SectionEyebrow>
+          <h2 id="compare-title" className="font-display text-3xl font-semibold leading-tight tracking-tight text-[#1A1D23] sm:text-4xl">
+            {c.compareTitle}
+          </h2>
         </div>
+
+        <div className="mt-10 hidden overflow-x-auto rounded-lg border border-gray-200 lg:block">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-[#021647] text-white">
+                <th className="w-1/3 p-4 text-left text-xs font-medium uppercase tracking-wider">
+                  {c.compareCriteria}
+                </th>
+                <th className="border-l border-[#E63946]/20 bg-[#E63946]/10 p-4 text-left text-xs font-medium uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Check className="h-5 w-5 text-emerald-500" aria-hidden="true" />
+                    {c.compareRental}
+                  </span>
+                </th>
+                <th className="p-4 text-left text-xs font-medium uppercase tracking-wider">
+                  {c.comparePurchase}
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {c.compareRows.map((row) => (
+                <tr key={row.label} className="bg-white transition-colors hover:bg-[#F8F9FC]">
+                  <td className="p-4 font-medium text-[#4A5568]">{row.label}</td>
+                  <td className="border-l border-[#E63946]/20 bg-[#E63946]/[0.025] p-4 text-[#1A1D23]">
+                    {row.rental}
+                  </td>
+                  <td className="p-4 text-[#4A5568]">{row.purchase}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-10 space-y-4 lg:hidden">
+          {c.compareRows.map((row) => (
+            <div key={row.label} className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+              <div className="border-b border-gray-200 bg-[#F8F9FC] px-5 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#4A5568]">
+                  {row.label}
+                </p>
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-gray-200 text-sm">
+                <div className="bg-[#E63946]/[0.03] px-5 py-4">
+                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-[#E63946]">
+                    {c.compareRental}
+                  </p>
+                  <p className="text-[#1A1D23]">{row.rental}</p>
+                </div>
+                <div className="px-5 py-4">
+                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-[#4A5568]">
+                    {c.comparePurchase}
+                  </p>
+                  <p className="text-[#4A5568]">{row.purchase}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-4 text-xs text-[#4A5568]">{c.compareNote}</p>
       </div>
     </section>
   )
@@ -425,205 +478,173 @@ function Specialist({ c }: { c: RentalContent }) {
 
 function FormulasTable({ c }: { c: RentalContent }) {
   const ordered = [...c.formulas].sort((a, b) => a.months - b.months)
-  return (
-    <section className="bg-[#F8F9FC] py-20" aria-labelledby="formulas-table-title">
-      <div className="mx-auto max-w-7xl px-6">
-        <SectionTitle id="formulas-table-title">{c.tableTitle}</SectionTitle>
-        <p className="mt-4 max-w-3xl text-base leading-8 text-[#4A5568]">{c.tableIntro}</p>
 
-        <div className="mt-10 overflow-x-auto rounded-2xl border border-gray-200">
-          <table className="w-full min-w-[900px] border-collapse text-sm">
+  return (
+    <section className="bg-[#F8F9FC] py-16 lg:py-24" aria-labelledby="table-title">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl">
+          <SectionEyebrow>{c.tableEyebrow}</SectionEyebrow>
+          <h2 id="table-title" className="font-display text-3xl font-semibold leading-tight tracking-tight text-[#1A1D23] sm:text-4xl">
+            {c.tableTitle}
+          </h2>
+          <p className="mt-5 text-base leading-relaxed text-[#4A5568]">{c.tableIntro}</p>
+        </div>
+
+        <div className="mt-10 overflow-x-auto rounded-lg border border-gray-200 bg-white">
+          <table className="w-full min-w-[900px] text-sm">
             <thead>
               <tr className="bg-[#021647] text-white">
-                <th scope="col" className="sticky left-0 z-10 bg-[#021647] px-4 py-3 text-left font-semibold">
+                <th className="w-44 p-4 text-left text-xs font-medium uppercase tracking-wide">
                   {c.tableFormula}
                 </th>
                 {ordered.map((f) => (
-                  <th key={f.id} scope="col" className="px-4 py-3 text-left font-semibold whitespace-nowrap">
-                    {f.monthsLabel}
+                  <th key={f.id} className="p-4 text-center text-xs font-medium uppercase">
+                    {f.months} {c.monthUnit}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody>
-              <TableRow
-                label={c.tablePrice}
-                cells={ordered.map((f) => `${formatPrice(f.price)}${c.perMonth}`)}
-                rowIndex={0}
-                highlight
-              />
-              <TableRow
-                label={c.tableEngagement}
-                cells={ordered.map((f) => `${f.months} ${c.monthUnit}`)}
-                rowIndex={1}
-              />
-              <TableRow label={c.tableDelivery} cells={ordered.map(() => "check")} rowIndex={2} check />
-              <TableRow label={c.tableConsumables} cells={ordered.map(() => "check")} rowIndex={3} check />
-              <TableRow label={c.tableIdeal} cells={ordered.map((f) => f.idealFor)} rowIndex={4} />
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function TableRow({
-  label,
-  cells,
-  rowIndex,
-  highlight = false,
-  check = false,
-}: {
-  label: string
-  cells: string[]
-  rowIndex: number
-  highlight?: boolean
-  check?: boolean
-}) {
-  const bg = rowIndex % 2 === 0 ? "bg-white" : "bg-[#F8F9FC]"
-  return (
-    <tr className={bg}>
-      <th scope="row" className={`sticky left-0 z-10 ${bg} px-4 py-3 text-left font-semibold text-[#1A1D23]`}>
-        {label}
-      </th>
-      {cells.map((value, i) => (
-        <td
-          key={i}
-          className={`px-4 py-3 whitespace-nowrap ${highlight ? "font-bold text-[#0E3A82]" : "text-[#4A5568]"}`}
-        >
-          {check ? <Check className="h-4 w-4 text-[#10B981]" aria-label="inclus" /> : value}
-        </td>
-      ))}
-    </tr>
-  )
-}
-
-function CompareTable({ c }: { c: RentalContent }) {
-  return (
-    <section className="bg-white py-20" aria-labelledby="compare-title">
-      <div className="mx-auto max-w-5xl px-6">
-        <SectionTitle id="compare-title">{c.compareTitle}</SectionTitle>
-        <p className="mt-4 max-w-3xl text-base leading-8 text-[#4A5568]">{c.compareIntro}</p>
-
-        <div className="mt-10 overflow-x-auto rounded-2xl border border-gray-200">
-          <table className="w-full min-w-[640px] border-collapse text-sm">
-            <thead>
-              <tr className="bg-[#021647] text-white">
-                <th scope="col" className="px-4 py-3 text-left font-semibold">
-                  {c.compareCriteria}
-                </th>
-                <th scope="col" className="px-4 py-3 text-left font-semibold">
-                  <span className="inline-flex items-center gap-1.5">
-                    <BadgeCheck size={15} />
-                    {c.compareRental}
-                  </span>
-                </th>
-                <th scope="col" className="px-4 py-3 text-left font-semibold">
-                  {c.comparePurchase}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {c.compareRows.map((row, i) => (
-                <tr key={row.label} className={i % 2 === 0 ? "bg-white" : "bg-[#F8F9FC]"}>
-                  <th scope="row" className={`px-4 py-3 text-left font-semibold text-[#1A1D23] ${i % 2 === 0 ? "bg-white" : "bg-[#F8F9FC]"}`}>
-                    {row.label}
-                  </th>
-                  <td className={`px-4 py-3 align-top font-semibold text-[#0E3A82] ${row.highlight ? "bg-blue-50" : "bg-[#0E3A82]/5"}`}>
-                    {row.rental}
+            <tbody className="divide-y divide-gray-200">
+              <tr className="bg-[#E63946]/10">
+                <td className="p-4 text-xs font-bold uppercase tracking-wide text-[#021647]">
+                  {c.tablePrice}
+                </td>
+                {ordered.map((f) => (
+                  <td key={f.id} className="p-4 text-center text-sm font-bold text-[#021647]">
+                    {formatPrice(f.price)}
                   </td>
-                  <td className="px-4 py-3 align-top text-[#4A5568]">{row.purchase}</td>
-                </tr>
-              ))}
+                ))}
+              </tr>
+              <tr>
+                <td className="p-4 text-xs text-[#4A5568]">{c.tableEngagement}</td>
+                {ordered.map((f) => (
+                  <td key={f.id} className="p-4 text-center text-xs text-[#4A5568]">
+                    {f.months} {c.monthUnit}
+                  </td>
+                ))}
+              </tr>
+              <tr className="bg-[#F8F9FC]">
+                <td className="p-4 text-xs text-[#4A5568]">{c.tableDelivery}</td>
+                {ordered.map((f) => (
+                  <td key={f.id} className="p-4 text-center text-emerald-500">
+                    <Check className="mx-auto h-5 w-5" aria-hidden="true" />
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td className="p-4 text-xs text-[#4A5568]">{c.tableConsumables}</td>
+                {ordered.map((f) => (
+                  <td key={f.id} className="p-4 text-center text-emerald-500">
+                    <Check className="mx-auto h-5 w-5" aria-hidden="true" />
+                  </td>
+                ))}
+              </tr>
+              <tr className="bg-[#F8F9FC]">
+                <td className="p-4 text-xs text-[#4A5568]">{c.tableIdeal}</td>
+                {ordered.map((f) => (
+                  <td key={f.id} className="p-4 text-center text-xs text-[#4A5568]">
+                    {f.idealFor}
+                  </td>
+                ))}
+              </tr>
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-xs text-[#4A5568]">{c.compareNote}</p>
+
+        <p className="mt-4 text-xs text-[#4A5568]">{c.tableFootnote}</p>
+
+        <div className="mt-10 text-center">
+          <QuoteButton
+            productName=""
+            productType="location"
+            className="inline-flex h-12 items-center gap-2 rounded-full bg-[#E63946] px-7 text-sm font-medium text-white transition-all hover:bg-[#E63946]/90 hover:shadow-xl hover:shadow-[#E63946]/25"
+          >
+            {c.tableCta}
+            <ArrowRight className="h-4 w-4" />
+          </QuoteButton>
+        </div>
       </div>
     </section>
   )
 }
 
 function ChooseSection({ c }: { c: RentalContent }) {
-  const icons = [ShieldCheck, Calendar, Truck, Wrench]
   return (
-    <section className="bg-[#F8F9FC] py-20" aria-labelledby="choose-title">
-      <div className="mx-auto max-w-7xl px-6">
-        <SectionTitle id="choose-title">{c.chooseTitle}</SectionTitle>
-        <p className="mt-4 max-w-3xl text-base leading-8 text-[#4A5568]">{c.chooseIntro}</p>
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="mt-10 grid gap-5 md:grid-cols-2"
-        >
-          {c.choose.map((block, i) => {
-            const Icon = icons[i] ?? ShieldCheck
-            return (
-              <motion.div key={block.title} variants={fadeUp}>
-                <Card className="h-full">
-                  <CardContent className="flex gap-5 p-6">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-50 text-[#E63946]">
-                      <Icon size={22} />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-lg font-bold text-[#1A1D23]">{block.title}</h3>
-                      <p className="mt-2 text-sm leading-7 text-[#4A5568]">{block.text}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            )
-          })}
-        </motion.div>
+    <section className="bg-white py-16 lg:py-24" aria-labelledby="choose-title">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl">
+          <SectionEyebrow>{c.chooseEyebrow}</SectionEyebrow>
+          <h2 id="choose-title" className="font-display text-3xl font-semibold leading-tight tracking-tight text-[#1A1D23] sm:text-4xl">
+            {c.chooseTitle}
+          </h2>
+          <p className="mt-5 text-base leading-relaxed text-[#4A5568]">{c.chooseIntro}</p>
+        </div>
+
+        <div className="mt-10 grid gap-8 md:grid-cols-2">
+          {c.choose.map((block) => (
+            <div key={block.title} className="flex gap-5">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#E63946]/10">
+                <Image
+                  src={block.image}
+                  alt={block.imageAlt}
+                  width={40}
+                  height={40}
+                  className="h-9 w-9 object-contain"
+                  unoptimized
+                />
+              </div>
+              <div className="min-w-0">
+                <p className="font-display text-xl font-semibold tracking-tight text-[#1A1D23]">
+                  {block.title}
+                </p>
+                <p
+                  className="mt-2 text-base leading-relaxed text-[#4A5568]"
+                  dangerouslySetInnerHTML={{ __html: block.text }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
 }
 
-function References({ c }: { c: RentalContent }) {
+function StatsClients({ c }: { c: RentalContent }) {
   return (
-    <section className="bg-white py-20" aria-labelledby="references-title">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
-          <SectionTitle id="references-title">{c.referencesTitle}</SectionTitle>
-          <p className="mt-6 text-lg leading-8 text-[#4A5568]">{c.referencesIntro}</p>
-          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-            {c.references.map((ref) => (
-              <li key={ref} className="flex items-start gap-3 rounded-xl bg-[#F8F9FC] p-4">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-[#10B981]" />
-                <span className="text-sm font-semibold text-[#1A1D23]">{ref}</span>
-              </li>
-            ))}
-          </ul>
-        </motion.div>
+    <section className="relative overflow-hidden bg-[#021647] py-16 text-white lg:py-24">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 grid grid-cols-3 gap-8 text-center">
+          {c.stats.map((stat) => (
+            <div key={stat.label}>
+              <p className="font-display text-4xl font-bold text-[#E63946] sm:text-5xl">
+                {stat.value}
+              </p>
+              <p className="mt-2 text-sm text-white/60">{stat.label}</p>
+            </div>
+          ))}
+        </div>
 
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
-          <Card className="h-full bg-[#021647] text-white">
-            <CardContent className="p-8">
-              <div className="mb-5 flex items-center gap-3">
-                <BadgeCheck className="h-8 w-8 text-[#E63946]" />
-                <h3 className="font-display text-2xl font-bold">{c.certificationsTitle}</h3>
-              </div>
-              <div className="mb-6 flex flex-wrap gap-2">
-                <Badge className="border-white/20 bg-white/10 text-white">CE Médical</Badge>
-                <Badge className="border-white/20 bg-white/10 text-white">FDA</Badge>
-                <Badge className="border-white/20 bg-white/10 text-white">SUVA</Badge>
-                <Badge className="border-white/20 bg-white/10 text-white">Swiss RC</Badge>
-              </div>
-              <ul className="space-y-3">
-                {c.certifications.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm text-white/85">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#E63946]" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </motion.div>
+        <p className="mb-8 text-center font-display text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+          {c.clientsTitle}
+        </p>
+
+        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+          {c.clients.map((client) => (
+            <div
+              key={client.alt}
+              className="relative h-10 w-28 opacity-60 transition-opacity hover:opacity-100"
+            >
+              <Image
+                src={client.src}
+                alt={client.alt}
+                fill
+                className="object-contain brightness-0 invert"
+                unoptimized
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -631,19 +652,27 @@ function References({ c }: { c: RentalContent }) {
 
 function FaqBlock({ c }: { c: RentalContent }) {
   return (
-    <section id="faq" className="bg-[#F8F9FC] py-20" aria-labelledby="faq-title">
-      <div className="mx-auto max-w-4xl px-6">
-        <div className="mb-10 text-center">
-          <div className="flex items-center justify-center">
-            <SectionTitle id="faq-title">{c.faqTitle}</SectionTitle>
-          </div>
-          <p className="mt-4 text-lg text-[#4A5568]">{c.faqSubtitle}</p>
+    <section id="faq" className="bg-[#F8F9FC] py-20 md:py-28" aria-labelledby="faq-title">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12">
+          <SectionEyebrow>
+            {c.lang === "fr" ? "Questions fréquentes" : "Häufige Fragen"}
+          </SectionEyebrow>
+          <h2 id="faq-title" className="font-display text-3xl font-semibold leading-tight tracking-tight text-[#1A1D23] sm:text-4xl">
+            {c.faqTitle}
+          </h2>
         </div>
-        <Accordion type="single" collapsible defaultValue="faq-0" className="space-y-3">
+
+        <Accordion type="single" collapsible className="rounded-lg border border-gray-200 bg-white px-2">
           {c.faq.map((item, index) => (
-            <AccordionItem key={item.q} value={`faq-${index}`} className="px-2">
-              <AccordionTrigger>{item.q}</AccordionTrigger>
-              <AccordionContent>
+            <AccordionItem key={item.q} value={`faq-${index}`} className="border-gray-200 last:border-0">
+              <AccordionTrigger className="px-4 py-5 text-left text-base font-medium tracking-tight text-[#1A1D23] hover:no-underline">
+                {item.q}
+              </AccordionTrigger>
+              <AccordionContent
+                forceMount
+                className="overflow-hidden px-4 pb-5 text-sm leading-relaxed text-[#4A5568] data-[state=closed]:hidden"
+              >
                 <div dangerouslySetInnerHTML={{ __html: item.a }} />
               </AccordionContent>
             </AccordionItem>
@@ -656,26 +685,21 @@ function FaqBlock({ c }: { c: RentalContent }) {
 
 function FinalCta({ c }: { c: RentalContent }) {
   return (
-    <section className="bg-gradient-to-br from-[#021647] to-[#0E3A82] py-20 text-white" aria-labelledby="cta-title">
+    <section className="bg-[#021647] py-16 text-white md:py-20" aria-labelledby="cta-title">
       <div className="mx-auto max-w-4xl px-6 text-center">
-        <p id="cta-title" className="font-display text-3xl font-bold leading-tight sm:text-4xl">
+        <SectionEyebrow>{c.ctaEyebrow}</SectionEyebrow>
+        <p id="cta-title" className="font-display text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
           {c.ctaTitle}
         </p>
-        <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/85">{c.ctaText}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <ShimmerButton asChild size="lg">
-            <QuoteButton productName="" className="inline-flex items-center gap-2">
-              {c.ctaButton}
-              <ArrowRight size={18} />
-            </QuoteButton>
-          </ShimmerButton>
-          <Button asChild variant="secondary" size="lg">
-            <a href={`tel:${c.ctaPhone.replace(/\s/g, "")}`}>
-              <Phone size={18} />
-              {c.ctaPhone}
-            </a>
-          </Button>
-        </div>
+        <p className="mx-auto mt-6 max-w-2xl leading-relaxed text-white/70">{c.ctaText}</p>
+        <QuoteButton
+          productName=""
+          productType="location"
+          className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#E63946] px-7 text-sm font-medium text-white transition-all hover:bg-[#E63946]/90 hover:shadow-2xl hover:shadow-[#E63946]/30"
+        >
+          {c.ctaButton}
+          <ArrowRight className="h-4 w-4" />
+        </QuoteButton>
       </div>
     </section>
   )

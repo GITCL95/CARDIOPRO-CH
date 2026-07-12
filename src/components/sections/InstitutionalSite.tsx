@@ -51,10 +51,33 @@ type NavItem =
   | { type: "link"; href: string; label: string }
   | { type: "dropdown"; label: string; items: { href: string; label: string }[] }
 
+function NavHref({
+  href,
+  className,
+  children,
+}: {
+  href: string
+  className?: string
+  children: React.ReactNode
+}) {
+  if (href.startsWith("/")) {
+    return (
+      <Link href={href} className={className}>
+        {children}
+      </Link>
+    )
+  }
+  return (
+    <a href={href} className={className}>
+      {children}
+    </a>
+  )
+}
+
 export function Navbar({ t }: InstitutionalSiteProps) {
   const [scrolled, setScrolled] = useState(false)
   const navItems: NavItem[] = [
-    { type: "link", href: `/${t.lang}/#entreprise`, label: t.navEnterprise },
+    { type: "link", href: t.aboutHref, label: t.navAbout },
     {
       type: "dropdown",
       label: t.navOffers,
@@ -64,7 +87,7 @@ export function Navbar({ t }: InstitutionalSiteProps) {
       ],
     },
     { type: "link", href: `/${t.lang}/#blog`, label: t.navSolutions },
-    { type: "link", href: `/${t.lang}/#contact`, label: t.navContact },
+    { type: "link", href: t.contactHref, label: t.navContact },
   ]
 
   useEffect(() => {
@@ -97,9 +120,9 @@ export function Navbar({ t }: InstitutionalSiteProps) {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <a className="font-semibold text-[#E63946]" href="#contact">
+            <Link className="font-semibold text-[#E63946]" href={t.contactHref}>
               {t.quoteOnline}
-            </a>
+            </Link>
             <Link className="font-semibold text-[#0E3A82]" href={`/${t.lang}/`}>
               {t.lang.toUpperCase()}
             </Link>
@@ -124,13 +147,13 @@ export function Navbar({ t }: InstitutionalSiteProps) {
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigation principale">
           {navItems.map((item) =>
             item.type === "link" ? (
-              <a
+              <NavHref
                 key={item.href}
                 href={item.href}
                 className="rounded-full px-4 py-2 text-sm font-semibold text-[#4A5568] transition-colors hover:bg-[#F8F9FC] hover:text-[#0E3A82]"
               >
                 {item.label}
-              </a>
+              </NavHref>
             ) : (
               <div key={item.label} className="group relative">
                 <button
@@ -165,7 +188,7 @@ export function Navbar({ t }: InstitutionalSiteProps) {
             </a>
           </Button>
           <ShimmerButton asChild size="sm">
-            <a href="#contact">{t.quoteOnline}</a>
+            <Link href={t.contactHref}>{t.quoteOnline}</Link>
           </ShimmerButton>
         </div>
 
@@ -184,9 +207,12 @@ export function Navbar({ t }: InstitutionalSiteProps) {
               {navItems.map((item) =>
                 item.type === "link" ? (
                   <SheetClose asChild key={item.href}>
-                    <a className="rounded-xl px-4 py-3 font-semibold text-[#1A1D23] hover:bg-[#F8F9FC]" href={item.href}>
+                    <NavHref
+                      className="rounded-xl px-4 py-3 font-semibold text-[#1A1D23] hover:bg-[#F8F9FC]"
+                      href={item.href}
+                    >
                       {item.label}
-                    </a>
+                    </NavHref>
                   </SheetClose>
                 ) : (
                   <div key={item.label} className="space-y-1">

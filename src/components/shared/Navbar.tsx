@@ -22,11 +22,11 @@ export default function Navbar({ t }: NavbarProps) {
   }, [])
 
   const navLinks = [
-    { href: "#entreprise", label: t.navEnterprise },
+    { href: t.aboutHref, label: t.navAbout },
     { href: "#produits", label: t.navProducts },
     { href: "#offres", label: t.navOffers },
     { href: "#blog", label: t.navSolutions },
-    { href: "#contact", label: t.navContact },
+    { href: t.contactHref, label: t.navContact },
   ]
 
   return (

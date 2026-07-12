@@ -38,7 +38,9 @@ const speculationRules = {
   prerender: [
     { where: { href_matches: "/de/" }, eagerness: "moderate" },
     { where: { href_matches: "/de/defibrillator-kaufen/" }, eagerness: "moderate" },
-    { where: { href_matches: "/fr/location-defibrillateur/" }, eagerness: "moderate" },
+  ],
+  prefetch: [
+    { where: { href_matches: "/fr/location-defibrillateur/" }, eagerness: "conservative" },
   ],
 }
 

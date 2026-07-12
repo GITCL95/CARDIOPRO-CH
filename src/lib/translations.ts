@@ -24,11 +24,13 @@ export interface Translations {
   skipLink: string
   logoAriaLabel: string
   menuOpenAriaLabel: string
-  navEnterprise: string
+  navAbout: string
+  aboutHref: string
   navProducts: string
   navOffers: string
   navSolutions: string
   navContact: string
+  contactHref: string
   navPrices: string
   pricingHref: string
   navRental: string
@@ -226,11 +228,13 @@ const fr: Translations = {
   skipLink: "Aller au contenu principal",
   logoAriaLabel: "CardioPro Suisse — Accueil",
   menuOpenAriaLabel: "Ouvrir le menu",
-  navEnterprise: "L'Entreprise",
+  navAbout: "À propos",
+  aboutHref: "/fr/a-propos/",
   navProducts: "Nos Produits",
   navOffers: "Nos Offres",
   navSolutions: "Nos Solutions",
   navContact: "Contact",
+  contactHref: "/fr/contact/",
   navPrices: "Achat",
   pricingHref: "/fr/defibrillateur-prix/",
   navRental: "Location",
@@ -446,11 +450,13 @@ const de: Translations = {
   skipLink: "Zum Hauptinhalt springen",
   logoAriaLabel: "CardioPro Schweiz — Startseite",
   menuOpenAriaLabel: "Menü öffnen",
-  navEnterprise: "Unternehmen",
+  navAbout: "Über uns",
+  aboutHref: "/de/ueber-uns/",
   navProducts: "Produkte",
   navOffers: "Angebote",
   navSolutions: "Lösungen",
   navContact: "Kontakt",
+  contactHref: "/de/kontakt/",
   navPrices: "Kauf",
   pricingHref: "/de/defibrillator-kaufen/",
   navRental: "Mieten",
