@@ -352,7 +352,7 @@ const fr: Translations = {
   faq3Q: "Faut-il une formation pour utiliser un défibrillateur en Suisse ?",
   faq3A: "Non. Toute personne peut utiliser un DAE entièrement automatique sans formation préalable. L'appareil guide vocalement l'utilisateur étape par étape. Cependant, la SUVA recommande que les secouristes d'entreprise soient formés à l'utilisation du DAE si un tel appareil est à disposition. CardioPro Suisse propose des formations en français et en allemand, conformes aux recommandations du Swiss Resuscitation Council (SRC).",
   faq4Q: "Combien coûte un défibrillateur en Suisse ?",
-  faq4A: "Chez CardioPro Suisse, le défibrillateur est disponible à l'achat à partir de CHF 1 090.– HT ou en location à partir de CHF 45.–/mois HT (TVA suisse de 8,1%). Nos packs incluent l'appareil, les électrodes, la signalétique, la trousse de secours et l'accompagnement à l'enregistrement sur defikarte.ch.",
+  faq4A: "Chez CardioPro Suisse, le défibrillateur est disponible à l'achat à partir de CHF 1 090.– hors TVA ou en location à partir de CHF 45.–/mois hors TVA (TVA suisse de 8,1 %). Nos packs incluent l'appareil, les électrodes, la signalétique, la trousse de secours et l'accompagnement à l'enregistrement sur defikarte.ch.",
   faq5Q: "CardioPro livre-t-elle dans toute la Suisse ?",
   faq5A: "Oui. CardioPro Suisse assure la livraison et l'installation sur l'ensemble du territoire : Genève, Lausanne, Berne, Zürich, Bâle, Lucerne, Fribourg, Neuchâtel et toutes les communes. Notre équipe intervient sous 48h ouvrées en Suisse romande et alémanique.",
 
@@ -413,7 +413,7 @@ const fr: Translations = {
   footerWhy1: "Certifiés CE médical",
   footerWhy2: "Permanence 7j/7",
   footerWhy3: "Location dès CHF 45.–/mois",
-  footerWhy4: "Achat dès CHF 1 090.– HT",
+  footerWhy4: "Achat dès CHF 1 090.– hors TVA",
   footerWhy5: "Formation FR & DE",
   footerWhy6: "Livraison 48h Suisse",
   footerQuickTitle: "Accès rapide",

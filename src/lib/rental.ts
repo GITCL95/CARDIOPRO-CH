@@ -2,7 +2,6 @@ import type { Locale } from "@/lib/translations"
 import { formatChfPrice, priceCurrency } from "@/lib/pricing"
 import { eurToChf, pricingRangeChf } from "@/lib/pricing-products"
 import {
-  buildBreadcrumbSchema,
   buildFaqSchema,
   buildOrganizationSchema,
   buildWebsiteSchema,
@@ -17,7 +16,7 @@ const linkClass = 'class="font-semibold text-[#0E3A82] hover:underline"'
 const IMG = "https://cardiopro.fr/images"
 
 const { minPrice, maxPrice, minCost4y, maxCost4y } = pricingRangeChf
-const purchaseRangeFr = `${formatChfPrice(minPrice)} à ${formatChfPrice(eurToChf(2095))} HT`
+const purchaseRangeFr = `${formatChfPrice(minPrice)} à ${formatChfPrice(eurToChf(2095))} hors TVA`
 const purchaseRangeDe = `${formatChfPrice(minPrice)} bis ${formatChfPrice(eurToChf(2095))} netto`
 const consumablesFr = `${formatChfPrice(eurToChf(90))} à ${formatChfPrice(eurToChf(210))} / renouvellement`
 const consumablesDe = `${formatChfPrice(eurToChf(90))} bis ${formatChfPrice(eurToChf(210))} / Erneuerung`
@@ -177,11 +176,15 @@ function buildFormulas(lang: Locale): RentalFormula[] {
   return FORMULA_SEEDS.map((s) => {
     const price = eurToChf(s.eur)
     const base = lang === "fr" ? longBaseFr : longBaseDe
-    const features = [
-      `${lang === "fr" ? "Garantie" : "Garantie"} ${lang === "fr" ? s.warrantyFr : s.warrantyDe} | IP56`,
-      ...base,
-      ...(s.shortTerm ? [lang === "fr" ? shortExtraFr : shortExtraDe] : []),
-    ]
+    const coverageLabel =
+      lang === "fr"
+        ? s.shortTerm
+          ? "Couverture pendant toute la location | IP56"
+          : `Garantie ${s.warrantyFr} | IP56`
+        : s.shortTerm
+          ? "Abdeckung während der gesamten Mietdauer | IP56"
+          : `Garantie ${s.warrantyDe} | IP56`
+    const features = [coverageLabel, ...base, ...(s.shortTerm ? [lang === "fr" ? shortExtraFr : shortExtraDe] : [])]
     const monthsLabel = lang === "fr" ? `${s.months} mois` : `${s.months} Monate`
     return {
       id: `location-${s.months}-mois`,
@@ -204,24 +207,23 @@ const formulasFr = buildFormulas("fr")
 const formulasDe = buildFormulas("de")
 const lowPrice = eurToChf(29)
 const highPrice = eurToChf(179)
-const rental4yMin = formulasFr.find((f) => f.months === 24)!.totalCost
-const rental4yMax = formulasFr.find((f) => f.months === 48)!.totalCost
+const rental4y48 = formulasFr.find((f) => f.months === 48)!.totalCost
 
 const fr: RentalContent = {
   lang: "fr",
   canonical: "https://www.cardiopro.ch/fr/location-defibrillateur/",
 
   metaTitle: `Location défibrillateur Suisse dès ${formatChfPrice(lowPrice)}/mois | CardioPro`,
-  metaDescription: `Louez un défibrillateur (DAE) en Suisse dès ${formatChfPrice(lowPrice)}/mois HT. 8 formules de 1 à 60 mois, consommables fournis, livraison 48h. Devis gratuit en ligne.`,
+  metaDescription: `Louez un défibrillateur (DAE) en Suisse dès ${formatChfPrice(lowPrice)}/mois hors TVA. 8 formules de 1 à 60 mois, consommables fournis, livraison 48h. Devis gratuit en ligne.`,
   ogTitle: `Location de défibrillateur en Suisse dès ${formatChfPrice(lowPrice)}/mois | CardioPro`,
-  ogDescription: `Louez un DAE dès ${formatChfPrice(lowPrice)}/mois HT. Formules courte ou longue durée, livraison 48h, consommables fournis. Devis gratuit sous 24h.`,
+  ogDescription: `Louez un défibrillateur (DAE) en Suisse dès ${formatChfPrice(lowPrice)}/mois hors TVA. 8 formules de 1 à 60 mois, consommables fournis, livraison 48h. Devis gratuit en ligne.`,
 
   breadcrumbHome: "Accueil",
   breadcrumbParent: "Nos Offres",
   breadcrumbCurrentShort: "Location de défibrillateur",
 
   heroBadge: "Location DAE",
-  heroTitle: `Location de défibrillateur dès ${formatChfPrice(lowPrice)}/mois`,
+  heroTitle: `Location de défibrillateur en Suisse dès ${formatChfPrice(lowPrice)}/mois`,
   heroSub: "8 formules de 1 à 60 mois. Consommables fournis, livraison 48h, maintenance incluse. Le choix de +20 000 professionnels.",
   heroPills: ["Livraison 48h", "CHF 0.– d'investissement", "Charge déductible"],
   heroAuthor: "CardioPro — Spécialiste DAE depuis 2017",
@@ -254,7 +256,7 @@ const fr: RentalContent = {
     `Le pack inclut le défibrillateur, ses électrodes et sa batterie remplacés avant péremption, le boîtier mural, la signalétique réglementaire et la maintenance sous 72h. En fin de contrat, vous bénéficiez d'un appareil de dernière génération sans surcoût. Comparez aussi nos <a href="/fr/defibrillateur-prix/" ${linkClass}>prix d'achat</a>.`,
   ],
   whyBenefits: [
-    { title: "CHF 0.– d'investissement", text: `Budget lissé mois par mois. Pas de sortie de trésorerie. Mensualités prévisibles de ${formatChfPrice(lowPrice)} à ${formatChfPrice(highPrice)} HT.` },
+    { title: "CHF 0.– d'investissement", text: `Budget lissé mois par mois. Pas de sortie de trésorerie. Mensualités prévisibles de ${formatChfPrice(lowPrice)} à ${formatChfPrice(highPrice)} hors TVA.` },
     { title: "Consommables inclus", text: "Électrodes et batterie fournis et remplacés avant péremption. Appareil toujours opérationnel, sans surcoût." },
     { title: "Déductible immédiatement", text: "Chaque mensualité est une charge d'exploitation déductible du résultat fiscal. Pas d'amortissement sur 5-7 ans." },
     { title: "1 à 60 mois", text: "Huit formules du ponctuel au permanent. Événement, chantier, obligation légale : une durée pour chaque besoin." },
@@ -265,17 +267,17 @@ const fr: RentalContent = {
 
   longEyebrow: "Longue durée",
   longTitle: `Location longue durée : de ${formatChfPrice(lowPrice)} à ${formatChfPrice(eurToChf(49))}/mois`,
-  longIntro: `C'est le choix de la majorité des <a href="/fr/a-propos/" ${linkClass}>entreprises</a>, <a href="/fr/#mairie" ${linkClass}>communes</a> et établissements recevant du public. Engagement de 24, 48 ou 60 mois pour le meilleur tarif mensuel. Le pack location longue durée comprend le défibrillateur automatique ou semi-automatique de votre choix, les électrodes adultes, la batterie, le boîtier mural avec signalétique et la livraison sous 48h.`,
+  longIntro: `C'est le choix de la majorité des <a href="/fr/a-propos/" ${linkClass}>entreprises</a>, <a href="/fr/contact/" ${linkClass}>communes</a> et établissements recevant du public. Engagement de 24, 48 ou 60 mois pour le meilleur tarif mensuel. Le pack location longue durée comprend le défibrillateur automatique ou semi-automatique de votre choix, les électrodes adultes, la batterie, le boîtier mural avec signalétique et la livraison sous 48h.`,
   mediumEyebrow: "Moyenne durée",
   mediumTitle: "Location moyenne durée : 6 à 12 mois",
-  mediumIntro: `La location moyenne durée (6 à 12 mois) convient aux besoins temporaires prolongés. Chantier de plusieurs mois, remplacement d'un appareil défaillant, couverture d'une saison touristique ou sportive : de ${formatChfPrice(eurToChf(69))} à ${formatChfPrice(eurToChf(89))} HT/mois selon la durée, cette formule offre un bon équilibre entre flexibilité et coût maîtrisé.`,
+  mediumIntro: `La location moyenne durée (6 à 12 mois) convient aux besoins temporaires prolongés. Chantier de plusieurs mois, remplacement d'un appareil défaillant, couverture d'une saison touristique ou sportive : de ${formatChfPrice(eurToChf(69))} à ${formatChfPrice(eurToChf(89))} hors TVA/mois selon la durée, cette formule offre un bon équilibre entre flexibilité et coût maîtrisé.`,
   shortEyebrow: "Courte durée",
   shortTitle: "Location courte durée : 1 à 3 mois",
-  shortIntro: `La location courte durée d'un défibrillateur coûte de ${formatChfPrice(eurToChf(119))} à ${formatChfPrice(highPrice)} HT/mois selon la durée (1, 2 ou 3 mois). Elle est conçue pour les événements ponctuels : compétitions sportives, festivals, salons professionnels, séminaires d'entreprise, mariages ou fêtes communales.`,
+  shortIntro: `La location courte durée d'un défibrillateur coûte de ${formatChfPrice(eurToChf(119))} à ${formatChfPrice(highPrice)} hors TVA/mois selon la durée (1, 2 ou 3 mois). Elle est conçue pour les événements ponctuels : compétitions sportives, festivals, salons professionnels, séminaires d'entreprise, mariages ou fêtes communales.`,
 
   popularBadge: "Le plus populaire",
   perMonth: "/mois",
-  priceVat: "HT",
+  priceVat: "hors TVA",
   totalPrefix: "Soit",
   selectCta: "Demander un devis →",
 
@@ -288,21 +290,21 @@ const fr: RentalContent = {
   comparePurchase: "Achat",
   compareRows: [
     { label: "Investissement initial", rental: "CHF 0.–", purchase: purchaseRangeFr },
-    { label: "Coût mensuel", rental: `${formatChfPrice(lowPrice)} à ${formatChfPrice(highPrice)}/mois HT`, purchase: "CHF 0.– (hors consommables)" },
+    { label: "Coût mensuel", rental: `${formatChfPrice(lowPrice)} à ${formatChfPrice(highPrice)}/mois hors TVA`, purchase: "CHF 0.– (hors consommables)" },
     { label: "Consommables", rental: "Fournis et remplacés", purchase: `À votre charge — ${consumablesFr}` },
     { label: "Fiscalité", rental: "Charge déductible immédiate chaque mois", purchase: "Immobilisation amortie sur plusieurs exercices" },
     { label: "Flexibilité", rental: "1 à 60 mois — 8 formules", purchase: "Aucune" },
     { label: "Fin de période", rental: "Renouveler, prolonger ou restituer sans frais", purchase: "L'appareil vous appartient" },
     { label: "Appareil récent", rental: "Oui, renouvelable en fin de contrat", purchase: "Devient obsolète — durée de vie 7-10 ans" },
-    { label: "Coût total sur 4 ans", rental: `${formatChfPrice(rental4yMin)} à ${formatChfPrice(rental4yMax)} HT`, purchase: `${formatChfPrice(minCost4y)} à ${formatChfPrice(maxCost4y)} HT` },
+    { label: "Coût total sur 4 ans", rental: `${formatChfPrice(rental4y48)} hors TVA (formule 48 mois)`, purchase: `${formatChfPrice(minCost4y)} à ${formatChfPrice(maxCost4y)} hors TVA` },
   ],
-  compareNote: `Coût total achat = prix DAE + renouvellement consommables sur 4 ans. Coût total location = mensualité × durée (consommables inclus). Tarifs HT en vigueur au ${CONTENT_DATE_MODIFIED.split("-").reverse().join("/")}.`,
+  compareNote: `Coût total achat = prix DAE + renouvellement des consommables sur 4 ans. Coût total location = mensualité de la formule 48 mois × 48 (consommables inclus). Tarifs hors TVA en vigueur au ${CONTENT_DATE_MODIFIED.split("-").reverse().join("/")}.`,
 
   tableEyebrow: "Toutes les formules",
   tableTitle: "Tarifs location défibrillateur : toutes les formules",
-  tableIntro: "Pour comparer objectivement l'achat et la location d'un défibrillateur, il faut prendre en compte le coût total de possession sur 4 ans. En location, le budget est fixe et prévisible chaque mois, sans mauvaise surprise.",
+  tableIntro: `Sur 4 ans, la location d'un défibrillateur revient à ${formatChfPrice(rental4y48)} hors TVA (formule 48 mois, consommables inclus), contre ${formatChfPrice(minCost4y)} à ${formatChfPrice(maxCost4y)} hors TVA à l'achat consommables compris. En location, le budget est fixe et prévisible chaque mois, sans mauvaise surprise.`,
   tableFormula: "Formule",
-  tablePrice: "Prix (HT/mois)",
+  tablePrice: "Prix (hors TVA/mois)",
   tableEngagement: "Engagement",
   tableDelivery: "Livraison 48h",
   tableConsumables: "Consommables",
@@ -335,7 +337,7 @@ const fr: RentalContent = {
     },
     {
       title: "Maintenance & consommables",
-      text: `Coût annuel : ${formatChfPrice(eurToChf(150))} à ${formatChfPrice(eurToChf(300))} HT (vérification + consommables). En location, tout est inclus. À prévoir à l'achat : électrodes tous les 2-4 ans, batterie tous les 4-5 ans.`,
+      text: `Coût annuel : ${formatChfPrice(eurToChf(150))} à ${formatChfPrice(eurToChf(300))} hors TVA (vérification + consommables). En location, tout est inclus. À prévoir à l'achat : électrodes tous les 2-4 ans, batterie tous les 4-5 ans.`,
       image: `${IMG}/content/prix_rightDef_4.svg`,
       imageAlt: "Maintenance et consommables — icône CardioPro",
     },
@@ -357,7 +359,7 @@ const fr: RentalContent = {
 
   faqTitle: "Questions fréquentes sur la location de défibrillateur",
   faq: [
-    { q: "Combien coûte la location d'un défibrillateur par mois ?", a: `La location d'un défibrillateur coûte de ${formatChfPrice(lowPrice)} à ${formatChfPrice(highPrice)} HT/mois selon la durée : ${formatChfPrice(lowPrice)}/mois sur 60 mois, ${formatChfPrice(eurToChf(39))} sur 48 mois, ${formatChfPrice(eurToChf(49))} sur 24 mois, ${formatChfPrice(eurToChf(69))} sur 12 mois, ${formatChfPrice(eurToChf(89))} sur 6 mois, ${formatChfPrice(eurToChf(119))} sur 3 mois, ${formatChfPrice(eurToChf(149))} sur 2 mois et ${formatChfPrice(highPrice)} pour 1 mois. Chaque pack inclut le DAE, les consommables, le boîtier mural et la livraison sous 48h.` },
+    { q: "Combien coûte la location d'un défibrillateur par mois ?", a: `La location d'un défibrillateur coûte de ${formatChfPrice(lowPrice)} à ${formatChfPrice(highPrice)} hors TVA/mois selon la durée : ${formatChfPrice(lowPrice)}/mois sur 60 mois, ${formatChfPrice(eurToChf(39))} sur 48 mois, ${formatChfPrice(eurToChf(49))} sur 24 mois, ${formatChfPrice(eurToChf(69))} sur 12 mois, ${formatChfPrice(eurToChf(89))} sur 6 mois, ${formatChfPrice(eurToChf(119))} sur 3 mois, ${formatChfPrice(eurToChf(149))} sur 2 mois et ${formatChfPrice(highPrice)} pour 1 mois. Chaque pack inclut le DAE, les consommables, le boîtier mural et la livraison sous 48h.` },
     { q: "Que comprend le pack location de défibrillateur CardioPro ?", a: "Chaque pack location CardioPro comprend : le défibrillateur automatique ou semi-automatique de votre choix, un jeu d'électrodes adultes, la batterie, un boîtier mural avec signalétique réglementaire et la livraison sous 48h sur tout le territoire suisse. Les consommables (électrodes et batterie) sont fournis et remplacés à chaque échéance de péremption." },
     { q: "Quelle est la durée minimum pour louer un défibrillateur ?", a: "La durée minimum de location est d'un mois. CardioPro propose huit formules : 1, 2, 3, 6, 12, 24, 48 et 60 mois. Plus la durée d'engagement est longue, plus le coût mensuel est réduit. Aucuns frais de résiliation ne s'appliquent en fin de contrat." },
     { q: "Peut-on louer un défibrillateur pour un événement ponctuel ?", a: "Oui, la location courte durée est spécialement conçue pour les événements ponctuels. Compétitions sportives, festivals, salons professionnels, séminaires ou mariages : vous louez un DAE pour 1 à 3 mois, le temps de votre événement. L'appareil est livré sous 48h, prêt à l'emploi, et vous le retournez simplement en fin de période." },
@@ -368,11 +370,11 @@ const fr: RentalContent = {
     { q: "Quels modèles de défibrillateurs sont disponibles en location ?", a: `CardioPro propose en location l'ensemble de sa gamme de défibrillateurs certifiés CE et FDA : iAED-S1 (Noah Medical), HeartSine 360P et 500P, Mediana A16, ZOLL AED 3, Bexen Reanibex 100 et Physio-Control Lifepak CR2. Chaque modèle est disponible en version automatique (DAE) ou semi-automatique (DSA). <a href="/fr/defibrillateur-prix/" ${linkClass}>Voir tous les modèles</a>.` },
     { q: "Que se passe-t-il en fin de contrat de location ?", a: "En fin de contrat, trois options s'offrent à vous : renouveler votre contrat avec un appareil neuf de dernière génération, prolonger la location au même tarif, ou restituer le matériel sans frais. CardioPro vous contacte avant l'échéance pour organiser la suite." },
     { q: "La livraison du défibrillateur est-elle incluse dans la location ?", a: "Oui, la livraison est incluse dans toutes les formules de location CardioPro. L'expédition se fait sous 48h partout en Suisse. Le pack arrive prêt à l'emploi : défibrillateur, électrodes, batterie, boîtier mural et signalétique réglementaire." },
-    { q: "Quels sont les avantages de la location longue durée de défibrillateur ?", a: `La location longue durée (24 à 60 mois) offre le meilleur tarif mensuel : à partir de ${formatChfPrice(lowPrice)} HT/mois sur 60 mois. Les consommables sont remplacés à chaque échéance de péremption sans surcoût. Les mensualités sont déductibles en charges d'exploitation. En fin de contrat, vous pouvez renouveler avec un appareil de dernière génération.` },
-    { q: "Combien coûte la location courte durée d'un défibrillateur ?", a: `La location courte durée coûte ${formatChfPrice(eurToChf(119))} HT/mois sur 3 mois, ${formatChfPrice(eurToChf(149))}/mois sur 2 mois et ${formatChfPrice(highPrice)}/mois pour 1 mois. Le pack comprend le DAE, les électrodes, la batterie, le boîtier et la livraison express. En fin de période, vous retournez l'appareil sans engagement supplémentaire.` },
-    { q: "Comment louer un défibrillateur pour son entreprise ?", a: `Les entreprises peuvent louer un DAE dès ${formatChfPrice(lowPrice)} HT/mois en longue durée. CardioPro livre sous 48h le pack complet : défibrillateur, boîtier mural, signalétique réglementaire et consommables. Les mensualités sont déductibles en charges d'exploitation.` },
-    { q: "Quel est le coût total d'une location de défibrillateur sur 4 ans ?", a: `Sur 48 mois, la location revient à ${formatChfPrice(formulasFr.find((f) => f.months === 48)!.totalCost)} HT (${formatChfPrice(eurToChf(39))}/mois × 48). Sur 60 mois : ${formatChfPrice(formulasFr.find((f) => f.months === 60)!.totalCost)} HT (${formatChfPrice(lowPrice)}/mois × 60). À l'achat, le même appareil coûte ${purchaseRangeFr} plus les consommables. Le coût global est comparable, avec l'avantage d'un budget prévisible en location.` },
-    { q: "DAE ou DSA : lequel choisir en location ?", a: `Le DAE (automatique) délivre le choc sans intervention : recommandé pour le grand public. Le DSA (semi-automatique) demande d'appuyer sur un bouton : il convient aux secouristes formés. Les deux sont disponibles chez CardioPro au même tarif, dès ${formatChfPrice(lowPrice)} HT/mois en longue durée.` },
+    { q: "Quels sont les avantages de la location longue durée de défibrillateur ?", a: `La location longue durée (24 à 60 mois) offre le meilleur tarif mensuel : à partir de ${formatChfPrice(lowPrice)} hors TVA/mois sur 60 mois. Les consommables sont remplacés à chaque échéance de péremption sans surcoût. Les mensualités sont déductibles en charges d'exploitation. En fin de contrat, vous pouvez renouveler avec un appareil de dernière génération.` },
+    { q: "Combien coûte la location courte durée d'un défibrillateur ?", a: `La location courte durée coûte ${formatChfPrice(eurToChf(119))} hors TVA/mois sur 3 mois, ${formatChfPrice(eurToChf(149))}/mois sur 2 mois et ${formatChfPrice(highPrice)}/mois pour 1 mois. Le pack comprend le DAE, les électrodes, la batterie, le boîtier et la livraison express. En fin de période, vous retournez l'appareil sans engagement supplémentaire.` },
+    { q: "Comment louer un défibrillateur pour son entreprise ?", a: `Les entreprises peuvent louer un DAE dès ${formatChfPrice(lowPrice)} hors TVA/mois en longue durée. CardioPro livre sous 48h le pack complet : défibrillateur, boîtier mural, signalétique réglementaire et consommables. Les mensualités sont déductibles en charges d'exploitation.` },
+    { q: "Quel est le coût total d'une location de défibrillateur sur 4 ans ?", a: `Sur 48 mois, la location revient à ${formatChfPrice(formulasFr.find((f) => f.months === 48)!.totalCost)} hors TVA (${formatChfPrice(eurToChf(39))}/mois × 48). Sur 60 mois : ${formatChfPrice(formulasFr.find((f) => f.months === 60)!.totalCost)} hors TVA (${formatChfPrice(lowPrice)}/mois × 60). À l'achat, le même appareil coûte ${purchaseRangeFr} plus les consommables. Le coût global est comparable, avec l'avantage d'un budget prévisible en location.` },
+    { q: "DAE ou DSA : lequel choisir en location ?", a: `Le DAE (automatique) délivre le choc sans intervention : recommandé pour le grand public. Le DSA (semi-automatique) demande d'appuyer sur un bouton : il convient aux secouristes formés. Les deux sont disponibles chez CardioPro au même tarif, dès ${formatChfPrice(lowPrice)} hors TVA/mois en longue durée.` },
   ],
 
   ctaEyebrow: "Équipez-vous",
@@ -395,7 +397,7 @@ const de: RentalContent = {
   breadcrumbCurrentShort: "Defibrillator mieten",
 
   heroBadge: "AED-Miete",
-  heroTitle: `Defibrillator mieten ab ${formatChfPrice(lowPrice)}/Monat`,
+  heroTitle: `Defibrillator mieten in der Schweiz ab ${formatChfPrice(lowPrice)}/Monat`,
   heroSub: "8 Laufzeiten von 1 bis 60 Monaten. Verbrauchsmaterial inklusive, Lieferung 48h, Wartung inklusive. Die Wahl von über 20 000 Profis.",
   heroPills: ["Lieferung 48h", "CHF 0.– Investition", "Abzugsfähige Kosten"],
   heroAuthor: "CardioPro — AED-Spezialist seit 2017",
@@ -432,7 +434,7 @@ const de: RentalContent = {
 
   longEyebrow: "Langzeitmiete",
   longTitle: `Langzeitmiete: von ${formatChfPrice(lowPrice)} bis ${formatChfPrice(eurToChf(49))}/Monat`,
-  longIntro: `Die Wahl der meisten <a href="/de/ueber-uns/" ${linkClass}>Unternehmen</a>, <a href="/de/#mairie" ${linkClass}>Gemeinden</a> und öffentlich zugänglichen Einrichtungen. Bindung über 24, 48 oder 60 Monate für den besten Monatspreis. Das Langzeitpaket umfasst den AED oder halbautomatischen Defibrillator Ihrer Wahl, Erwachsenenelektroden, Batterie, Wandgehäuse mit Beschilderung und Lieferung innerhalb 48h.`,
+  longIntro: `Die Wahl der meisten <a href="/de/ueber-uns/" ${linkClass}>Unternehmen</a>, <a href="/de/kontakt/" ${linkClass}>Gemeinden</a> und öffentlich zugänglichen Einrichtungen. Bindung über 24, 48 oder 60 Monate für den besten Monatspreis. Das Langzeitpaket umfasst den AED oder halbautomatischen Defibrillator Ihrer Wahl, Erwachsenenelektroden, Batterie, Wandgehäuse mit Beschilderung und Lieferung innerhalb 48h.`,
   mediumEyebrow: "Mittelfristige Miete",
   mediumTitle: "Mittelfristige Miete: 6 bis 12 Monate",
   mediumIntro: `Die mittelfristige Miete (6 bis 12 Monate) eignet sich für längeren temporären Bedarf. Mehrmonatige Baustelle, Ersatz eines defekten Geräts, Tourismus- oder Sportsaison: von ${formatChfPrice(eurToChf(69))} bis ${formatChfPrice(eurToChf(89))} netto/Monat je nach Laufzeit.`,
@@ -461,13 +463,13 @@ const de: RentalContent = {
     { label: "Flexibilität", rental: "1 bis 60 Monate — 8 Laufzeiten", purchase: "Keine" },
     { label: "Vertragsende", rental: "Erneuern, verlängern oder kostenlos zurückgeben", purchase: "Das Gerät gehört Ihnen" },
     { label: "Aktuelles Gerät", rental: "Ja, am Vertragsende erneuerbar", purchase: "Wird obsolet — Lebensdauer 7-10 Jahre" },
-    { label: "Gesamtkosten über 4 Jahre", rental: `${formatChfPrice(rental4yMin)} bis ${formatChfPrice(rental4yMax)} netto`, purchase: `${formatChfPrice(minCost4y)} bis ${formatChfPrice(maxCost4y)} netto` },
+    { label: "Gesamtkosten über 4 Jahre", rental: `${formatChfPrice(rental4y48)} netto (48-Monats-Formel)`, purchase: `${formatChfPrice(minCost4y)} bis ${formatChfPrice(maxCost4y)} netto` },
   ],
-  compareNote: `Gesamtkosten Kauf = AED-Preis + Verbrauchsmaterial über 4 Jahre. Gesamtkosten Miete = Monatsrate × Laufzeit (Verbrauchsmaterial inklusive). Preise netto gültig ab ${CONTENT_DATE_MODIFIED}.`,
+  compareNote: `Gesamtkosten Kauf = AED-Preis + Verbrauchsmaterial-Erneuerung über 4 Jahre. Gesamtkosten Miete = Monatsrate der 48-Monats-Formel × 48 (Verbrauchsmaterial inklusive). Preise netto gültig ab ${CONTENT_DATE_MODIFIED.split("-").reverse().join("/")}.`,
 
   tableEyebrow: "Alle Laufzeiten",
   tableTitle: "Mietpreise Defibrillator: alle Laufzeiten",
-  tableIntro: "Um Kauf und Miete objektiv zu vergleichen, berücksichtigen Sie die Gesamtbetriebskosten über 4 Jahre. Bei der Miete ist das Budget fest und planbar, ohne böse Überraschungen.",
+  tableIntro: `Über 4 Jahre kostet die Defibrillator-Miete ${formatChfPrice(rental4y48)} netto (48-Monats-Formel, Verbrauchsmaterial inklusive), gegenüber ${formatChfPrice(minCost4y)} bis ${formatChfPrice(maxCost4y)} netto beim Kauf inklusive Verbrauchsmaterial. Bei der Miete ist das Budget fest und planbar, ohne böse Überraschungen.`,
   tableFormula: "Laufzeit",
   tablePrice: "Preis (netto/Monat)",
   tableEngagement: "Bindung",
@@ -564,6 +566,32 @@ const de: RentalContent = {
 
 export const rentalContent: Record<Locale, RentalContent> = { fr, de }
 
+function buildRentalBreadcrumbSchema(c: RentalContent) {
+  return {
+    "@type": "BreadcrumbList",
+    "@id": `${c.canonical}#breadcrumb`,
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: c.breadcrumbHome,
+        item: `https://www.cardiopro.ch/${c.lang}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: c.breadcrumbParent,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: c.breadcrumbCurrentShort,
+        item: c.canonical,
+      },
+    ],
+  }
+}
+
 export function buildRentalJsonLd(c: RentalContent) {
   const prices = c.formulas.map((f) => f.price)
   const low = Math.min(...prices)
@@ -593,12 +621,7 @@ export function buildRentalJsonLd(c: RentalContent) {
           cssSelector: ["h1", ".hero-intro"],
         },
       },
-      buildBreadcrumbSchema(
-        c.canonical,
-        c.breadcrumbHome,
-        c.breadcrumbCurrentShort,
-        c.lang,
-      ),
+      buildRentalBreadcrumbSchema(c),
       {
         "@type": "Service",
         "@id": `${c.canonical}#service`,
@@ -621,7 +644,7 @@ export function buildRentalJsonLd(c: RentalContent) {
           offerCount: String(c.formulas.length),
           description:
             c.lang === "fr"
-              ? "Tarif mensuel HT selon durée d'engagement (1 à 60 mois)"
+              ? "Tarif mensuel hors TVA selon durée d'engagement (1 à 60 mois)"
               : "Monatlicher Nettopreis je nach Laufzeit (1 bis 60 Monate)",
         },
         hasOfferCatalog: {

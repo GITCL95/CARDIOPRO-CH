@@ -47,12 +47,12 @@ function formatPrice(value: number) {
 function formatTotal(c: RentalContent, formula: RentalFormula) {
   if (formula.months === 1) {
     return c.lang === "fr"
-      ? `${c.totalPrefix} ${formatPrice(formula.totalCost)} HT pour 1 mois`
-      : `${c.totalPrefix} ${formatPrice(formula.totalCost)} netto für 1 Monat`
+      ? `${c.totalPrefix} ${formatPrice(formula.totalCost)} ${c.priceVat} pour 1 mois`
+      : `${c.totalPrefix} ${formatPrice(formula.totalCost)} ${c.priceVat} für 1 Monat`
   }
   return c.lang === "fr"
-    ? `${c.totalPrefix} ${formatPrice(formula.totalCost)} HT sur ${formula.months} mois`
-    : `${c.totalPrefix} ${formatPrice(formula.totalCost)} netto über ${formula.months} Monate`
+    ? `${c.totalPrefix} ${formatPrice(formula.totalCost)} ${c.priceVat} sur ${formula.months} mois`
+    : `${c.totalPrefix} ${formatPrice(formula.totalCost)} ${c.priceVat} über ${formula.months} Monate`
 }
 
 export default function RentalPage({ t, c }: RentalPageProps) {
@@ -99,12 +99,7 @@ function Hero({ c }: { c: RentalContent }) {
                 {c.breadcrumbHome}
               </Link>
               <span aria-hidden="true">/</span>
-              <Link
-                href={c.lang === "fr" ? "/fr/location-defibrillateur/" : "/de/defibrillator-mieten/"}
-                className="transition-colors hover:text-white"
-              >
-                {c.breadcrumbParent}
-              </Link>
+              <span className="text-white/60">{c.breadcrumbParent}</span>
               <span aria-hidden="true">/</span>
               <span className="text-white">{c.breadcrumbCurrentShort}</span>
             </nav>
@@ -228,7 +223,7 @@ function DistributorBanner({ c }: { c: RentalContent }) {
               key={logo.alt}
               className="relative h-8 w-24 opacity-50 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 sm:h-10 sm:w-28"
             >
-              <Image src={logo.src} alt={logo.alt} fill className="object-contain" unoptimized />
+              <Image src={logo.src} alt={logo.alt} fill className="object-contain" />
             </div>
           ))}
         </div>
@@ -265,9 +260,9 @@ function WhyRent({ c }: { c: RentalContent }) {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#E63946]/10 text-[#E63946]">
                   <Icon className="h-6 w-6" aria-hidden="true" />
                 </div>
-                <p className="font-display text-xl font-semibold tracking-tight text-[#1A1D23]">
+                <h3 className="font-display text-xl font-semibold tracking-tight text-[#1A1D23]">
                   {benefit.title}
-                </p>
+                </h3>
                 <p className="mt-2 text-sm leading-relaxed text-[#4A5568]">{benefit.text}</p>
               </div>
             )
@@ -594,9 +589,9 @@ function ChooseSection({ c }: { c: RentalContent }) {
                 />
               </div>
               <div className="min-w-0">
-                <p className="font-display text-xl font-semibold tracking-tight text-[#1A1D23]">
+                <h3 className="font-display text-xl font-semibold tracking-tight text-[#1A1D23]">
                   {block.title}
-                </p>
+                </h3>
                 <p
                   className="mt-2 text-base leading-relaxed text-[#4A5568]"
                   dangerouslySetInnerHTML={{ __html: block.text }}
@@ -640,7 +635,6 @@ function StatsClients({ c }: { c: RentalContent }) {
                 alt={client.alt}
                 fill
                 className="object-contain brightness-0 invert"
-                unoptimized
               />
             </div>
           ))}
