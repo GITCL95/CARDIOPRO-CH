@@ -4,7 +4,9 @@ import InstitutionalSite from "@/components/sections/InstitutionalSite"
 import {
   buildFaqSchema,
   buildOrganizationSchema,
+  buildWebsiteSchema,
   ORGANIZATION_ID,
+  WEBSITE_ID,
 } from "@/lib/schema"
 
 const t = translations.de
@@ -42,6 +44,7 @@ const jsonLd = {
       ...buildOrganizationSchema("de"),
       slogan: "Spezialist für Defibrillatoren in der Schweiz",
     },
+    buildWebsiteSchema(),
     {
       "@type": "WebPage",
       "@id": "https://www.cardiopro.ch/de/#webpage",
@@ -49,7 +52,7 @@ const jsonLd = {
       name: t.metaTitle,
       description: t.metaDescription,
       inLanguage: "de-CH",
-      isPartOf: { "@id": ORGANIZATION_ID },
+      isPartOf: { "@id": WEBSITE_ID },
       mainEntity: { "@id": "https://www.cardiopro.ch/de/#service" },
     },
     buildFaqSchema("https://www.cardiopro.ch/de/", "de", [

@@ -3,7 +3,12 @@ import {
   buildBreadcrumbSchema,
   buildFaqSchema,
   buildOrganizationSchema,
+  buildProductOfferExtras,
+  buildWebsiteSchema,
+  CONTENT_DATE_MODIFIED,
+  CONTENT_DATE_PUBLISHED,
   ORGANIZATION_ID,
+  WEBSITE_ID,
 } from "@/lib/schema"
 import { productsDe, productsFr, pricingRangeChf } from "@/lib/pricing-products"
 
@@ -20,10 +25,10 @@ export function formatChfPrice(value: number): string {
 }
 
 const { minPrice, maxPrice, minCost4y, maxCost4y } = pricingRangeChf
-const priceRangeLabel = `${formatChfPrice(minPrice)} à ${formatChfPrice(maxPrice)} HT`
-const priceRangeLabelDe = `${formatChfPrice(minPrice)} bis ${formatChfPrice(maxPrice)} netto`
 const cost4yRangeLabel = `${formatChfPrice(minCost4y)} et ${formatChfPrice(maxCost4y)}`
 const cost4yRangeLabelDe = `${formatChfPrice(minCost4y)} und ${formatChfPrice(maxCost4y)}`
+
+const linkClass = 'class="font-semibold text-[#0E3A82] hover:underline"'
 
 export interface PricingProduct {
   id: string
@@ -181,28 +186,30 @@ const fr: PricingContent = {
   langAltLabel: "DE",
   langAltHref: "/de/defibrillator-kaufen/",
 
-  metaTitle: `Prix défibrillateur Suisse 2026 : ${priceRangeLabel} | CardioPro`,
-  metaDescription: `Combien coûte un défibrillateur en Suisse ? De ${formatChfPrice(minPrice)} à ${formatChfPrice(maxPrice)} HT. Comparez 31 DAE pro (HeartSine, Zoll, Philips, Mindray). Coût total 4 ans calculé. Devis gratuit 48h.`,
+  metaTitle: "Prix défibrillateur Suisse : dès CHF 1 090.– HT | CardioPro",
+  metaDescription:
+    "Acheter un défibrillateur en Suisse dès CHF 1 090.– hors TVA. Comparez 31 DAE et DSA, coût total sur 4 ans calculé. Livraison 48h. Devis gratuit sous 24h.",
   canonical: "https://www.cardiopro.ch/fr/defibrillateur-prix/",
-  ogTitle: `Prix défibrillateur Suisse 2026 : ${priceRangeLabel} | CardioPro`,
+  ogTitle: "Prix défibrillateur Suisse : dès CHF 1 090.– HT | CardioPro",
   ogDescription:
-    "Combien coûte un défibrillateur en Suisse ? Comparez 31 DAE pro en CHF. Coût total 4 ans calculé. Devis gratuit sous 24h.",
+    "Acheter un défibrillateur en Suisse dès CHF 1 090.– hors TVA. Comparez 31 DAE et DSA, coût total sur 4 ans calculé. Livraison 48h. Devis gratuit sous 24h.",
 
   breadcrumbHome: "Accueil",
   breadcrumbCurrent: "Prix défibrillateur",
   breadcrumbCurrentShort: "Prix défibrillateur",
 
   heroBadge: "Comparatif 2026 · Suisse",
-  heroTitleLine1: "Prix défibrillateur : comparatif de",
-  heroTitleHighlight: priceRangeLabel,
-  heroSub: `Comparer uniquement les prix d'achat est une erreur : sur 4 ans, le coût réel oscille entre ${cost4yRangeLabel} une fois les consommables comptés. Fort de plus de 8 ans d'expérience et +20 000 installations, CardioPro propose 31 DAE professionnels pour la Suisse — comparatif transparent, sans engagement.`,
+  heroTitleLine1: "Acheter un défibrillateur en Suisse :",
+  heroTitleHighlight: "prix dès CHF 1 090.– hors TVA",
+  heroSub:
+    "Un défibrillateur coûte de CHF 1 090.– à CHF 5 490.– hors TVA en Suisse à l'achat. Sur 4 ans, consommables compris, le coût réel se situe entre CHF 1 180.– et CHF 5 790.– : c'est ce chiffre qu'il faut comparer, pas le prix d'achat seul. Fort de 8 ans d'expérience et de plus de 20 000 installations, CardioPro distribue 31 DAE et DSA professionnels en Suisse romande et alémanique — comparatif transparent, sans engagement.",
   heroTrust: [
     "+20 000 clients",
     "Certifié CE & FDA",
     "Livraison 48h",
     "Garantie jusqu'à 10 ans",
   ],
-  introTitle: "Quel est le prix d'un défibrillateur en 2026 ?",
+  introTitle: "31 modèles comparés, prix en CHF hors TVA, coût total sur 4 ans",
 
   formTitle: "Devis gratuit sous 24h",
   formSubtitle: "Sans engagement · Réponse garantie",
@@ -233,7 +240,7 @@ const fr: PricingContent = {
   ],
 
   gridTitle: "Nos 31 défibrillateurs et leurs prix",
-  gridSubtitle: `De ${formatChfPrice(minPrice)} à ${formatChfPrice(maxPrice)} HT · Livraison offerte · Garantie 4 à 10 ans · Certifiés CE & FDA`,
+  gridSubtitle: `De ${formatChfPrice(minPrice)} à ${formatChfPrice(maxPrice)} HT · Livraison offerte · Garantie 4 à 10 ans · 31 DAE et <a href="/fr/location-defibrillateur/" ${linkClass}>DSA</a> certifiés CE & FDA`,
   filterTitle: "Filtrer",
   filterBudget: "Budget hors TVA",
   filterType: "Type",
@@ -267,7 +274,7 @@ const fr: PricingContent = {
     },
     {
       title: "Achat ou location",
-      text: "31 modèles à l'achat, ou en location dès CHF 45.–/mois, maintenance et consommables inclus. Devis gratuit sous 24h ouvrées.",
+      text: `31 modèles à l'achat, ou <a href="/fr/location-defibrillateur/" ${linkClass}>en location dès CHF 45.–/mois</a>, maintenance et consommables inclus. Devis gratuit sous 24h ouvrées.`,
     },
     {
       title: "Certifiés CE & FDA",
@@ -290,19 +297,19 @@ const fr: PricingContent = {
   choose: [
     {
       title: "DAE ou DSA : lequel choisir ?",
-      text: "Le DAE (automatique) délivre le choc seul : idéal sans formation préalable. Le DSA (semi-automatique) demande d'appuyer sur un bouton. Pour les lieux accessibles au public et les entreprises à fort effectif, le DAE est recommandé.",
+      text: "Le DAE (automatique) est recommandé pour les lieux accessibles au public et les entreprises à fort effectif : il délivre le choc seul, sans formation préalable. Le DSA (semi-automatique) convient si du personnel formé est présent : l'utilisateur appuie sur un bouton pour délivrer le choc.",
     },
     {
       title: "Achat ou location ?",
-      text: "Achat selon le modèle, ou location dès CHF 45.–/mois maintenance incluse. Sur 5 ans, le coût total est comparable : la location convient aux budgets lissés, l'achat pour amortir sur le long terme.",
+      text: `La <a href="/fr/location-defibrillateur/" ${linkClass}>location dès CHF 45.–/mois maintenance incluse</a> lisse le budget sur 5 ans avec consommables inclus. L'achat amortit l'investissement sur le long terme : sur 5 ans, le coût total est souvent comparable selon le modèle.`,
     },
     {
       title: "Livraison 48h + prise en main",
-      text: "Expédition sous 48h ouvrées partout en Suisse. Pack complet livré : DAE, électrodes, batterie, boîtier, signalétique conforme SUVA. Guide d'utilisation et vidéo de prise en main inclus.",
+      text: "La livraison est offerte sous 48h ouvrées partout en Suisse. Le pack complet comprend DAE, électrodes, batterie, boîtier et signalétique conforme SUVA, avec guide d'utilisation et vidéo de prise en main.",
     },
     {
       title: "Maintenance & consommables",
-      text: "Coût annuel indicatif de CHF 150.– à CHF 300.– hors TVA (vérification + consommables). En location, tout est inclus. À prévoir : électrodes tous les 2 à 4 ans, batterie tous les 4 à 5 ans.",
+      text: `Comptez CHF 150.– à CHF 300.– par an hors TVA pour la vérification et les consommables. <a href="/fr/location-defibrillateur/" ${linkClass}>En location, tout est inclus</a>. À prévoir à l'achat : électrodes tous les 2 à 4 ans, batterie tous les 4 à 5 ans.`,
     },
   ],
 
@@ -343,7 +350,7 @@ const fr: PricingContent = {
     },
     {
       q: "Quel budget prévoir pour équiper une entreprise en Suisse ?",
-      a: "Comptez environ CHF 1 090.– à CHF 1 600.– HT par défibrillateur, boîtier mural et signalétique inclus. En Suisse, il n'existe pas d'obligation fédérale, mais la SUVA et la Fondation Suisse de Cardiologie recommandent vivement un DAE dans les entreprises à fort effectif. <a href=\"/fr/#entreprise\" class=\"institutional-link\">Voir nos solutions entreprise</a>.",
+      a: "Comptez environ CHF 1 090.– à CHF 1 600.– HT par défibrillateur, boîtier mural et signalétique inclus. En Suisse, il n'existe pas d'obligation fédérale, mais la SUVA et la Fondation Suisse de Cardiologie recommandent vivement un DAE dans les entreprises à fort effectif.",
     },
     {
       q: "Que comprend le prix d'achat d'un défibrillateur ?",
@@ -355,11 +362,11 @@ const fr: PricingContent = {
     },
     {
       q: "Combien coûte la maintenance annuelle d'un défibrillateur ?",
-      a: "La maintenance annuelle coûte entre CHF 150.– et CHF 300.– hors TVA selon le niveau de service : vérification de l'appareil, remplacement des consommables périmés et mises à jour. En <a href=\"/fr/location-defibrillateur/\" class=\"institutional-link\">location</a>, la maintenance est incluse.",
+      a: `La maintenance annuelle coûte entre CHF 150.– et CHF 300.– hors TVA selon le niveau de service : vérification de l'appareil, remplacement des consommables périmés et mises à jour. En <a href="/fr/location-defibrillateur/" ${linkClass}>location défibrillateur</a>, la maintenance est incluse.`,
     },
     {
       q: "Vaut-il mieux acheter ou louer un défibrillateur ?",
-      a: "L'achat convient aux structures souhaitant amortir sur le long terme. La <a href=\"/fr/location-defibrillateur/\" class=\"institutional-link\">location</a> (dès CHF 45.–/mois) offre un budget lissé avec maintenance et consommables inclus.",
+      a: `L'achat convient aux structures souhaitant amortir sur le long terme. La <a href="/fr/location-defibrillateur/" ${linkClass}>location défibrillateur</a> (dès CHF 45.–/mois) offre un budget lissé avec maintenance et consommables inclus.`,
     },
     {
       q: "Quels critères vérifier avant d'acheter un DAE professionnel ?",
@@ -406,28 +413,30 @@ const de: PricingContent = {
   langAltLabel: "FR",
   langAltHref: "/fr/defibrillateur-prix/",
 
-  metaTitle: `Defibrillator kaufen Schweiz 2026: ${priceRangeLabelDe} | CardioPro`,
-  metaDescription: `Was kostet ein Defibrillator in der Schweiz? Von ${formatChfPrice(minPrice)} bis ${formatChfPrice(maxPrice)} netto. Vergleichen Sie 31 Profi-AED (HeartSine, Zoll, Philips, Mindray). Gesamtkosten 4 Jahre berechnet. Angebot in 48h.`,
+  metaTitle: "Defibrillator kaufen Schweiz: ab CHF 1 090.– netto | CardioPro",
+  metaDescription:
+    "Defibrillator in der Schweiz kaufen ab CHF 1 090.– exkl. MwSt. Vergleichen Sie 31 AED und halbautomatische Geräte, Gesamtkosten über 4 Jahre berechnet. Lieferung 48h. Angebot in 24h.",
   canonical: "https://www.cardiopro.ch/de/defibrillator-kaufen/",
-  ogTitle: `Defibrillator kaufen Schweiz 2026: ${priceRangeLabelDe} | CardioPro`,
+  ogTitle: "Defibrillator kaufen Schweiz: ab CHF 1 090.– netto | CardioPro",
   ogDescription:
-    "Was kostet ein Defibrillator in der Schweiz? Vergleichen Sie 31 Profi-AED in CHF. Gesamtkosten 4 Jahre berechnet. Kostenloses Angebot innerhalb von 24h.",
+    "Defibrillator in der Schweiz kaufen ab CHF 1 090.– exkl. MwSt. Vergleichen Sie 31 AED und halbautomatische Geräte, Gesamtkosten über 4 Jahre berechnet. Lieferung 48h. Angebot in 24h.",
 
   breadcrumbHome: "Startseite",
   breadcrumbCurrent: "Defibrillator kaufen",
   breadcrumbCurrentShort: "Defibrillator kaufen",
 
   heroBadge: "Vergleich 2026 · Schweiz",
-  heroTitleLine1: "Defibrillator kaufen: Vergleich von",
-  heroTitleHighlight: priceRangeLabelDe,
-  heroSub: `Nur die Kaufpreise zu vergleichen wäre ein Fehler: Über 4 Jahre liegen die realen Kosten zwischen ${cost4yRangeLabelDe} inklusive Verbrauchsmaterial. Mit über 8 Jahren Erfahrung und +20 000 Installationen bietet CardioPro 31 professionelle AED für die Schweiz — transparenter Vergleich, unverbindlich.`,
+  heroTitleLine1: "Defibrillator in der Schweiz kaufen:",
+  heroTitleHighlight: "Preise ab CHF 1 090.– exkl. MwSt.",
+  heroSub:
+    "Ein Defibrillator kostet in der Schweiz beim Kauf zwischen CHF 1 090.– und CHF 5 490.– exkl. MwSt. Über 4 Jahre inklusive Verbrauchsmaterial liegen die realen Kosten zwischen CHF 1 180.– und CHF 5 790.–: diesen Wert sollten Sie vergleichen, nicht nur den Kaufpreis. Mit 8 Jahren Erfahrung und über 20 000 Installationen vertreibt CardioPro 31 professionelle AED und halbautomatische Geräte in der Romandie und Deutschschweiz — transparenter Vergleich, unverbindlich.",
   heroTrust: [
     "+20 000 Kunden",
     "CE & FDA zertifiziert",
     "Lieferung 48h",
     "Garantie bis 10 Jahre",
   ],
-  introTitle: "Was kostet ein Defibrillator im Jahr 2026?",
+  introTitle: "31 Modelle verglichen, Preise in CHF exkl. MwSt., Gesamtkosten über 4 Jahre",
 
   formTitle: "Kostenloses Angebot innerhalb 24h",
   formSubtitle: "Unverbindlich · Antwort garantiert",
@@ -458,7 +467,7 @@ const de: PricingContent = {
   ],
 
   gridTitle: "Unsere 31 Defibrillatoren und ihre Preise",
-  gridSubtitle: `Von ${formatChfPrice(minPrice)} bis ${formatChfPrice(maxPrice)} netto · Kostenlose Lieferung · Garantie 4 bis 10 Jahre · CE & FDA zertifiziert`,
+  gridSubtitle: `Von ${formatChfPrice(minPrice)} bis ${formatChfPrice(maxPrice)} netto · Kostenlose Lieferung · Garantie 4 bis 10 Jahre · 31 AED und <a href="/de/defibrillator-mieten/" ${linkClass}>halbautomatische Geräte</a> · CE & FDA zertifiziert`,
   filterTitle: "Filtern",
   filterBudget: "Budget exkl. MwSt.",
   filterType: "Typ",
@@ -492,7 +501,7 @@ const de: PricingContent = {
     },
     {
       title: "Kauf oder Miete",
-      text: "31 Modelle zum Kauf oder zur Miete ab CHF 45.–/Monat, Wartung und Verbrauchsmaterial inklusive. Kostenloses Angebot innerhalb von 24h.",
+      text: `31 Modelle zum Kauf oder zur <a href="/de/defibrillator-mieten/" ${linkClass}>Miete ab CHF 45.–/Monat</a>, Wartung und Verbrauchsmaterial inklusive. Kostenloses Angebot innerhalb von 24h.`,
     },
     {
       title: "CE- & FDA-zertifiziert",
@@ -515,19 +524,19 @@ const de: PricingContent = {
   choose: [
     {
       title: "AED oder halbautomatisch: was wählen?",
-      text: "Der vollautomatische AED gibt den Schock selbst ab: ideal ohne Vorkenntnisse. Der halbautomatische AED erfordert das Drücken einer Taste. Für öffentlich zugängliche Orte und Betriebe mit vielen Mitarbeitenden wird der vollautomatische AED empfohlen.",
+      text: "Der vollautomatische AED ist für öffentlich zugängliche Orte und Betriebe mit vielen Mitarbeitenden empfohlen: er gibt den Schock selbst ab, ohne Vorkenntnisse. Das halbautomatische Gerät eignet sich, wenn geschultes Personal vor Ort ist: der Anwender drückt eine Taste zur Schockabgabe.",
     },
     {
       title: "Kauf oder Miete?",
-      text: "Kauf je nach Modell oder Miete ab CHF 45.–/Monat inklusive Wartung. Über 5 Jahre sind die Gesamtkosten vergleichbar: Die Miete eignet sich für geglättete Budgets, der Kauf für die langfristige Amortisation.",
+      text: `Die <a href="/de/defibrillator-mieten/" ${linkClass}>Miete ab CHF 45.–/Monat inklusive Wartung</a> glättet das Budget über 5 Jahre mit inklusivem Verbrauchsmaterial. Der Kauf amortisiert die Investition langfristig: über 5 Jahre sind die Gesamtkosten je nach Modell oft vergleichbar.`,
     },
     {
       title: "Lieferung 48h + Einführung",
-      text: "Versand innerhalb von 48 Werkstunden in die ganze Schweiz. Komplettpaket geliefert: AED, Elektroden, Batterie, Gehäuse, SUVA-konforme Beschilderung. Bedienungsanleitung und Einführungsvideo inklusive.",
+      text: "Die Lieferung ist innerhalb von 48 Werkstunden in die ganze Schweiz kostenlos. Das Komplettpaket umfasst AED, Elektroden, Batterie, Gehäuse und SUVA-konforme Beschilderung, mit Bedienungsanleitung und Einführungsvideo.",
     },
     {
       title: "Wartung & Verbrauchsmaterial",
-      text: "Indikative Jahreskosten von CHF 150.– bis CHF 300.– exkl. MwSt. (Prüfung + Verbrauchsmaterial). Bei Miete ist alles inklusive. Einzuplanen: Elektroden alle 2 bis 4 Jahre, Batterie alle 4 bis 5 Jahre.",
+      text: `Rechnen Sie mit CHF 150.– bis CHF 300.– pro Jahr exkl. MwSt. für Prüfung und Verbrauchsmaterial. <a href="/de/defibrillator-mieten/" ${linkClass}>Bei Miete ist alles inklusive</a>. Beim Kauf einplanen: Elektroden alle 2 bis 4 Jahre, Batterie alle 4 bis 5 Jahre.`,
     },
   ],
 
@@ -568,7 +577,7 @@ const de: PricingContent = {
     },
     {
       q: "Welches Budget für die Ausstattung eines Unternehmens in der Schweiz?",
-      a: "Rechnen Sie mit etwa CHF 1 090.– bis CHF 1 600.– netto pro Defibrillator, inklusive Wandgehäuse und Beschilderung. In der Schweiz besteht keine Bundespflicht, aber die SUVA und die Schweizerische Herzstiftung empfehlen einen AED in Betrieben mit vielen Mitarbeitenden nachdrücklich. <a href=\"/de/#entreprise\" class=\"institutional-link\">Unsere Unternehmenslösungen ansehen</a>.",
+      a: "Rechnen Sie mit etwa CHF 1 090.– bis CHF 1 600.– netto pro Defibrillator, inklusive Wandgehäuse und Beschilderung. In der Schweiz besteht keine Bundespflicht, aber die SUVA und die Schweizerische Herzstiftung empfehlen einen AED in Betrieben mit vielen Mitarbeitenden nachdrücklich.",
     },
     {
       q: "Was umfasst der Kaufpreis eines Defibrillators?",
@@ -580,11 +589,11 @@ const de: PricingContent = {
     },
     {
       q: "Was kostet die jährliche Wartung eines Defibrillators?",
-      a: "Die jährliche Wartung kostet je nach Serviceniveau zwischen CHF 150.– und CHF 300.– exkl. MwSt.: Geräteprüfung, Austausch abgelaufenen Verbrauchsmaterials und Updates. Bei <a href=\"/de/defibrillator-mieten/\" class=\"institutional-link\">Miete</a> ist die Wartung inklusive.",
+      a: `Die jährliche Wartung kostet je nach Serviceniveau zwischen CHF 150.– und CHF 300.– exkl. MwSt.: Geräteprüfung, Austausch abgelaufenen Verbrauchsmaterials und Updates. Bei <a href="/de/defibrillator-mieten/" ${linkClass}>Defibrillator-Miete</a> ist die Wartung inklusive.`,
     },
     {
       q: "Ist es besser, einen Defibrillator zu kaufen oder zu mieten?",
-      a: "Der Kauf eignet sich für Strukturen, die langfristig amortisieren möchten. Die <a href=\"/de/defibrillator-mieten/\" class=\"institutional-link\">Miete</a> (ab CHF 45.–/Monat) bietet ein geglättetes Budget mit inklusiver Wartung und Verbrauchsmaterial.",
+      a: `Der Kauf eignet sich für Strukturen, die langfristig amortisieren möchten. Die <a href="/de/defibrillator-mieten/" ${linkClass}>Defibrillator-Miete</a> (ab CHF 45.–/Monat) bietet ein geglättetes Budget mit inklusiver Wartung und Verbrauchsmaterial.`,
     },
     {
       q: "Welche Kriterien vor dem Kauf eines professionellen AED prüfen?",
@@ -630,11 +639,13 @@ export function buildPricingJsonLd(c: PricingContent) {
   const low = Math.min(...c.products.map((p) => p.price))
   const high = Math.max(...c.products.map((p) => p.price))
   const inLanguage = c.lang === "fr" ? "fr-CH" : "de-CH"
+  const offerExtras = buildProductOfferExtras()
 
   return {
     "@context": "https://schema.org",
     "@graph": [
       buildOrganizationSchema(c.lang),
+      buildWebsiteSchema(),
       {
         "@type": "WebPage",
         "@id": `${c.canonical}#webpage`,
@@ -642,9 +653,15 @@ export function buildPricingJsonLd(c: PricingContent) {
         name: c.metaTitle,
         description: c.metaDescription,
         inLanguage,
-        isPartOf: { "@id": ORGANIZATION_ID },
+        datePublished: CONTENT_DATE_PUBLISHED,
+        dateModified: CONTENT_DATE_MODIFIED,
+        isPartOf: { "@id": WEBSITE_ID },
         breadcrumb: { "@id": `${c.canonical}#breadcrumb` },
         mainEntity: { "@id": `${c.canonical}#service` },
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: ["h1", ".hero-intro"],
+        },
       },
       buildBreadcrumbSchema(
         c.canonical,
@@ -668,6 +685,7 @@ export function buildPricingJsonLd(c: PricingContent) {
           availability: "https://schema.org/InStock",
           itemCondition: "https://schema.org/NewCondition",
           seller: { "@id": ORGANIZATION_ID },
+          ...offerExtras,
         },
       })),
       {

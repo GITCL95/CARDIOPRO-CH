@@ -36,8 +36,10 @@ const jsonLd = buildPricingJsonLd(c)
 
 const speculationRules = {
   prerender: [
-    { where: { href_matches: "/de/" }, eagerness: "moderate" },
-    { where: { href_matches: "/fr/defibrillateur-prix/" }, eagerness: "moderate" },
+    { where: { href_matches: "/de/defibrillator-mieten/" }, eagerness: "moderate" },
+  ],
+  prefetch: [
+    { where: { href_matches: "/de/*" }, eagerness: "conservative" },
   ],
 }
 

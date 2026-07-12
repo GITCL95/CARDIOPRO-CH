@@ -32,6 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={inter.variable}>
+      <head>
+        <link rel="preconnect" href="https://cardiopro.fr" crossOrigin="anonymous" />
+      </head>
       <body className="font-body antialiased">{children}</body>
     </html>
   )

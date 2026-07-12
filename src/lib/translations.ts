@@ -1,3 +1,5 @@
+import { formatSiteLastUpdated } from "@/lib/schema"
+
 export type Locale = "fr" | "de"
 
 export interface Translations {
@@ -413,8 +415,7 @@ const fr: Translations = {
   footerQuickTitle: "Accès rapide",
   footerAdvisorName: "Votre conseiller CardioPro",
   footerAdvisorReply: "Réponse garantie sous 24h ouvrées",
-  footerCopyright:
-    "© 2026 CardioPro Suisse — Une marque CardioPro · Dernière mise à jour : avril 2026",
+  footerCopyright: formatSiteLastUpdated("fr"),
   footerLegal: "Mentions légales",
   footerCgv: "CGV",
   footerPrivacy: "Confidentialité",
@@ -636,8 +637,7 @@ const de: Translations = {
   footerQuickTitle: "Schnellzugriff",
   footerAdvisorName: "Ihr CardioPro-Berater",
   footerAdvisorReply: "Antwort garantiert innerhalb von 24 Werktunden",
-  footerCopyright:
-    "© 2026 CardioPro Schweiz — Eine Marke von CardioPro · Letzte Aktualisierung: April 2026",
+  footerCopyright: formatSiteLastUpdated("de"),
   footerLegal: "Impressum",
   footerCgv: "AGB",
   footerPrivacy: "Datenschutz",

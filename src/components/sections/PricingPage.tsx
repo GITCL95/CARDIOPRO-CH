@@ -50,6 +50,12 @@ function formatPrice(value: number) {
   return formatChfPrice(value)
 }
 
+function productImageAlt(product: PricingProduct, c: PricingContent) {
+  const vatLabel = c.lang === "fr" ? "hors TVA" : "exkl. MwSt."
+  const prefix = c.lang === "fr" ? "Défibrillateur" : "Defibrillator"
+  return `${prefix} ${product.typeLabel} ${product.model} ${product.brand} — ${product.price} CHF ${vatLabel}`
+}
+
 function SectionEyebrow({ children }: { children: React.ReactNode }) {
   return (
     <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-[#E63946]">
@@ -72,7 +78,7 @@ function FilterPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-all duration-150",
+        "rounded-full border px-4 py-2.5 text-sm font-semibold transition-all duration-150",
         active
           ? "border-[#021647] bg-[#021647] text-white shadow-sm"
           : "border-gray-200 bg-white text-[#4A5568] hover:border-[#021647]/20 hover:text-[#021647]",
@@ -136,9 +142,9 @@ function Hero({ c }: { c: PricingContent }) {
               <span className="text-[#E63946]">{c.heroTitleHighlight}</span>
             </h1>
 
-            <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/75">{c.heroSub}</p>
+            <p className="hero-intro mt-5 max-w-lg text-lg leading-relaxed text-white/75">{c.heroSub}</p>
 
-            <h2 className="mt-8 font-display text-2xl font-bold text-white">{c.introTitle}</h2>
+            <p className="mt-8 font-display text-2xl font-bold text-white">{c.introTitle}</p>
 
             <div className="mt-6 flex flex-wrap gap-5 text-sm text-white/60">
               {c.heroTrust.map((item) => (
@@ -331,7 +337,10 @@ function ProductGrid({ c }: { c: PricingContent }) {
           >
             {c.gridTitle}
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-[#4A5568]">{c.gridSubtitle}</p>
+          <p
+            className="mx-auto mt-3 max-w-xl text-sm text-[#4A5568]"
+            dangerouslySetInnerHTML={{ __html: c.gridSubtitle }}
+          />
         </div>
 
         <div className="mb-8 space-y-4 rounded-lg border border-gray-200 bg-white p-5">
@@ -411,7 +420,7 @@ function ProductCard({ product, c }: { product: PricingProduct; c: PricingConten
       <div className="relative flex h-44 items-center justify-center bg-white">
         <Image
           src={product.image}
-          alt={product.model}
+          alt={productImageAlt(product, c)}
           width={200}
           height={140}
           className="max-h-[140px] max-w-[80%] object-contain"
@@ -543,13 +552,13 @@ function ComparisonTable({ c }: { c: PricingContent }) {
                   <td className="px-3 py-3.5 text-center text-sm text-[#4A5568]">
                     {formatPrice(p.price)}
                   </td>
-                  <td className="px-3 py-3.5 text-center text-xs text-[#4A5568]">
+                  <td className="px-3 py-3.5 text-center text-sm text-[#4A5568]">
                     {p.warranty} {c.lang === "fr" ? "ans" : "Jahre"}
                   </td>
-                  <td className="px-3 py-3.5 text-center text-xs text-[#4A5568]">
+                  <td className="px-3 py-3.5 text-center text-sm text-[#4A5568]">
                     {p.electrodesLabel}
                   </td>
-                  <td className="px-3 py-3.5 text-center text-xs text-[#4A5568]">
+                  <td className="px-3 py-3.5 text-center text-sm text-[#4A5568]">
                     {p.batteryLabel}
                   </td>
                   <td className="px-3 py-3.5 text-center text-sm font-bold text-[#021647]">
@@ -595,7 +604,10 @@ function WhyBuy({ c }: { c: PricingContent }) {
                   <h3 className="mb-2 font-display text-base font-semibold text-[#1A1D23]">
                     {block.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-[#4A5568]">{block.text}</p>
+                  <p
+                    className="text-sm leading-relaxed text-[#4A5568]"
+                    dangerouslySetInnerHTML={{ __html: block.text }}
+                  />
                 </div>
               </div>
             )
@@ -625,7 +637,10 @@ function ChooseSection({ c }: { c: PricingContent }) {
               <h3 className="mb-3 font-display text-lg font-semibold text-[#1A1D23]">
                 {block.title}
               </h3>
-              <p className="text-sm leading-relaxed text-[#4A5568]">{block.text}</p>
+              <p
+                className="text-sm leading-relaxed text-[#4A5568]"
+                dangerouslySetInnerHTML={{ __html: block.text }}
+              />
             </div>
           ))}
         </div>
@@ -678,7 +693,10 @@ function FaqBlock({ c }: { c: PricingContent }) {
               <AccordionTrigger className="px-4 py-5 text-left text-base font-semibold leading-snug text-[#1A1D23] hover:no-underline">
                 {item.q}
               </AccordionTrigger>
-              <AccordionContent className="px-4 pb-5 text-sm leading-relaxed text-[#4A5568]">
+              <AccordionContent
+                forceMount
+                className="overflow-hidden px-4 pb-5 text-sm leading-relaxed text-[#4A5568] data-[state=closed]:hidden"
+              >
                 <div dangerouslySetInnerHTML={{ __html: item.a }} />
               </AccordionContent>
             </AccordionItem>
