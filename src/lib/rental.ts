@@ -252,7 +252,7 @@ const fr: RentalContent = {
   whyEyebrow: "Pourquoi louer",
   whyTitle: "Pourquoi louer un défibrillateur plutôt qu'acheter ?",
   whyParagraphs: [
-    `La location d'un défibrillateur séduit aujourd'hui la majorité des <a href="/fr/a-propos/" ${linkClass}>entreprises</a>, collectivités et établissements recevant du public soumis aux recommandations SUVA. Plutôt que d'immobiliser ${purchaseRangeFr} dans l'achat d'un DAE, vous lissez votre budget sur 1 à 60 mois. Chaque mensualité est une charge d'exploitation entièrement déductible.`,
+    `La location d'un défibrillateur séduit aujourd'hui la majorité des <a href="/fr/defibrillateur-entreprise/" ${linkClass}>entreprises</a>, collectivités et établissements recevant du public soumis aux recommandations SUVA. Plutôt que d'immobiliser ${purchaseRangeFr} dans l'achat d'un DAE, vous lissez votre budget sur 1 à 60 mois. Chaque mensualité est une charge d'exploitation entièrement déductible.`,
     `Le pack inclut le défibrillateur, ses électrodes et sa batterie remplacés avant péremption, le boîtier mural, la signalétique réglementaire et la maintenance sous 72h. En fin de contrat, vous bénéficiez d'un appareil de dernière génération sans surcoût. Comparez aussi nos <a href="/fr/defibrillateur-prix/" ${linkClass}>prix d'achat</a>.`,
   ],
   whyBenefits: [
@@ -267,7 +267,7 @@ const fr: RentalContent = {
 
   longEyebrow: "Longue durée",
   longTitle: `Location longue durée : de ${formatChfPrice(lowPrice)} à ${formatChfPrice(eurToChf(49))}/mois`,
-  longIntro: `C'est le choix de la majorité des <a href="/fr/a-propos/" ${linkClass}>entreprises</a>, <a href="/fr/contact/" ${linkClass}>communes</a> et établissements recevant du public. Engagement de 24, 48 ou 60 mois pour le meilleur tarif mensuel. Le pack location longue durée comprend le défibrillateur automatique ou semi-automatique de votre choix, les électrodes adultes, la batterie, le boîtier mural avec signalétique et la livraison sous 48h.`,
+  longIntro: `C'est le choix de la majorité des <a href="/fr/defibrillateur-entreprise/" ${linkClass}>entreprises</a>, <a href="/fr/defibrillateur-entreprise/" ${linkClass}>solutions pour collectivités</a> et établissements recevant du public. Engagement de 24, 48 ou 60 mois pour le meilleur tarif mensuel. Le pack location longue durée comprend le défibrillateur automatique ou semi-automatique de votre choix, les électrodes adultes, la batterie, le boîtier mural avec signalétique et la livraison sous 48h.`,
   mediumEyebrow: "Moyenne durée",
   mediumTitle: "Location moyenne durée : 6 à 12 mois",
   mediumIntro: `La location moyenne durée (6 à 12 mois) convient aux besoins temporaires prolongés. Chantier de plusieurs mois, remplacement d'un appareil défaillant, couverture d'une saison touristique ou sportive : de ${formatChfPrice(eurToChf(69))} à ${formatChfPrice(eurToChf(89))} hors TVA/mois selon la durée, cette formule offre un bon équilibre entre flexibilité et coût maîtrisé.`,
@@ -319,7 +319,7 @@ const fr: RentalContent = {
   choose: [
     {
       title: "DAE ou DSA : lequel choisir ?",
-      text: `Le DAE (automatique) délivre le choc seul : idéal sans formation. Le DSA (semi-auto) demande d'appuyer sur un bouton. Pour les <a href="/fr/a-propos/" ${linkClass}>entreprises</a> et établissements recevant du public, le DAE est recommandé.`,
+      text: `Le DAE (automatique) délivre le choc seul : idéal sans formation. Le DSA (semi-auto) demande d'appuyer sur un bouton. Pour les <a href="/fr/defibrillateur-entreprise/" ${linkClass}>entreprises</a> et établissements recevant du public, le DAE est recommandé.`,
       image: `${IMG}/content/prix_rightDef_1.svg`,
       imageAlt: "DAE ou DSA — icône comparatif CardioPro",
     },
@@ -365,14 +365,15 @@ const fr: RentalContent = {
     { q: "Peut-on louer un défibrillateur pour un événement ponctuel ?", a: "Oui, la location courte durée est spécialement conçue pour les événements ponctuels. Compétitions sportives, festivals, salons professionnels, séminaires ou mariages : vous louez un DAE pour 1 à 3 mois, le temps de votre événement. L'appareil est livré sous 48h, prêt à l'emploi, et vous le retournez simplement en fin de période." },
     { q: "Vaut-il mieux acheter ou louer un défibrillateur ?", a: `La location est préférable pour lisser le budget et garantir des consommables toujours à jour. L'<a href="/fr/defibrillateur-prix/" ${linkClass}>achat</a> convient si vous disposez d'un budget immédiat de ${purchaseRangeFr}. Sur 4 ans, le coût total est comparable. La location offre en plus une déductibilité fiscale mensuelle immédiate.` },
     { q: "La location de défibrillateur est-elle déductible fiscalement en Suisse ?", a: "Oui. Pour les entreprises et les professionnels, chaque mensualité de location est généralement comptabilisée en charge d'exploitation. Contrairement à l'achat qui nécessite une immobilisation amortie sur plusieurs exercices, la location offre un avantage fiscal immédiat chaque mois. Validez avec votre fiduciaire selon votre canton." },
-    { q: "Quels types d'établissements peuvent louer un défibrillateur ?", a: "Tous les types d'établissements peuvent louer un DAE : entreprises, collectivités, communes, hôtels et restaurants, centres médicaux, EMS, associations sportives, établissements recevant du public et cabinets médicaux. En Suisse, la SUVA recommande vivement l'installation d'un DAE dans les lieux à forte fréquentation." },
+    { q: "Quels types d'établissements peuvent louer un défibrillateur ?", a: `Tous les types d'établissements peuvent louer un DAE : entreprises, collectivités, communes, hôtels et restaurants, centres médicaux, EMS, <a href="/fr/defibrillateur-association/" ${linkClass}>associations et clubs sportifs</a>, établissements recevant du public et cabinets médicaux. Les particuliers peuvent aussi louer pour un besoin temporaire : <a href="/fr/defibrillateur-particulier/" ${linkClass}>louer en tant que particulier</a>.` },
     { q: "Comment fonctionne la location courte durée de défibrillateur ?", a: "La location courte durée fonctionne en trois étapes : vous choisissez votre formule (1, 2 ou 3 mois) et votre modèle de DAE. L'appareil est livré sous 48h avec son boîtier et sa signalétique. En fin de période, vous retournez simplement le matériel. Aucun engagement supplémentaire." },
     { q: "Quels modèles de défibrillateurs sont disponibles en location ?", a: `CardioPro propose en location l'ensemble de sa gamme de défibrillateurs certifiés CE et FDA : iAED-S1 (Noah Medical), HeartSine 360P et 500P, Mediana A16, ZOLL AED 3, Bexen Reanibex 100 et Physio-Control Lifepak CR2. Chaque modèle est disponible en version automatique (DAE) ou semi-automatique (DSA). <a href="/fr/defibrillateur-prix/" ${linkClass}>Voir tous les modèles</a>.` },
     { q: "Que se passe-t-il en fin de contrat de location ?", a: "En fin de contrat, trois options s'offrent à vous : renouveler votre contrat avec un appareil neuf de dernière génération, prolonger la location au même tarif, ou restituer le matériel sans frais. CardioPro vous contacte avant l'échéance pour organiser la suite." },
     { q: "La livraison du défibrillateur est-elle incluse dans la location ?", a: "Oui, la livraison est incluse dans toutes les formules de location CardioPro. L'expédition se fait sous 48h partout en Suisse. Le pack arrive prêt à l'emploi : défibrillateur, électrodes, batterie, boîtier mural et signalétique réglementaire." },
     { q: "Quels sont les avantages de la location longue durée de défibrillateur ?", a: `La location longue durée (24 à 60 mois) offre le meilleur tarif mensuel : à partir de ${formatChfPrice(lowPrice)} hors TVA/mois sur 60 mois. Les consommables sont remplacés à chaque échéance de péremption sans surcoût. Les mensualités sont déductibles en charges d'exploitation. En fin de contrat, vous pouvez renouveler avec un appareil de dernière génération.` },
     { q: "Combien coûte la location courte durée d'un défibrillateur ?", a: `La location courte durée coûte ${formatChfPrice(eurToChf(119))} hors TVA/mois sur 3 mois, ${formatChfPrice(eurToChf(149))}/mois sur 2 mois et ${formatChfPrice(highPrice)}/mois pour 1 mois. Le pack comprend le DAE, les électrodes, la batterie, le boîtier et la livraison express. En fin de période, vous retournez l'appareil sans engagement supplémentaire.` },
-    { q: "Comment louer un défibrillateur pour son entreprise ?", a: `Les entreprises peuvent louer un DAE dès ${formatChfPrice(lowPrice)} hors TVA/mois en longue durée. CardioPro livre sous 48h le pack complet : défibrillateur, boîtier mural, signalétique réglementaire et consommables. Les mensualités sont déductibles en charges d'exploitation.` },
+    { q: "Comment louer un défibrillateur pour son entreprise ?", a: `Les entreprises peuvent louer un DAE dès ${formatChfPrice(lowPrice)} hors TVA/mois en longue durée. CardioPro livre sous 48h le pack complet : défibrillateur, boîtier mural, signalétique réglementaire et consommables. Consultez nos <a href="/fr/defibrillateur-entreprise/" ${linkClass}>solutions pour équiper votre entreprise</a>.` },
+    { q: "Peut-on louer un défibrillateur en tant que particulier ?", a: `Oui. Les particuliers peuvent louer un DAE pour une convalescence, une location saisonnière ou un essai avant achat, dès ${formatChfPrice(lowPrice)}/mois hors TVA en longue durée. Découvrez nos conseils sur la page <a href="/fr/defibrillateur-particulier/" ${linkClass}>louer en tant que particulier</a>.` },
     { q: "Quel est le coût total d'une location de défibrillateur sur 4 ans ?", a: `Sur 48 mois, la location revient à ${formatChfPrice(formulasFr.find((f) => f.months === 48)!.totalCost)} hors TVA (${formatChfPrice(eurToChf(39))}/mois × 48). Sur 60 mois : ${formatChfPrice(formulasFr.find((f) => f.months === 60)!.totalCost)} hors TVA (${formatChfPrice(lowPrice)}/mois × 60). À l'achat, le même appareil coûte ${purchaseRangeFr} plus les consommables. Le coût global est comparable, avec l'avantage d'un budget prévisible en location.` },
     { q: "DAE ou DSA : lequel choisir en location ?", a: `Le DAE (automatique) délivre le choc sans intervention : recommandé pour le grand public. Le DSA (semi-automatique) demande d'appuyer sur un bouton : il convient aux secouristes formés. Les deux sont disponibles chez CardioPro au même tarif, dès ${formatChfPrice(lowPrice)} hors TVA/mois en longue durée.` },
   ],
@@ -419,7 +420,7 @@ const de: RentalContent = {
   whyEyebrow: "Warum mieten",
   whyTitle: "Warum einen Defibrillator mieten statt kaufen?",
   whyParagraphs: [
-    `Die Miete eines Defibrillators überzeugt heute die Mehrheit der <a href="/de/ueber-uns/" ${linkClass}>Unternehmen</a>, Gemeinden und öffentlich zugänglichen Einrichtungen gemäss SUVA-Empfehlungen. Statt ${purchaseRangeDe} in den Kauf eines AED zu investieren, glätten Sie Ihr Budget über 1 bis 60 Monate. Jede Monatsrate ist ein voll abzugsfähiger Betriebsaufwand.`,
+    `Die Miete eines Defibrillators überzeugt heute die Mehrheit der <a href="/de/defibrillator-betriebe/" ${linkClass}>Unternehmen</a>, Gemeinden und öffentlich zugänglichen Einrichtungen gemäss SUVA-Empfehlungen. Statt ${purchaseRangeDe} in den Kauf eines AED zu investieren, glätten Sie Ihr Budget über 1 bis 60 Monate. Jede Monatsrate ist ein voll abzugsfähiger Betriebsaufwand.`,
     `Das Paket umfasst den Defibrillator, Elektroden und Batterie vor Ablauf ersetzt, Wandgehäuse, Beschilderung und Wartung innerhalb 72h. Am Vertragsende profitieren Sie von einem aktuellen Gerät ohne Mehrkosten. Vergleichen Sie auch unsere <a href="/de/defibrillator-kaufen/" ${linkClass}>Kaufpreise</a>.`,
   ],
   whyBenefits: [
@@ -434,7 +435,7 @@ const de: RentalContent = {
 
   longEyebrow: "Langzeitmiete",
   longTitle: `Langzeitmiete: von ${formatChfPrice(lowPrice)} bis ${formatChfPrice(eurToChf(49))}/Monat`,
-  longIntro: `Die Wahl der meisten <a href="/de/ueber-uns/" ${linkClass}>Unternehmen</a>, <a href="/de/kontakt/" ${linkClass}>Gemeinden</a> und öffentlich zugänglichen Einrichtungen. Bindung über 24, 48 oder 60 Monate für den besten Monatspreis. Das Langzeitpaket umfasst den AED oder halbautomatischen Defibrillator Ihrer Wahl, Erwachsenenelektroden, Batterie, Wandgehäuse mit Beschilderung und Lieferung innerhalb 48h.`,
+  longIntro: `Die Wahl der meisten <a href="/de/defibrillator-betriebe/" ${linkClass}>Unternehmen</a>, <a href="/de/defibrillator-betriebe/" ${linkClass}>Lösungen für Kollektivitäten</a> und öffentlich zugänglichen Einrichtungen. Bindung über 24, 48 oder 60 Monate für den besten Monatspreis. Das Langzeitpaket umfasst den AED oder halbautomatischen Defibrillator Ihrer Wahl, Erwachsenenelektroden, Batterie, Wandgehäuse mit Beschilderung und Lieferung innerhalb 48h.`,
   mediumEyebrow: "Mittelfristige Miete",
   mediumTitle: "Mittelfristige Miete: 6 bis 12 Monate",
   mediumIntro: `Die mittelfristige Miete (6 bis 12 Monate) eignet sich für längeren temporären Bedarf. Mehrmonatige Baustelle, Ersatz eines defekten Geräts, Tourismus- oder Sportsaison: von ${formatChfPrice(eurToChf(69))} bis ${formatChfPrice(eurToChf(89))} netto/Monat je nach Laufzeit.`,
@@ -486,7 +487,7 @@ const de: RentalContent = {
   choose: [
     {
       title: "AED oder halbautomatisch: was wählen?",
-      text: `Der vollautomatische AED gibt den Schock allein ab — ideal ohne Schulung. Der halbautomatische AED erfordert einen Knopfdruck. Für <a href="/de/ueber-uns/" ${linkClass}>Unternehmen</a> und öffentlich zugängliche Einrichtungen wird der AED empfohlen.`,
+      text: `Der vollautomatische AED gibt den Schock allein ab — ideal ohne Schulung. Der halbautomatische AED erfordert einen Knopfdruck. Für <a href="/de/defibrillator-betriebe/" ${linkClass}>Unternehmen</a> und öffentlich zugängliche Einrichtungen wird der AED empfohlen.`,
       image: `${IMG}/content/prix_rightDef_1.svg`,
       imageAlt: "AED oder halbautomatisch — Vergleichs-Icon CardioPro",
     },
@@ -535,6 +536,7 @@ const de: RentalContent = {
       "Welche Vorteile bietet die Langzeitmiete?",
       "Was kostet die Kurzzeitmiete eines Defibrillators?",
       "Wie miete ich einen Defibrillator für mein Unternehmen?",
+      "Kann man als Privatperson einen Defibrillator mieten?",
       "Wie hoch sind die Gesamtkosten einer Miete über 4 Jahre?",
       "AED oder halbautomatisch: was zur Miete wählen?",
     ][i],
@@ -545,14 +547,15 @@ const de: RentalContent = {
       "Ja, die Kurzzeitmiete ist für einmalige Veranstaltungen konzipiert: Sportwettkämpfe, Festivals, Messen, Seminare oder Hochzeiten. Sie mieten einen AED für 1 bis 3 Monate. Lieferung innerhalb 48h, Rückgabe am Ende der Laufzeit.",
       `Die Miete ist vorzuziehen, um das Budget zu glätten und stets aktuelles Verbrauchsmaterial zu garantieren. Der <a href="/de/defibrillator-kaufen/" ${linkClass}>Kauf</a> eignet sich bei sofortigem Budget von ${purchaseRangeDe}. Über 4 Jahre sind die Gesamtkosten vergleichbar.`,
       "Ja. Für Unternehmen werden die Mietraten in der Regel als Betriebsaufwand verbucht. Im Gegensatz zum aktivierten Kauf bietet die Miete einen sofortigen steuerlichen Vorteil. Klären Sie mit Ihrem Treuhänder je nach Kanton.",
-      "Alle Einrichtungen: Unternehmen, Gemeinden, Hotels und Restaurants, medizinische Zentren, Pflegeheime, Sportvereine, öffentlich zugängliche Einrichtungen und Arztpraxen. In der Schweiz empfiehlt die SUVA die Installation eines AED an stark frequentierten Orten.",
+      "Alle Einrichtungen: Unternehmen, Gemeinden, Hotels und Restaurants, medizinische Zentren, Pflegeheime, <a href=\"/de/defibrillator-vereine/\" class=\"font-semibold text-[#0E3A82] hover:underline\">Vereine und Sportclubs</a>, öffentlich zugängliche Einrichtungen und Arztpraxen. Privatpersonen können ebenfalls für temporären Bedarf mieten: <a href=\"/de/defibrillator-privat/\" class=\"font-semibold text-[#0E3A82] hover:underline\">als Privatperson mieten</a>.",
       "In drei Schritten: Laufzeit (1, 2 oder 3 Monate) und AED-Modell wählen. Lieferung innerhalb 48h mit Gehäuse und Beschilderung. Am Ende der Laufzeit Material zurückgeben. Keine zusätzliche Bindung.",
       `CardioPro bietet sein gesamtes Sortiment an CE- und FDA-zertifizierten AED zur Miete: iAED-S1 (Noah Medical), HeartSine 360P und 500P, Mediana A16, ZOLL AED 3, Bexen Reanibex 100 und Physio-Control Lifepak CR2. <a href="/de/defibrillator-kaufen/" ${linkClass}>Alle Modelle ansehen</a>.`,
       "Drei Optionen: Vertrag mit neuem Gerät erneuern, Miete zum gleichen Tarif verlängern oder Material kostenlos zurückgeben. CardioPro kontaktiert Sie vor Ablauf.",
       "Ja, die Lieferung ist in allen Laufzeiten inbegriffen. Versand innerhalb 48h in der ganzen Schweiz. Paket einsatzbereit: Defibrillator, Elektroden, Batterie, Wandgehäuse und Beschilderung.",
       `Die Langzeitmiete (24 bis 60 Monate) bietet den besten Monatstarif: ab ${formatChfPrice(lowPrice)} netto/Monat über 60 Monate. Verbrauchsmaterial wird ohne Aufpreis ersetzt. Am Vertragsende Erneuerung mit aktuellem Gerät möglich.`,
       `Die Kurzzeitmiete kostet ${formatChfPrice(eurToChf(119))} netto/Monat über 3 Monate, ${formatChfPrice(eurToChf(149))}/Monat über 2 Monate und ${formatChfPrice(highPrice)}/Monat für 1 Monat. Paket inklusive AED, Elektroden, Batterie, Gehäuse und Express-Lieferung.`,
-      `Unternehmen können einen AED ab ${formatChfPrice(lowPrice)} netto/Monat in der Langzeitmiete mieten. CardioPro liefert innerhalb 48h das Komplettpaket.`,
+      `Unternehmen können einen AED ab ${formatChfPrice(lowPrice)} netto/Monat in der Langzeitmiete mieten. CardioPro liefert innerhalb 48h das Komplettpaket. Entdecken Sie unsere <a href="/de/defibrillator-betriebe/" ${linkClass}>Lösungen zur Betriebsausstattung</a>.`,
+      `Ja. Privatpersonen können einen AED für Genesung, saisonale Vermietung oder einen Test vor dem Kauf mieten, ab ${formatChfPrice(lowPrice)} netto/Monat in der Langzeitmiete. Details auf der Seite <a href="/de/defibrillator-privat/" ${linkClass}>als Privatperson mieten</a>.`,
       `Über 48 Monate: ${formatChfPrice(formulasDe.find((f) => f.months === 48)!.totalCost)} netto (${formatChfPrice(eurToChf(39))}/Monat × 48). Über 60 Monate: ${formatChfPrice(formulasDe.find((f) => f.months === 60)!.totalCost)} netto. Beim Kauf: ${purchaseRangeDe} plus Verbrauchsmaterial. Vergleichbare Gesamtkosten mit planbarem Budget bei der Miete.`,
       `Der vollautomatische AED gibt den Schock ohne Eingreifen ab — empfohlen für die Öffentlichkeit. Der halbautomatische AED erfordert einen Knopfdruck — für geschulte Ersthelfer. Beide ab ${formatChfPrice(lowPrice)} netto/Monat in der Langzeitmiete.`,
     ][i],

@@ -86,7 +86,15 @@ export function Navbar({ t }: InstitutionalSiteProps) {
         { href: t.rentalHref, label: t.navRental },
       ],
     },
-    { type: "link", href: `/${t.lang}/#blog`, label: t.navSolutions },
+    {
+      type: "dropdown",
+      label: t.navSolutions,
+      items: [
+        { href: t.enterpriseHref, label: t.navEnterprise },
+        { href: t.particulierHref, label: t.navParticulier },
+        { href: t.associationHref, label: t.navAssociation },
+      ],
+    },
     { type: "link", href: t.contactHref, label: t.navContact },
   ]
 
@@ -164,7 +172,7 @@ export function Navbar({ t }: InstitutionalSiteProps) {
                   {item.label}
                   <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />
                 </button>
-                <div className="invisible absolute left-0 top-full z-50 min-w-[180px] rounded-xl border border-gray-200 bg-white py-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100">
+                <div className="invisible absolute left-0 top-full z-50 min-w-[260px] rounded-xl border border-gray-200 bg-white py-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100">
                   {item.items.map((sub) => (
                     <Link
                       key={sub.href}

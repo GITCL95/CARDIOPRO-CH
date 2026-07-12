@@ -350,7 +350,7 @@ const fr: PricingContent = {
     },
     {
       q: "Quel budget prévoir pour équiper une entreprise en Suisse ?",
-      a: "Comptez environ CHF 1 090.– à CHF 1 600.– HT par défibrillateur, boîtier mural et signalétique inclus. En Suisse, il n'existe pas d'obligation fédérale, mais la SUVA et la Fondation Suisse de Cardiologie recommandent vivement un DAE dans les entreprises à fort effectif.",
+      a: `Comptez environ ${formatChfPrice(minPrice)} à CHF 1 600.– hors TVA par défibrillateur, boîtier mural et signalétique inclus. En Suisse, il n'existe pas d'obligation fédérale, mais la SUVA et la Fondation Suisse de Cardiologie recommandent vivement un DAE dans les entreprises à fort effectif. Consultez notre page pour <a href="/fr/defibrillateur-entreprise/" ${linkClass}>équiper votre entreprise</a>.`,
     },
     {
       q: "Que comprend le prix d'achat d'un défibrillateur ?",
@@ -373,8 +373,8 @@ const fr: PricingContent = {
       a: "Vérifiez la certification CE obligatoire, une garantie minimum de 5 ans, l'indice IP55 minimum (IP56 pour l'extérieur), le coût des consommables sur 4 ans et la disponibilité du SAV. Privilégiez un distributeur agréé établi en Suisse.",
     },
     {
-      q: "L'achat d'un défibrillateur est-il déductible fiscalement en Suisse ?",
-      a: "Pour les entreprises, l'achat d'un DAE constitue un investissement amortissable et une charge déductible du résultat. Les modalités exactes dépendent de votre canton et de votre régime fiscal : renseignez-vous auprès de votre fiduciaire.",
+      q: "Un particulier peut-il acheter un défibrillateur pour la maison ?",
+      a: `Oui : en Suisse, tout particulier peut acheter un DAE sans ordonnance, dès ${formatChfPrice(minPrice)} hors TVA. CardioPro conseille des modèles simples avec guidage vocal pour le domicile. Consultez notre page <a href="/fr/defibrillateur-particulier/" ${linkClass}>défibrillateur particulier</a>.`,
     },
     {
       q: "Quelle garantie exiger pour acheter un défibrillateur ?",
@@ -577,7 +577,7 @@ const de: PricingContent = {
     },
     {
       q: "Welches Budget für die Ausstattung eines Unternehmens in der Schweiz?",
-      a: "Rechnen Sie mit etwa CHF 1 090.– bis CHF 1 600.– netto pro Defibrillator, inklusive Wandgehäuse und Beschilderung. In der Schweiz besteht keine Bundespflicht, aber die SUVA und die Schweizerische Herzstiftung empfehlen einen AED in Betrieben mit vielen Mitarbeitenden nachdrücklich.",
+      a: `Rechnen Sie mit etwa ${formatChfPrice(minPrice)} bis CHF 1 600.– netto pro Defibrillator, inklusive Wandgehäuse und Beschilderung. In der Schweiz besteht keine Bundespflicht, aber die SUVA und die Schweizerische Herzstiftung empfehlen einen AED in Betrieben mit vielen Mitarbeitenden nachdrücklich. Entdecken Sie unsere <a href="/de/defibrillator-betriebe/" ${linkClass}>Lösungen für Betriebe</a>.`,
     },
     {
       q: "Was umfasst der Kaufpreis eines Defibrillators?",
@@ -600,8 +600,8 @@ const de: PricingContent = {
       a: "Prüfen Sie die obligatorische CE-Zertifizierung, eine Garantie von mindestens 5 Jahren, die Schutzart mindestens IP55 (IP56 für den Aussenbereich), die Kosten des Verbrauchsmaterials über 4 Jahre und die Verfügbarkeit des Kundendienstes. Bevorzugen Sie einen in der Schweiz ansässigen autorisierten Händler.",
     },
     {
-      q: "Ist der Kauf eines Defibrillators in der Schweiz steuerlich absetzbar?",
-      a: "Für Unternehmen ist der Kauf eines AED eine abschreibungsfähige Investition und ein vom Ergebnis abzugsfähiger Aufwand. Die genauen Modalitäten hängen von Ihrem Kanton und Ihrem Steuerregime ab: Erkundigen Sie sich bei Ihrem Treuhänder.",
+      q: "Kann eine Privatperson einen Defibrillator fürs Zuhause kaufen?",
+      a: `Ja: In der Schweiz kann jede Privatperson einen AED ohne Rezept kaufen, ab ${formatChfPrice(minPrice)} netto. CardioPro empfiehlt einfache Modelle mit Sprachführung fürs Zuhause. Sehen Sie unsere Seite <a href="/de/defibrillator-privat/" ${linkClass}>Defibrillator Privat</a>.`,
     },
     {
       q: "Welche Garantie für den Kauf eines Defibrillators verlangen?",

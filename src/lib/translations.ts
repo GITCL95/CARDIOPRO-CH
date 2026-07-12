@@ -34,6 +34,12 @@ export interface Translations {
   pricingHref: string
   navRental: string
   rentalHref: string
+  navEnterprise: string
+  enterpriseHref: string
+  navParticulier: string
+  particulierHref: string
+  navAssociation: string
+  associationHref: string
 
   // Hero
   heroTag: string
@@ -237,6 +243,12 @@ const fr: Translations = {
   pricingHref: "/fr/defibrillateur-prix/",
   navRental: "Location",
   rentalHref: "/fr/location-defibrillateur/",
+  navEnterprise: "Défibrillateur entreprise",
+  enterpriseHref: "/fr/defibrillateur-entreprise/",
+  navParticulier: "Défibrillateur particulier",
+  particulierHref: "/fr/defibrillateur-particulier/",
+  navAssociation: "Défibrillateur association",
+  associationHref: "/fr/defibrillateur-association/",
 
   heroTag: "Spécialiste Suisse",
   heroTitle: "Obtenez des défibrillateurs pour votre entreprise en Suisse",
@@ -458,6 +470,12 @@ const de: Translations = {
   pricingHref: "/de/defibrillator-kaufen/",
   navRental: "Mieten",
   rentalHref: "/de/defibrillator-mieten/",
+  navEnterprise: "Defibrillator für Betriebe",
+  enterpriseHref: "/de/defibrillator-betriebe/",
+  navParticulier: "Defibrillator Privat",
+  particulierHref: "/de/defibrillator-privat/",
+  navAssociation: "Defibrillator für Vereine",
+  associationHref: "/de/defibrillator-vereine/",
 
   heroTag: "Spezialist Schweiz",
   heroTitle: "Defibrillatoren für Ihr Unternehmen in der Schweiz",
