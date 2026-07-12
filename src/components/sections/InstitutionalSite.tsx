@@ -301,12 +301,12 @@ function Hero({ t }: InstitutionalSiteProps) {
           transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10"
         >
-          <div className="rounded-[2rem] bg-white p-4 shadow-2xl">
+          <div className="rounded-[2rem] bg-white p-3 shadow-2xl sm:p-4">
             <Image
-              src="/images/hero-aed.svg"
-              alt="Défibrillateur automatique externe CardioPro Suisse"
-              width={960}
-              height={720}
+              src="/images/hero-aed-studio.webp"
+              alt="Défibrillateurs CardioPro Suisse — Noah Medical, HeartSine, Schiller FRED, ZOLL"
+              width={1200}
+              height={900}
               priority
               className="h-auto w-full rounded-[1.4rem]"
             />
