@@ -1,6 +1,6 @@
 {
   "framework": null,
-  "outputDirectory": "out",
+  "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": true,
   "headers": [

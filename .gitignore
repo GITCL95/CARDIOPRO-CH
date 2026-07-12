@@ -2,6 +2,12 @@
 .next/
 build/
 
+# Build artifacts published at repo root for Vercel static deploy
+/index.txt
+/__next.*
+/404/
+/_not-found/
+
 # Node
 node_modules/
 npm-debug.log*
