@@ -27,6 +27,10 @@ export interface Translations {
   navOffers: string
   navSolutions: string
   navContact: string
+  navPrices: string
+  pricingHref: string
+  navRental: string
+  rentalHref: string
 
   // Hero
   heroTag: string
@@ -225,6 +229,10 @@ const fr: Translations = {
   navOffers: "Nos Offres",
   navSolutions: "Nos Solutions",
   navContact: "Contact",
+  navPrices: "Prix",
+  pricingHref: "/fr/defibrillateur-prix/",
+  navRental: "Location",
+  rentalHref: "/fr/location-defibrillateur/",
 
   heroTag: "Spécialiste Suisse",
   heroTitle: "Obtenez des défibrillateurs pour votre entreprise en Suisse",
@@ -442,6 +450,10 @@ const de: Translations = {
   navOffers: "Angebote",
   navSolutions: "Lösungen",
   navContact: "Kontakt",
+  navPrices: "Preise",
+  pricingHref: "/de/defibrillator-kaufen/",
+  navRental: "Mieten",
+  rentalHref: "/de/defibrillator-mieten/",
 
   heroTag: "Spezialist Schweiz",
   heroTitle: "Defibrillatoren für Ihr Unternehmen in der Schweiz",

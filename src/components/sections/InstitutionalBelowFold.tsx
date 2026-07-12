@@ -527,7 +527,7 @@ function AdvantagesSection({ t }: BelowFoldProps) {
   )
 }
 
-function Footer({ t }: BelowFoldProps) {
+export function Footer({ t }: BelowFoldProps) {
   return (
     <footer className="bg-[#021647] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-2 lg:grid-cols-4">

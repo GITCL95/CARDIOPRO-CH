@@ -46,14 +46,14 @@ export default function InstitutionalSite({ t }: InstitutionalSiteProps) {
   )
 }
 
-function Navbar({ t }: InstitutionalSiteProps) {
+export function Navbar({ t }: InstitutionalSiteProps) {
   const [scrolled, setScrolled] = useState(false)
   const links = [
-    { href: "#stats", label: t.statsTag },
-    { href: "#entreprise", label: t.navEnterprise },
-    { href: "#offres", label: t.navOffers },
-    { href: "#blog", label: t.navSolutions },
-    { href: "#contact", label: t.navContact },
+    { href: `/${t.lang}/#entreprise`, label: t.navEnterprise },
+    { href: t.pricingHref, label: t.navPrices },
+    { href: t.rentalHref, label: t.navRental },
+    { href: `/${t.lang}/#blog`, label: t.navSolutions },
+    { href: `/${t.lang}/#contact`, label: t.navContact },
   ]
 
   useEffect(() => {
