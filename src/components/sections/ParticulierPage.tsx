@@ -39,7 +39,6 @@ export default function ParticulierPage({ t, c }: ParticulierPageProps) {
         <main id="main-content">
           <Hero c={c} />
           <WhySection c={c} />
-          <DistributorBanner c={c} />
           <ModelsSection c={c} />
           <CompareSection c={c} />
           <UsageSection c={c} />
@@ -193,28 +192,6 @@ function WhySection({ c }: { c: ParticulierContent }) {
           </div>
 
           <QuoteForm c={c} />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function DistributorBanner({ c }: { c: ParticulierContent }) {
-  return (
-    <section className="border-b border-gray-200 bg-[#F8F9FC] py-8" aria-label={c.distributorTitle}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-[#4A5568]">
-          {c.distributorTitle}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-          {c.distributors.map((logo) => (
-            <div
-              key={logo.alt}
-              className="relative h-8 w-24 opacity-50 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 sm:h-10 sm:w-28"
-            >
-              <Image src={logo.src} alt={logo.alt} fill className="object-contain" />
-            </div>
-          ))}
         </div>
       </div>
     </section>

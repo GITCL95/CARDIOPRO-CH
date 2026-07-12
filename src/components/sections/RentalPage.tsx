@@ -66,7 +66,6 @@ export default function RentalPage({ t, c }: RentalPageProps) {
         <Navbar t={t} />
         <main id="main-content">
           <Hero c={c} />
-          <DistributorBanner c={c} />
           <WhyRent c={c} />
           <FormulasHeader c={c} />
           <FormulaSection c={c} eyebrow={c.longEyebrow} title={c.longTitle} intro={c.longIntro} formulas={long} />
@@ -75,7 +74,6 @@ export default function RentalPage({ t, c }: RentalPageProps) {
           <CompareTable c={c} />
           <FormulasTable c={c} />
           <ChooseSection c={c} />
-          <StatsClients c={c} />
           <FaqBlock c={c} />
           <FinalCta c={c} />
         </main>
@@ -207,28 +205,6 @@ function HeroQuoteForm({ c }: { c: RentalContent }) {
         <p className="text-center text-xs text-white/40">{c.formLegal}</p>
       </form>
     </div>
-  )
-}
-
-function DistributorBanner({ c }: { c: RentalContent }) {
-  return (
-    <section className="border-b border-gray-200 bg-[#F8F9FC] py-8" aria-label={c.distributorTitle}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-[#4A5568]">
-          {c.distributorTitle}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-          {c.distributors.map((logo) => (
-            <div
-              key={logo.alt}
-              className="relative h-8 w-24 opacity-50 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 sm:h-10 sm:w-28"
-            >
-              <Image src={logo.src} alt={logo.alt} fill className="object-contain" />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
   )
 }
 
@@ -597,45 +573,6 @@ function ChooseSection({ c }: { c: RentalContent }) {
                   dangerouslySetInnerHTML={{ __html: block.text }}
                 />
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function StatsClients({ c }: { c: RentalContent }) {
-  return (
-    <section className="relative overflow-hidden bg-[#021647] py-16 text-white lg:py-24">
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 grid grid-cols-3 gap-8 text-center">
-          {c.stats.map((stat) => (
-            <div key={stat.label}>
-              <p className="font-display text-4xl font-bold text-[#E63946] sm:text-5xl">
-                {stat.value}
-              </p>
-              <p className="mt-2 text-sm text-white/60">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-
-        <p className="mb-8 text-center font-display text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-          {c.clientsTitle}
-        </p>
-
-        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-          {c.clients.map((client) => (
-            <div
-              key={client.alt}
-              className="relative h-10 w-28 opacity-60 transition-opacity hover:opacity-100"
-            >
-              <Image
-                src={client.src}
-                alt={client.alt}
-                fill
-                className="object-contain brightness-0 invert"
-              />
             </div>
           ))}
         </div>

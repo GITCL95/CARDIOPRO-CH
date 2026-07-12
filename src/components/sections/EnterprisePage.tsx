@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { ArrowRight, Check, Shield, Building2, Heart, Scale } from "lucide-react"
 import type { Translations } from "@/lib/translations"
 import type { EnterpriseContent } from "@/lib/enterprise"
@@ -40,12 +39,10 @@ export default function EnterprisePage({ t, c }: EnterprisePageProps) {
         <main id="main-content">
           <Hero c={c} />
           <WhySection c={c} />
-          <DistributorBanner c={c} />
           <BuyRentSection c={c} />
           <SegmentsSection c={c} />
           <LegalSection c={c} />
           <ServicesSection c={c} />
-          <StatsClients c={c} />
           <FaqBlock c={c} />
           <FinalCta c={c} />
         </main>
@@ -202,28 +199,6 @@ function WhySection({ c }: { c: EnterpriseContent }) {
   )
 }
 
-function DistributorBanner({ c }: { c: EnterpriseContent }) {
-  return (
-    <section className="border-b border-gray-200 bg-[#F8F9FC] py-8" aria-label={c.distributorTitle}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-[#4A5568]">
-          {c.distributorTitle}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-          {c.distributors.map((logo) => (
-            <div
-              key={logo.alt}
-              className="relative h-8 w-24 opacity-50 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 sm:h-10 sm:w-28"
-            >
-              <Image src={logo.src} alt={logo.alt} fill className="object-contain" />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function BuyRentSection({ c }: { c: EnterpriseContent }) {
   return (
     <section className="bg-white py-16 lg:py-24" aria-labelledby="buy-rent-title">
@@ -348,45 +323,6 @@ function ServicesSection({ c }: { c: EnterpriseContent }) {
               <p
                 className="text-sm leading-relaxed text-[#4A5568]"
                 dangerouslySetInnerHTML={{ __html: service.text }}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function StatsClients({ c }: { c: EnterpriseContent }) {
-  return (
-    <section className="relative overflow-hidden bg-[#021647] py-16 text-white lg:py-24">
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 grid grid-cols-3 gap-8 text-center">
-          {c.stats.map((stat) => (
-            <div key={stat.label}>
-              <p className="font-display text-4xl font-bold text-[#E63946] sm:text-5xl">
-                {stat.value}
-              </p>
-              <p className="mt-2 text-sm text-white/60">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-
-        <p className="mb-8 text-center font-display text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-          {c.clientsTitle}
-        </p>
-
-        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-          {c.clients.map((client) => (
-            <div
-              key={client.alt}
-              className="relative h-10 w-28 opacity-60 transition-opacity hover:opacity-100"
-            >
-              <Image
-                src={client.src}
-                alt={client.alt}
-                fill
-                className="object-contain brightness-0 invert"
               />
             </div>
           ))}

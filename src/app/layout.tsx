@@ -18,7 +18,12 @@ export const metadata: Metadata = {
   description:
     "Vente et location de défibrillateurs en Suisse. Appareils certifiés CE, formation incluse, livraison sous 48h.",
   icons: {
-    icon: "/images/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/images/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/images/apple-touch-icon.png",
   },
   verification: {
     google: "S9AwTiXqZ5ggiiFWtzFoQOEaeBmpfc-4_25R0nSiBE0",

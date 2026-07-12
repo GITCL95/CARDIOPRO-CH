@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="CardioPro">
+  <rect width="32" height="32" rx="7" fill="#021647"/>
+  <path
+    d="M16 24.5c-3.8-5.6-7.5-8.6-7.5-12.2a3.6 3.6 0 0 1 7 0 3.6 3.6 0 0 1 7 0c0 3.6-3.7 6.6-7.5 12.2Z"
+    fill="#E63946"
+  />
+  <path
+    d="M11.5 14.5h3.2l1.6-2.4 2.2 4.2 2.4-5.2 2.3 5.1 1.8-2.7h3.2"
+    stroke="#fff"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+</svg>

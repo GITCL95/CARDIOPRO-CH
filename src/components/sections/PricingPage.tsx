@@ -29,15 +29,6 @@ import {
 import { cn } from "@/lib/utils"
 import { DevisButton, QuoteModalProvider } from "@/components/shared/QuoteModal"
 
-const DISTRIBUTOR_LOGOS = [
-  { alt: "HeartSine", src: "https://cardiopro.fr/images/distrubuteur_agree/heartsine.webp" },
-  { alt: "Mediana", src: "https://cardiopro.fr/images/distrubuteur_agree/MEDIANA.webp" },
-  { alt: "ZOLL Medical", src: "https://cardiopro.fr/images/distrubuteur_agree/ZOLL.webp" },
-  { alt: "Bexen Cardio", src: "https://cardiopro.fr/images/distrubuteur_agree/BEXEN.webp" },
-  { alt: "Noah Medical", src: "https://cardiopro.fr/images/distrubuteur_agree/NOAH_MEDICAL.webp" },
-  { alt: "Philips", src: "https://cardiopro.fr/images/distrubuteur_agree/PHILIPS.webp" },
-]
-
 type BudgetFilter = "all" | "lt1200" | "1200-1500" | "1500-1800" | "gt1800"
 type TypeFilter = "all" | "DAE" | "DSA"
 
@@ -96,12 +87,10 @@ export default function PricingPage({ t, c }: PricingPageProps) {
         <Navbar t={t} />
         <main id="main-content">
           <Hero c={c} />
-          <DistributorBanner c={c} />
           <ProductGrid c={c} />
           <ComparisonTable c={c} />
           <WhyBuy c={c} />
           <ChooseSection c={c} />
-          <References c={c} />
           <FaqBlock c={c} />
           <FinalCta c={c} />
         </main>
@@ -145,14 +134,6 @@ function Hero({ c }: { c: PricingContent }) {
             <p className="hero-intro mt-5 max-w-lg text-lg leading-relaxed text-white/75">{c.heroSub}</p>
 
             <p className="mt-8 font-display text-2xl font-bold text-white">{c.introTitle}</p>
-
-            <div className="mt-6 flex flex-wrap gap-5 text-sm text-white/60">
-              {c.heroTrust.map((item) => (
-                <span key={item} className="flex items-center gap-1.5">
-                  {item}
-                </span>
-              ))}
-            </div>
           </div>
 
           <div className="lg:pt-4">
@@ -254,34 +235,6 @@ function HeroQuoteForm({ c }: { c: PricingContent }) {
         <p className="text-center text-xs text-white/60">{c.formLegal}</p>
       </form>
     </div>
-  )
-}
-
-function DistributorBanner({ c }: { c: PricingContent }) {
-  return (
-    <section className="border-b border-gray-200 bg-[#F8F9FC] py-10" aria-label={c.distributorTitle}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-[#4A5568]">
-          {c.distributorTitle}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-14">
-          {DISTRIBUTOR_LOGOS.map((logo) => (
-            <div
-              key={logo.alt}
-              className="relative h-8 w-28 opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
-            >
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                fill
-                className="object-contain"
-                unoptimized
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
   )
 }
 
@@ -649,31 +602,6 @@ function ChooseSection({ c }: { c: PricingContent }) {
   )
 }
 
-function References({ c }: { c: PricingContent }) {
-  return (
-    <section className="border-y border-gray-200 bg-[#F8F9FC] py-10" aria-labelledby="references-title">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p
-          id="references-title"
-          className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-[#4A5568]"
-        >
-          {c.referencesTitle}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          {c.references.map((ref) => (
-            <span
-              key={ref}
-              className="rounded-full border border-gray-200 bg-white px-5 py-2 text-sm font-semibold text-[#021647] opacity-70 transition-opacity hover:opacity-100"
-            >
-              {ref}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function FaqBlock({ c }: { c: PricingContent }) {
   return (
     <section id="faq" className="bg-white py-16 lg:py-20" aria-labelledby="faq-title">
@@ -735,11 +663,6 @@ function FinalCta({ c }: { c: PricingContent }) {
             <Phone className="h-4 w-4" />
             {c.ctaPhone}
           </a>
-        </div>
-        <div className="mt-10 flex flex-wrap justify-center gap-6 text-sm text-white/60">
-          {c.ctaTrust.map((item) => (
-            <span key={item}>✔ {item}</span>
-          ))}
         </div>
       </div>
     </section>

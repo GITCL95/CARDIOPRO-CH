@@ -1,3 +1,3 @@
 :HL["/_next/static/chunks/0gm9l1em~_5zz.css","style"]
 :HL["/_next/static/media/83afe278b6a6bb3c-s.p.0q-301v4kxxnr.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"de","param":null,"prefetchHints":0,"slots":{"children":{"name":"defibrillator-betriebe","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"6p0Z4keGiSd91d_tJFuXU"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"de","param":null,"prefetchHints":0,"slots":{"children":{"name":"defibrillator-betriebe","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"tvfmf0sKqV1qvWlcoRDIc"}

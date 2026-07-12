@@ -28,7 +28,6 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import { Marquee } from "@/components/premium/marquee"
 import { NumberTicker } from "@/components/premium/number-ticker"
 import { ShimmerButton } from "@/components/premium/shimmer-button"
 
@@ -49,7 +48,6 @@ const stagger = {
 export default function InstitutionalBelowFold({ t }: BelowFoldProps) {
   return (
     <>
-      <TrustMarquee />
       <StatsSection t={t} />
       <EnterpriseSection t={t} />
       <OffersSection t={t} />
@@ -103,23 +101,6 @@ function SectionHeader({
         </p>
       ) : null}
     </motion.div>
-  )
-}
-
-function TrustMarquee() {
-  const labels = ["PME Suisse", "Cabinets médicaux", "Industrie", "Hôtels", "Centres sportifs", "Administrations", "Commerces", "Écoles privées"]
-  return (
-    <section className="border-b border-gray-200 bg-white py-6" aria-label="Références clients">
-      <div className="mx-auto max-w-7xl px-6">
-        <Marquee>
-          {labels.map((label) => (
-            <div key={label} className="rounded-full border border-gray-200 bg-[#F8F9FC] px-6 py-2 text-sm font-semibold text-[#4A5568]">
-              {label}
-            </div>
-          ))}
-        </Marquee>
-      </div>
-    </section>
   )
 }
 
